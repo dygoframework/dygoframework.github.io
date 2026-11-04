@@ -49,6 +49,7 @@ jobs:
           test ! -e dist/styleguide
           test ! -e dist/docs/test
           ! grep -q styleguide dist/sitemap-0.xml
+          ! grep -rq dygoacademy dist
 
   examples:
     name: Docs examples

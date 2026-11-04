@@ -66,10 +66,10 @@ test('reports links that point nowhere and leaves code alone', () => {
 	assert.equal(page.lines[5], '[w](https://x.dev) `Get[T](ref)`');
 });
 
-test('moves old module paths, except the changelog note about the move', () => {
+test('removes the old module path everywhere', () => {
 	assert.equal(fixPaths('go get github.com/dygoacademy/dygo'), 'go get github.com/dygoframework/dygo');
 	const note = 'the module path is now `github.com/dygoframework/dygo` (it was\n  `github.com/dygoacademy/dygo`), and the same';
-	assert.equal(fixPaths(note), note);
+	assert.equal(fixPaths(note), 'the module path is now `github.com/dygoframework/dygo`, and the same');
 });
 
 test('renders frontmatter with neighbors and a description', () => {

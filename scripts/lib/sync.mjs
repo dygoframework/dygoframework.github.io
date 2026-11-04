@@ -142,11 +142,14 @@ export function rewriteLinks(page, pages, { fileHomes, excluded, ref, exists, is
 }
 
 /**
- * Points the old module path at the new one. The changelog records the move
- * itself ("it was `github.com/dygoacademy/dygo`"), so that note stays.
+ * Removes the old module path. The changelog's note about the move
+ * ("(it was `github.com/dygoacademy/dygo`)") is dropped, and any other use
+ * points at the new path.
  */
 export function fixPaths(/** @type {string} */ text) {
-	return text.replace(/(?<!it was\s+`)github\.com\/dygoacademy\/dygo/g, 'github.com/dygoframework/dygo');
+	return text
+		.replace(/\s*\(it was\s+`github\.com\/dygoacademy\/dygo`\)/g, '')
+		.replace(/github\.com\/dygoacademy\/dygo/g, 'github.com/dygoframework/dygo');
 }
 
 /**
