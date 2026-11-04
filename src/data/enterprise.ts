@@ -1,11 +1,11 @@
 // Enterprise page content.
 //
 // PLAN.md section 5: the services, team support, workshops and the "people
-// who build Dygo" wording are drafts until Dylan confirms them. Until then
-// `confirmed` stays false, and production builds leave the drafts out. Dev and
-// test builds show them so they can be reviewed.
+// who build Dygo" wording were drafts until Dylan confirmed them (2026-11-04,
+// in review of the Phase 4 PR). With `confirmed` false, production builds
+// leave the `drafts` below out; dev and test builds always show them.
 
-export const confirmed = false;
+export const confirmed = true;
 
 export const hero = {
 	eyebrow: 'Dygo Enterprise',
