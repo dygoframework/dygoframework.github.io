@@ -14,3 +14,5 @@ playwright-report/
 /src/content/docs/docs/*
 !/src/content/docs/docs/test/
 /src/generated/
+/.dygo-src/
+/first-sync/

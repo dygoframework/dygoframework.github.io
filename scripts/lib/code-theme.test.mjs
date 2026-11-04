@@ -39,6 +39,13 @@ test('adds the language to the header', () => {
 	assert.equal(caption.children[0].children[0].value, 'go');
 });
 
+test('makes the code focusable, because long lines scroll', () => {
+	const { postprocessRenderedBlock } = framePlugin().hooks;
+	const pre = { type: 'element', tagName: 'pre', properties: { dataLanguage: 'go' }, children: [] };
+	postprocessRenderedBlock({ codeBlock: { language: 'go', props: {} }, renderData: { blockAst: { type: 'element', tagName: 'figure', children: [pre] } } });
+	assert.deepEqual(pre.properties, { dataLanguage: 'go', tabIndex: 0 });
+});
+
 test('leaves blocks without a header alone', () => {
 	const { postprocessRenderedBlock } = framePlugin().hooks;
 	const renderData = { blockAst: { type: 'element', tagName: 'figure', children: [] } };

@@ -1,5 +1,8 @@
 ---
-// Notes and warnings in docs.
+// Notes and warnings in docs. Markdown notes use the same markup (see
+// scripts/lib/rehype-hint.mjs), so the styles live in src/styles/hint.css.
+import '../../styles/hint.css';
+
 interface Props {
 	label?: string;
 }
@@ -11,36 +14,3 @@ const { label = 'Hint' } = Astro.props;
 	<strong class="dy-hint__label">{label}</strong>
 	<div class="dy-hint__body"><slot /></div>
 </aside>
-
-<style>
-	.dy-hint {
-		padding: var(--dy-space-5);
-		background: var(--dy-color-surface-hint);
-		border: var(--dy-border-width) solid var(--dy-color-border);
-		border-left: var(--dy-hint-border-width) solid var(--dy-color-accent);
-		border-radius: var(--dy-radius-lg);
-		color: var(--dy-color-text-muted);
-	}
-
-	.dy-hint__label {
-		display: block;
-		color: var(--dy-color-accent);
-		font-size: var(--dy-text-md);
-		letter-spacing: var(--dy-tracking-hint);
-		text-transform: uppercase;
-	}
-
-	.dy-hint__body :global(> :first-child) {
-		margin-top: 0;
-	}
-
-	.dy-hint__body :global(> :last-child) {
-		margin-bottom: 0;
-	}
-
-	@media (width >= 1024px) {
-		.dy-hint {
-			padding: var(--dy-space-6) var(--dy-space-7);
-		}
-	}
-</style>

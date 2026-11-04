@@ -64,7 +64,7 @@ Use these before you build anything new. Keep this table up to date.
 
 | Component | Use it for |
 |---|---|
-| Button | Page actions, with primary and secondary variants |
+| Button | Page actions, with primary and secondary variants, and a small tool variant such as Copy markdown |
 | Input | Labeled form fields |
 | Badge | Short status labels, such as "Soon" |
 | Card | Grouped content on a raised surface |

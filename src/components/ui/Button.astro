@@ -2,7 +2,8 @@
 import type { HTMLAttributes } from 'astro/types';
 
 type Props = {
-	variant?: 'primary' | 'secondary';
+	/** tool: the small rounded button beside a docs title, such as Copy markdown. */
+	variant?: 'primary' | 'secondary' | 'tool';
 	href?: string;
 	type?: 'button' | 'submit' | 'reset';
 	disabled?: boolean;
@@ -84,6 +85,17 @@ const classes = ['dy-button', `dy-button--${variant}`, className];
 		background: transparent;
 		border-color: var(--dy-color-text);
 		color: var(--dy-color-text);
+	}
+
+	.dy-button--tool {
+		min-height: var(--dy-size-control);
+		padding: 0 var(--dy-space-4);
+		gap: var(--dy-space-2);
+		background: transparent;
+		border-color: var(--dy-color-border-strong);
+		border-radius: var(--dy-radius-md);
+		color: var(--dy-color-text);
+		font-size: var(--dy-text-sm);
 	}
 
 	.dy-button:disabled {

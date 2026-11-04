@@ -2,6 +2,8 @@
 title: Test page
 description: A fixed page for visual and accessibility tests. It never ships.
 pagefind: false
+prev: false
+next: false
 ---
 
 This page stays the same so screenshot tests don't change when the synced docs change. It covers the parts a docs page uses.
@@ -12,6 +14,12 @@ A paragraph with **bold text**, `inline code` and a [link to the top](#text).
 
 - A list item
 - Another list item
+
+## Hint
+
+:::note[Hint]
+A note in Markdown renders like the Hint component.
+:::
 
 ## Code
 

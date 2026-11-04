@@ -1,0 +1,50 @@
+/*
+ * Hint: notes and warnings in docs. Hint.astro uses the .dy-hint classes.
+ * Markdown notes (:::note, and MkDocs admonitions after the docs sync) render
+ * as Starlight asides, which get the same look here.
+ */
+.dy-hint,
+.starlight-aside {
+  margin-block: 0;
+  padding: var(--dy-space-5);
+  background: var(--dy-color-surface-hint);
+  border: var(--dy-border-width) solid var(--dy-color-border);
+  border-left: var(--dy-hint-border-width) solid var(--dy-color-accent);
+  border-radius: var(--dy-radius-lg);
+  color: var(--dy-color-text-muted);
+}
+
+.dy-hint__label,
+.starlight-aside__title {
+  display: block;
+  margin: 0;
+  color: var(--dy-color-accent);
+  font-size: var(--dy-text-md);
+  font-weight: var(--dy-weight-bold);
+  letter-spacing: var(--dy-tracking-hint);
+  line-height: var(--dy-leading-docs);
+  text-transform: uppercase;
+}
+
+.starlight-aside__icon {
+  display: none;
+}
+
+.starlight-aside__content {
+  margin-top: 0;
+}
+
+:is(.dy-hint__body, .starlight-aside__content) > :first-child {
+  margin-top: 0;
+}
+
+:is(.dy-hint__body, .starlight-aside__content) > :last-child {
+  margin-bottom: 0;
+}
+
+@media (width >= 1024px) {
+  .dy-hint,
+  .starlight-aside {
+    padding: var(--dy-space-6) var(--dy-space-7);
+  }
+}

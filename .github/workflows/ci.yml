@@ -12,26 +12,59 @@ concurrency:
   group: ci-${{ github.ref }}
   cancel-in-progress: true
 
+env:
+  # The docs come from the Dygo repo. The sync reads this checkout.
+  DOCS_SOURCE: .dygo-src
+  DOCS_REF: main
+
 jobs:
   checks:
     name: Check, lint, unit tests and build
     runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          repository: dygoframework/dygo
+          ref: ${{ env.DOCS_REF }}
+          path: .dygo-src
+          fetch-depth: 0 # tags, for the version in the top bar
       - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
         with:
           node-version-file: .nvmrc
           cache: npm
       - run: npm ci
+      - run: npm run sync-docs
+      - name: Docs sync gives the same output twice
+        run: |
+          cp -r src/content/docs first-sync
+          npm run sync-docs
+          diff -r first-sync src/content/docs
       - run: npm run check
       - run: npm run lint
       - run: npm run test:unit
-      - name: Production build leaves out dev pages
+      - name: Production build leaves out dev pages and has no broken links
         run: |
           npm run build
           test ! -e dist/styleguide
           test ! -e dist/docs/test
           ! grep -q styleguide dist/sitemap-0.xml
+
+  examples:
+    name: Docs examples
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e # v7.0.0
+        with:
+          go-version-file: tests/examples/go.mod
+          cache-dependency-path: tests/examples/go.sum
+      - name: Run the Go examples on the docs pages
+        working-directory: tests/examples
+        run: |
+          test -z "$(gofmt -l .)"
+          go vet ./...
+          go test ./...
 
   browser:
     name: Visual and accessibility tests
@@ -42,7 +75,15 @@ jobs:
       options: --ipc=host
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          repository: dygoframework/dygo
+          ref: ${{ env.DOCS_REF }}
+          path: .dygo-src
+          fetch-depth: 0
+      - run: git config --global --add safe.directory "$GITHUB_WORKSPACE/.dygo-src"
       - run: npm ci
+      - run: npm run sync-docs
       - run: npm run test:a11y
       - run: npm run test:visual
       - if: failure()

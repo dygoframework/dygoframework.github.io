@@ -52,7 +52,8 @@ function find(node, test) {
 
 /**
  * Every block gets an editor frame. Shell blocks are titled "Terminal", and the
- * header shows the language on the right, as in the design.
+ * header shows the language on the right, as in the design. The code can take
+ * keyboard focus, because long lines scroll.
  */
 export function framePlugin() {
 	return {
@@ -63,6 +64,9 @@ export function framePlugin() {
 				codeBlock.props.frame = 'code';
 			},
 			postprocessRenderedBlock: (/** @type {any} */ { codeBlock, renderData }) => {
+				// Long lines scroll, so keyboard users must be able to focus the code.
+				const pre = find(renderData.blockAst, (n) => n.tagName === 'pre');
+				if (pre) pre.properties = { ...pre.properties, tabIndex: 0 };
 				const caption = find(renderData.blockAst, (n) => n.tagName === 'figcaption');
 				if (!caption || !codeBlock.props.title) return;
 				caption.children.push({
