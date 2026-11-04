@@ -1,0 +1,41 @@
+---
+// Page frame for /styleguide.
+interface Props {
+	title: string;
+}
+
+const { title } = Astro.props;
+---
+
+<div class="sg-shell">
+	<h1 class="sg-shell__title">{title}</h1>
+	<p class="sg-shell__intro">Every shared token and component, with its states. This page is for contributors and never ships.</p>
+	<slot />
+</div>
+
+<style>
+	.sg-shell {
+		box-sizing: border-box;
+		max-width: var(--dy-width-content);
+		margin: 0 auto;
+		padding: var(--dy-space-12) var(--dy-space-4);
+	}
+
+	.sg-shell__title {
+		margin: 0;
+		font-size: var(--dy-text-display-docs);
+		font-weight: var(--dy-weight-extrabold);
+		line-height: var(--dy-leading-heading);
+	}
+
+	.sg-shell__intro {
+		margin: var(--dy-space-3) 0 var(--dy-space-8);
+		color: var(--dy-color-text-muted);
+	}
+
+	@media (width >= 768px) {
+		.sg-shell {
+			padding: var(--dy-space-18) var(--dy-space-8);
+		}
+	}
+</style>

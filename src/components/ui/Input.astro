@@ -1,0 +1,97 @@
+---
+import type { HTMLAttributes } from 'astro/types';
+
+type Props = {
+	label: string;
+	id: string;
+	hint?: string;
+	error?: string;
+	/** Shows a hover or focus state without interaction. For /styleguide only. */
+	state?: 'hover' | 'focus';
+} & Omit<HTMLAttributes<'input'>, 'id'>;
+
+const { label, id, hint, error, state, type = 'text', class: className, ...rest } = Astro.props;
+
+const hintId = hint ? `${id}-hint` : undefined;
+const errorId = error ? `${id}-error` : undefined;
+const describedBy = [hintId, errorId].filter(Boolean).join(' ') || undefined;
+---
+
+<div class:list={['dy-input', { 'dy-input--error': error }, className]}>
+	<label class="dy-input__label" for={id}>{label}</label>
+	<input
+		class="dy-input__field"
+		id={id}
+		type={type}
+		aria-invalid={error ? 'true' : undefined}
+		aria-describedby={describedBy}
+		data-state={state}
+		{...rest}
+	/>
+	{hint && <p class="dy-input__hint" id={hintId}>{hint}</p>}
+	{error && <p class="dy-input__error" id={errorId}>{error}</p>}
+</div>
+
+<style>
+	.dy-input {
+		display: flex;
+		flex-direction: column;
+		gap: var(--dy-space-2);
+	}
+
+	.dy-input__label {
+		font-size: var(--dy-text-md);
+		font-weight: var(--dy-weight-semibold);
+	}
+
+	.dy-input__field {
+		box-sizing: border-box;
+		min-height: var(--dy-size-action);
+		padding: 0 var(--dy-space-4);
+		background: var(--dy-color-bg);
+		border: var(--dy-border-width) solid var(--dy-color-border-strong);
+		border-radius: var(--dy-radius-sm);
+		color: var(--dy-color-text);
+		font: inherit;
+		font-weight: var(--dy-weight-regular);
+	}
+
+	.dy-input__field::placeholder {
+		color: var(--dy-color-text-subtle);
+	}
+
+	.dy-input__field:hover,
+	.dy-input__field[data-state='hover'] {
+		border-color: var(--dy-color-text-muted);
+	}
+
+	.dy-input__field[data-state='focus'] {
+		outline: var(--dy-focus-width) solid var(--dy-color-text);
+		outline-offset: var(--dy-focus-width);
+	}
+
+	.dy-input__field:disabled {
+		cursor: not-allowed;
+		opacity: var(--dy-disabled-opacity);
+	}
+
+	.dy-input__hint,
+	.dy-input__error {
+		margin: 0;
+		font-size: var(--dy-text-sm);
+	}
+
+	.dy-input__hint {
+		color: var(--dy-color-text-muted);
+	}
+
+	.dy-input--error .dy-input__field {
+		border-color: var(--dy-color-text);
+		border-width: var(--dy-focus-width);
+	}
+
+	.dy-input__error {
+		color: var(--dy-color-text);
+		font-weight: var(--dy-weight-semibold);
+	}
+</style>
