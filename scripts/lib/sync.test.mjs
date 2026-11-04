@@ -76,5 +76,5 @@ test('renders frontmatter with neighbors and a description', () => {
 	const page = { title: 'A "q"', editUrl: 'https://e', lines: ['Hello there.'] };
 	const out = render(page, { prev: { href: '/docs/p/', title: 'P' } });
 	assert.equal(out, '---\ntitle: "A \\"q\\""\ndescription: "Hello there."\neditUrl: "https://e"\nprev:\n  link: "/docs/p/"\n  label: "P"\nnext: false\n---\n\nHello there.\n');
-	assert.match(render({ title: 'T', editUrl: '', lines: ['```', 'x', '```'] }, {}), /description: "T in the Dygo framework docs."/);
+	assert.match(render({ title: 'T', editUrl: '', lines: ['```', 'x', '```'] }, {}), /description: "T in Dygo, the secure-by-default web framework for Go."/);
 });

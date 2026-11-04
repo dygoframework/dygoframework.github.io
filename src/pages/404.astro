@@ -1,0 +1,13 @@
+---
+import MarketingLayout from '../layouts/MarketingLayout.astro';
+import Hero from '../components/sections/Hero.astro';
+import LinkCards from '../components/sections/LinkCards.astro';
+import { notFound } from '../data/notfound';
+---
+
+<MarketingLayout title="Page not found | Dygo" description={notFound.lead} noindex>
+	<Hero eyebrow={notFound.eyebrow} lead={notFound.lead}>
+		<Fragment slot="title">{notFound.title}</Fragment>
+	</Hero>
+	<LinkCards title="Where to next" action={{ label: 'Open the docs', href: '/docs/' }} cards={notFound.links} />
+</MarketingLayout>
