@@ -21,6 +21,7 @@ const links = mainNav.filter((link) => link.key !== 'docs');
 	class:list={['dy-menu', { 'dy-menu--preview': preview }]}
 	id={preview ? undefined : 'dy-mobile-menu'}
 	aria-label="Menu"
+	tabindex={preview ? undefined : -1}
 	open={preview || undefined}
 >
 	<div class="dy-menu__inner">
@@ -50,6 +51,8 @@ const links = mainNav.filter((link) => link.key !== 'docs');
 		const opener = target?.closest<HTMLButtonElement>('[data-open-menu]');
 		if (opener) {
 			menu.showModal();
+			// Focus the dialog, not the close button, so touch users don't get a focus ring.
+			menu.focus();
 			opener.setAttribute('aria-expanded', 'true');
 		} else if (target?.closest('[data-close-menu]')) {
 			menu.close();
@@ -79,6 +82,13 @@ const links = mainNav.filter((link) => link.key !== 'docs');
 		font-family: var(--dy-font-sans);
 		font-size: var(--dy-text-base);
 		line-height: var(--dy-leading-body);
+	}
+
+	/* The open script focuses the dialog itself, so the close button doesn't
+	   open with a white focus ring on touch devices. The dialog is only a
+	   focus target, not a control, so it needs no ring. */
+	.dy-menu:focus-visible {
+		outline: none;
 	}
 
 	.dy-menu::backdrop {
