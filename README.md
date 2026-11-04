@@ -27,3 +27,17 @@ The docs live in the [Dygo repo](https://github.com/dygoframework/dygo), so they
 | `npm run test:baselines` | Rewrites screenshot baselines. Only for approved design changes |
 
 Screenshot tests compare against baselines made in the Linux Playwright image CI uses. On macOS, `test:visual` and `test:baselines` run in that image through Docker, limited to 2 CPUs and 3 GB of memory.
+
+## Deployment
+
+`.github/workflows/deploy.yml` builds the site for production and publishes it to GitHub Pages on every push to `main`, and on manual runs. `.github/workflows/sync-docs.yml` runs the same deploy when the Dygo docs change, every night and on manual runs, so docs changes reach the site without a commit here.
+
+A production build (`DYGO_ENV=production`) needs `PUBLIC_CONTACT_FORM_URL`, the form service that receives the Enterprise form. Set it as a repository variable under Settings → Secrets and variables → Actions → Variables.
+
+To send docs changes right away, the Dygo repo can run this step after a docs change. It needs a token that can dispatch to this repo, stored there as `SITE_DISPATCH_TOKEN`:
+
+```yaml
+- run: gh api repos/dygoframework/dygoframework.github.io/dispatches -f event_type=docs-updated -f "client_payload[ref]=main"
+  env:
+    GH_TOKEN: ${{ secrets.SITE_DISPATCH_TOKEN }}
+```
