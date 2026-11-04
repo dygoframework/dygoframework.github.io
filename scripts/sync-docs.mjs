@@ -1,6 +1,6 @@
 // Syncs the docs from the Dygo repo into src/content/docs/docs/.
 //
-//   DOCS_SOURCE=../dygo-framework npm run sync-docs   # use a local checkout
+//   DOCS_SOURCE=../com.dygoframework npm run sync-docs  # use a local checkout
 //   DOCS_REF=v1.0.0 npm run sync-docs                 # clone a ref (default: main)
 //
 // The output is the same every time for the same input.
