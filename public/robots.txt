@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://dygoframework.com/sitemap-index.xml
+Sitemap: https://www.dygoframework.com/sitemap-index.xml

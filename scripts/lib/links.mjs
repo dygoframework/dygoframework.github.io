@@ -27,7 +27,7 @@ export function brokenLinks(pages, fileExists) {
 	for (const [from, html] of pages) {
 		for (const href of links(html)) {
 			if (/^(https?:|mailto:|tel:|data:|javascript:)/.test(href) || href.startsWith('//')) continue;
-			const url = new URL(href, `https://dygoframework.com${from}`);
+			const url = new URL(href, `https://www.dygoframework.com${from}`);
 			const path = decodeURIComponent(url.pathname);
 			const hash = decodeURIComponent(url.hash.slice(1));
 			if (!anchors.has(path) && !fileExists(path)) {

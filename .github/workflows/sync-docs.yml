@@ -1,0 +1,28 @@
+name: Sync docs
+
+# Rebuilds and deploys the site so docs changes in dygoframework/dygo reach
+# it. The Dygo repo sends a repository_dispatch event of type docs-updated
+# after a docs change (see README). The nightly run catches anything missed.
+on:
+  repository_dispatch:
+    types: [docs-updated]
+  schedule:
+    - cron: '17 3 * * *'
+  workflow_dispatch:
+    inputs:
+      docs_ref:
+        description: Dygo ref to take the docs from
+        default: main
+
+permissions:
+  contents: read
+
+jobs:
+  deploy:
+    uses: ./.github/workflows/deploy.yml
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    with:
+      docs_ref: ${{ github.event.client_payload.ref || inputs.docs_ref || 'main' }}
