@@ -8,9 +8,12 @@ export function ids(html) {
 
 /** @param {string} html */
 export function links(html) {
-	// Skip the content of <script> and <template>, which aren't links.
-	const clean = html.replace(/<(script|template)\b[\s\S]*?<\/\1>/g, '');
-	return [...clean.matchAll(/<a\s[^>]*?href="([^"]+)"/g)].map((m) => m[1].replace(/&amp;/g, '&'));
+	// Skip anchors inside <script> and <template>, which aren't links.
+	const skipped = [...html.matchAll(/<(script|template)\b[\s\S]*?<\/\1>/g)].map((m) => [m.index, m.index + m[0].length]);
+	const inside = (/** @type {number} */ i) => skipped.some(([from, to]) => i >= from && i < to);
+	return [...html.matchAll(/<a\s[^>]*?href="([^"]+)"/g)]
+		.filter((m) => !inside(m.index))
+		.map((m) => m[1].replace(/&amp;/g, '&'));
 }
 
 /**
