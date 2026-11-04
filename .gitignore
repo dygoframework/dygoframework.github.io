@@ -1,0 +1,16 @@
+node_modules/
+dist/
+.astro/
+.env
+.env.*
+!.env.example
+.DS_Store
+test-results/
+playwright-report/
+
+# Synced docs are generated. Only the fixed test page is committed.
+/src/content/docs/*
+!/src/content/docs/docs/
+/src/content/docs/docs/*
+!/src/content/docs/docs/test/
+/src/generated/

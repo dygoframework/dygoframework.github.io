@@ -1,0 +1,41 @@
+---
+// Shows one font size token on /styleguide.
+interface Props {
+	token: string;
+	mono?: boolean;
+}
+
+const { token, mono = false } = Astro.props;
+---
+
+<div class="sg-type">
+	<span class="sg-type__name">{token}</span>
+	<span class:list={['sg-type__sample', { 'sg-type__sample--mono': mono }]} style={`font-size: var(${token})`}>
+		Secure by default.
+	</span>
+</div>
+
+<style>
+	.sg-type {
+		width: 100%;
+		display: flex;
+		flex-direction: column;
+		gap: var(--dy-space-1);
+	}
+
+	.sg-type__name {
+		color: var(--dy-color-text-muted);
+		font-family: var(--dy-font-mono);
+		font-size: var(--dy-text-xs);
+	}
+
+	.sg-type__sample {
+		font-weight: var(--dy-weight-extrabold);
+		line-height: var(--dy-leading-heading);
+	}
+
+	.sg-type__sample--mono {
+		font-family: var(--dy-font-mono);
+		font-weight: var(--dy-weight-regular);
+	}
+</style>

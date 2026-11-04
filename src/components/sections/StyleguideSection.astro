@@ -1,0 +1,39 @@
+---
+// A titled block on /styleguide. Used only by the styleguide page.
+interface Props {
+	title: string;
+	id: string;
+}
+
+const { title, id } = Astro.props;
+---
+
+<section class="sg-section" aria-labelledby={id}>
+	<h2 class="sg-section__title" id={id}>{title}</h2>
+	<div class="sg-section__body">
+		<slot />
+	</div>
+</section>
+
+<style>
+	.sg-section {
+		display: flex;
+		flex-direction: column;
+		gap: var(--dy-space-6);
+		padding: var(--dy-space-12) 0;
+		border-top: var(--dy-border-width) solid var(--dy-color-border);
+	}
+
+	.sg-section__title {
+		margin: 0;
+		font-size: var(--dy-text-3xl);
+		font-weight: var(--dy-weight-bold);
+	}
+
+	.sg-section__body {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: flex-start;
+		gap: var(--dy-space-6);
+	}
+</style>

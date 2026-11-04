@@ -1,0 +1,36 @@
+---
+// Shows one color token on /styleguide.
+interface Props {
+	token: string;
+}
+
+const { token } = Astro.props;
+---
+
+<figure class="sg-swatch">
+	<span class="sg-swatch__chip" style={`background: var(${token})`}></span>
+	<figcaption class="sg-swatch__name">{token}</figcaption>
+</figure>
+
+<style>
+	.sg-swatch {
+		margin: 0;
+		width: 160px;
+		display: flex;
+		flex-direction: column;
+		gap: var(--dy-space-2);
+	}
+
+	.sg-swatch__chip {
+		height: var(--dy-size-action);
+		border: var(--dy-border-width) solid var(--dy-color-border-strong);
+		border-radius: var(--dy-radius-sm);
+	}
+
+	.sg-swatch__name {
+		color: var(--dy-color-text-muted);
+		font-family: var(--dy-font-mono);
+		font-size: var(--dy-text-xs);
+		overflow-wrap: anywhere;
+	}
+</style>

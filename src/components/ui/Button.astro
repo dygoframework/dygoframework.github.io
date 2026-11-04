@@ -1,0 +1,118 @@
+---
+import type { HTMLAttributes } from 'astro/types';
+
+type Props = {
+	variant?: 'primary' | 'secondary';
+	href?: string;
+	type?: 'button' | 'submit' | 'reset';
+	disabled?: boolean;
+	loading?: boolean;
+	loadingLabel?: string;
+	/** Shows a hover or focus state without interaction. For /styleguide only. */
+	state?: 'hover' | 'focus';
+} & Omit<HTMLAttributes<'button'>, 'type' | 'disabled'>;
+
+const {
+	variant = 'primary',
+	href,
+	type = 'button',
+	disabled = false,
+	loading = false,
+	loadingLabel = 'Loading',
+	state,
+	class: className,
+	...rest
+} = Astro.props;
+
+const classes = ['dy-button', `dy-button--${variant}`, className];
+---
+
+{
+	href && !disabled ? (
+		<a href={href} class:list={classes} data-state={state} {...(rest as HTMLAttributes<'a'>)}>
+			<slot />
+		</a>
+	) : (
+		<button
+			type={type}
+			class:list={classes}
+			disabled={disabled || loading}
+			aria-busy={loading ? 'true' : undefined}
+			data-state={state}
+			{...rest}
+		>
+			{loading && <span class="dy-button__spinner" aria-hidden="true" />}
+			{loading ? loadingLabel : <slot />}
+		</button>
+	)
+}
+
+<style>
+	.dy-button {
+		box-sizing: border-box;
+		min-height: var(--dy-size-action);
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		gap: var(--dy-space-3);
+		padding: 0 var(--dy-space-8);
+		border: var(--dy-border-width) solid transparent;
+		border-radius: 0;
+		font: inherit;
+		font-weight: var(--dy-weight-semibold);
+		text-decoration: none;
+		cursor: pointer;
+		transition: opacity var(--dy-duration);
+	}
+
+	.dy-button:hover,
+	.dy-button[data-state='hover'] {
+		opacity: var(--dy-hover-opacity);
+	}
+
+	.dy-button[data-state='focus'] {
+		outline: var(--dy-focus-width) solid var(--dy-color-text);
+		outline-offset: var(--dy-focus-width);
+	}
+
+	.dy-button--primary {
+		background: var(--dy-color-accent);
+		color: var(--dy-color-on-accent);
+	}
+
+	.dy-button--secondary {
+		background: transparent;
+		border-color: var(--dy-color-text);
+		color: var(--dy-color-text);
+	}
+
+	.dy-button:disabled {
+		cursor: not-allowed;
+		opacity: var(--dy-disabled-opacity);
+	}
+
+	.dy-button[aria-busy='true'] {
+		cursor: progress;
+	}
+
+	.dy-button__spinner {
+		width: var(--dy-space-4);
+		height: var(--dy-space-4);
+		border: var(--dy-focus-width) solid currentcolor;
+		border-right-color: transparent;
+		border-radius: 50%;
+		animation: dy-spin 800ms linear infinite;
+	}
+
+	@keyframes dy-spin {
+		to {
+			transform: rotate(360deg);
+		}
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.dy-button__spinner {
+			animation: none;
+		}
+	}
+</style>

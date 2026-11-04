@@ -1,0 +1,17 @@
+---
+import BaseLayout from './BaseLayout.astro';
+
+interface Props {
+	title: string;
+	description?: string;
+	noindex?: boolean;
+}
+
+const props = Astro.props;
+---
+
+<BaseLayout {...props}>
+	<main id="main">
+		<slot />
+	</main>
+</BaseLayout>

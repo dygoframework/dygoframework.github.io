@@ -1,0 +1,31 @@
+/* Maps Starlight's variables to the Dygo tokens. Dark only. */
+@import "./tokens.css";
+@import "./fonts.css";
+
+:root,
+:root[data-theme="dark"] {
+  --sl-font: var(--dy-font-sans);
+  --sl-font-mono: var(--dy-font-mono);
+  --sl-color-bg: var(--dy-color-bg);
+  --sl-color-bg-nav: var(--dy-color-surface);
+  --sl-color-bg-sidebar: var(--dy-color-surface);
+  --sl-color-bg-inline-code: var(--dy-color-surface-inline-code);
+  --sl-color-hairline: var(--dy-color-border);
+  --sl-color-hairline-light: var(--dy-color-border-strong);
+  --sl-color-hairline-shade: var(--dy-color-border);
+  --sl-color-white: var(--dy-color-text);
+  --sl-color-gray-1: var(--dy-color-text);
+  --sl-color-gray-2: var(--dy-color-text-muted);
+  --sl-color-gray-3: var(--dy-color-text-muted);
+  --sl-color-gray-4: var(--dy-color-text-subtle);
+  --sl-color-gray-5: var(--dy-color-border-strong);
+  --sl-color-gray-6: var(--dy-color-surface-code);
+  --sl-color-black: var(--dy-color-bg);
+  --sl-color-text: var(--dy-color-text-muted);
+  --sl-color-text-accent: var(--dy-color-accent);
+  --sl-color-accent: var(--dy-color-accent);
+  --sl-color-accent-high: var(--dy-color-accent);
+  --sl-color-accent-low: var(--dy-color-accent-tint);
+  --sl-text-body: var(--dy-text-base);
+  --sl-line-height: var(--dy-leading-docs);
+}

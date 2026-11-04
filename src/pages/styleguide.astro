@@ -1,0 +1,60 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import StyleguideShell from '../components/sections/StyleguideShell.astro';
+import StyleguideSection from '../components/sections/StyleguideSection.astro';
+import StyleguideItem from '../components/sections/StyleguideItem.astro';
+import TokenSwatch from '../components/sections/TokenSwatch.astro';
+import TypeSample from '../components/sections/TypeSample.astro';
+import Button from '../components/ui/Button.astro';
+import Input from '../components/ui/Input.astro';
+import { colorTokens, typeTokens } from '../data/styleguide';
+---
+
+<BaseLayout title="Styleguide | Dygo" noindex>
+	<main id="main">
+		<StyleguideShell title="Styleguide">
+			<StyleguideSection title="Colors" id="colors">
+				{colorTokens.map((token) => <TokenSwatch token={token} />)}
+			</StyleguideSection>
+
+			<StyleguideSection title="Type" id="type">
+				{typeTokens.map((token) => <TypeSample token={token} />)}
+				<TypeSample token="--dy-text-md" mono />
+			</StyleguideSection>
+
+			<StyleguideSection title="Button" id="button">
+				<StyleguideItem label="primary"><Button>Get started</Button></StyleguideItem>
+				<StyleguideItem label="primary, hover"><Button state="hover">Get started</Button></StyleguideItem>
+				<StyleguideItem label="primary, focus"><Button state="focus">Get started</Button></StyleguideItem>
+				<StyleguideItem label="primary, disabled"><Button disabled>Get started</Button></StyleguideItem>
+				<StyleguideItem label="primary, loading"><Button loading loadingLabel="Sending">Get in touch</Button></StyleguideItem>
+				<StyleguideItem label="primary, link"><Button href="#button">Get started</Button></StyleguideItem>
+				<StyleguideItem label="secondary"><Button variant="secondary">GitHub</Button></StyleguideItem>
+				<StyleguideItem label="secondary, hover"><Button variant="secondary" state="hover">GitHub</Button></StyleguideItem>
+				<StyleguideItem label="secondary, focus"><Button variant="secondary" state="focus">GitHub</Button></StyleguideItem>
+				<StyleguideItem label="secondary, disabled"><Button variant="secondary" disabled>GitHub</Button></StyleguideItem>
+			</StyleguideSection>
+
+			<StyleguideSection title="Input" id="input">
+				<StyleguideItem label="default" wide>
+					<Input id="sg-email" label="Work email" type="email" placeholder="you@company.com" autocomplete="email" />
+				</StyleguideItem>
+				<StyleguideItem label="hover" wide>
+					<Input id="sg-email-hover" label="Work email" type="email" placeholder="you@company.com" state="hover" />
+				</StyleguideItem>
+				<StyleguideItem label="focus" wide>
+					<Input id="sg-email-focus" label="Work email" type="email" placeholder="you@company.com" state="focus" />
+				</StyleguideItem>
+				<StyleguideItem label="with hint" wide>
+					<Input id="sg-email-hint" label="Work email" type="email" hint="We only use it to reply to you." />
+				</StyleguideItem>
+				<StyleguideItem label="error" wide>
+					<Input id="sg-email-error" label="Work email" type="email" value="you@" error="Enter a valid email address." />
+				</StyleguideItem>
+				<StyleguideItem label="disabled" wide>
+					<Input id="sg-email-disabled" label="Work email" type="email" placeholder="you@company.com" disabled />
+				</StyleguideItem>
+			</StyleguideSection>
+		</StyleguideShell>
+	</main>
+</BaseLayout>
