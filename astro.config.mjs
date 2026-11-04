@@ -26,7 +26,7 @@ const stripDevPages = {
 
 export default defineConfig({
 	// The Lighthouse check builds for its local server, so canonical URLs match.
-	site: process.env.SITE_URL || 'https://dygoframework.com',
+	site: process.env.SITE_URL || 'https://www.dygoframework.com',
 	trailingSlash: 'always',
 	integrations: [
 		starlight({
@@ -36,11 +36,11 @@ export default defineConfig({
 			disable404Route: true,
 			favicon: '/favicon.svg',
 			head: [
-				{ tag: 'meta', attrs: { property: 'og:image', content: 'https://dygoframework.com/og.png' } },
+				{ tag: 'meta', attrs: { property: 'og:image', content: 'https://www.dygoframework.com/og.png' } },
 				{ tag: 'meta', attrs: { property: 'og:image:width', content: '1280' } },
 				{ tag: 'meta', attrs: { property: 'og:image:height', content: '640' } },
 				{ tag: 'meta', attrs: { property: 'og:image:alt', content: 'Dygo: secure by default, fast by design.' } },
-				{ tag: 'meta', attrs: { name: 'twitter:image', content: 'https://dygoframework.com/og.png' } },
+				{ tag: 'meta', attrs: { name: 'twitter:image', content: 'https://www.dygoframework.com/og.png' } },
 				{ tag: 'link', attrs: { rel: 'icon', href: '/favicon-32.png', sizes: '32x32', type: 'image/png' } },
 				{ tag: 'link', attrs: { rel: 'apple-touch-icon', href: '/apple-touch-icon.png' } },
 			],

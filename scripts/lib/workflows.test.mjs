@@ -19,7 +19,7 @@ test('the deploy builds for production with the form endpoint and publishes dist
 	assert.match(deploy, /DYGO_ENV: production/);
 	assert.match(deploy, /PUBLIC_CONTACT_FORM_URL: \$\{\{ vars\.PUBLIC_CONTACT_FORM_URL \}\}/);
 	assert.match(deploy, /path: dist/);
-	assert.match(readFileSync(new URL('../../public/CNAME', import.meta.url), 'utf8'), /^dygoframework\.com\n$/);
+	assert.match(readFileSync(new URL('../../public/CNAME', import.meta.url), 'utf8'), /^www\.dygoframework\.com\n$/);
 });
 
 test('docs changes, a nightly run and manual runs trigger the docs sync', () => {
