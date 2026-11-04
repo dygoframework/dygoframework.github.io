@@ -1,0 +1,50 @@
+---
+// The Dygo mark and word, linking home.
+interface Props {
+	size?: 'md' | 'sm';
+	href?: string;
+	class?: string;
+}
+
+const { size = 'md', href = '/', class: className } = Astro.props;
+---
+
+<a href={href} class:list={['dy-logo', `dy-logo--${size}`, className]}>
+	<svg class="dy-logo__mark" viewBox="0 0 64 64" aria-hidden="true">
+		<path
+			d="M32 3L57 11V31C57 45 47 55 32 61C17 55 7 45 7 31V11ZM23 17L36 32L23 47H34L47 32L34 17Z"
+			fill="currentColor"
+			fill-rule="evenodd"></path>
+	</svg>
+	<span class="dy-logo__word">Dygo</span>
+</a>
+
+<style>
+	.dy-logo {
+		display: inline-flex;
+		align-items: center;
+		gap: var(--dy-space-3);
+		color: var(--dy-color-text);
+	}
+
+	.dy-logo__mark {
+		flex: none;
+		width: var(--dy-size-logo);
+		height: var(--dy-size-logo);
+		color: var(--dy-color-accent);
+	}
+
+	.dy-logo__word {
+		font-size: var(--dy-text-lg);
+		font-weight: var(--dy-weight-extrabold);
+	}
+
+	.dy-logo--sm {
+		gap: var(--dy-space-2);
+	}
+
+	.dy-logo--sm .dy-logo__mark {
+		width: var(--dy-size-logo-mobile);
+		height: var(--dy-size-logo-mobile);
+	}
+</style>

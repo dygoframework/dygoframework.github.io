@@ -17,7 +17,7 @@ export default defineConfig({
 	},
 	projects: [
 		{ name: 'visual', testMatch: /visual\.spec\.ts/ },
-		{ name: 'a11y', testMatch: /a11y\.spec\.ts/ },
+		{ name: 'a11y', testMatch: /(a11y|navigation)\.spec\.ts/ },
 	],
 	webServer: {
 		command: 'node scripts/serve-dist.mjs',

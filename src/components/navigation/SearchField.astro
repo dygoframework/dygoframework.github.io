@@ -1,0 +1,94 @@
+---
+// Looks like a search input. On docs pages it opens the Pagefind search
+// dialog. Elsewhere it links to the docs, where search lives.
+import Icon from '../ui/Icon.astro';
+
+interface Props {
+	variant?: 'bar' | 'menu';
+	searchable?: boolean;
+}
+
+const { variant = 'bar', searchable = false } = Astro.props;
+const classes = ['dy-search', `dy-search--${variant}`];
+---
+
+{
+	searchable ? (
+		<button type="button" class:list={classes} data-open-search aria-keyshortcuts="Meta+K Control+K">
+			<Icon name="search" size="sm" />
+			<span class="dy-search__label">Search</span>
+			{variant === 'bar' && (
+				<span class="dy-search__keys" aria-hidden="true">
+					<kbd>⌘</kbd>
+					<kbd>K</kbd>
+				</span>
+			)}
+		</button>
+	) : (
+		<a href="/docs/" class:list={classes}>
+			<Icon name="search" size="sm" />
+			<span class="dy-search__label">Search the docs</span>
+		</a>
+	)
+}
+
+<script>
+	document.addEventListener('click', (event) => {
+		const trigger = (event.target as Element | null)?.closest('[data-open-search]');
+		if (!trigger) return;
+		// Starlight closes its dialog on the next window click, so this click must stop here.
+		event.stopPropagation();
+		document.querySelector<HTMLDialogElement>('dialog.dy-menu[open]')?.close();
+		document.querySelector<HTMLButtonElement>('site-search button[data-open-modal]')?.click();
+	});
+</script>
+
+<style>
+	.dy-search {
+		box-sizing: border-box;
+		width: 100%;
+		min-height: var(--dy-size-control);
+		padding: 0 var(--dy-space-3) 0 var(--dy-space-4);
+		display: flex;
+		align-items: center;
+		gap: var(--dy-space-3);
+		background: var(--dy-color-surface-code);
+		border: var(--dy-border-width) solid var(--dy-color-border);
+		border-radius: var(--dy-radius-pill);
+		color: var(--dy-color-text-muted);
+		font: inherit;
+		font-size: var(--dy-text-md);
+		text-align: left;
+		cursor: pointer;
+	}
+
+	.dy-search:hover {
+		border-color: var(--dy-color-border-strong);
+		opacity: 1;
+	}
+
+	.dy-search__label {
+		flex: 1;
+	}
+
+	.dy-search__keys {
+		display: flex;
+		gap: var(--dy-space-1);
+	}
+
+	.dy-search__keys kbd {
+		padding: 0 var(--dy-space-2);
+		background: var(--dy-color-border);
+		border-radius: var(--dy-radius-xs);
+		color: var(--dy-color-text);
+		font-family: var(--dy-font-sans);
+		font-size: var(--dy-text-kbd);
+		line-height: var(--dy-space-6);
+	}
+
+	.dy-search--menu {
+		min-height: var(--dy-size-control-lg);
+		border-radius: var(--dy-radius-pill-lg);
+		font-size: var(--dy-text-base);
+	}
+</style>

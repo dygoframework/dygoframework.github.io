@@ -1,0 +1,203 @@
+---
+// The floating bar on every page. Below 1024px it shows a menu button and a
+// centered logo, and the links move into MobileMenu.
+import Icon from '../ui/Icon.astro';
+import Logo from '../ui/Logo.astro';
+import { mainNav, type NavLink } from '../../data/navigation';
+
+interface Props {
+	variant?: 'marketing' | 'docs';
+	current?: NavLink['key'];
+	version?: string;
+	/** Starts with the docs sidebar hidden. */
+	sidebarClosed?: boolean;
+	/** The sidebar the docs toggle shows and hides. */
+	sidebarId?: string;
+}
+
+const { variant = 'marketing', current, version, sidebarClosed = false, sidebarId = 'dy-docs-sidebar' } = Astro.props;
+const links = variant === 'docs' ? mainNav.filter((link) => link.key !== 'docs') : mainNav;
+---
+
+<div class="dy-topbar-wrap">
+	<header class:list={['dy-topbar', `dy-topbar--${variant}`]}>
+		<button
+			type="button"
+			class="dy-topbar__segment dy-topbar__menu"
+			aria-label="Open menu"
+			aria-haspopup="dialog"
+			aria-controls="dy-mobile-menu"
+			data-open-menu
+		>
+			<Icon name="menu" size="lg" />
+		</button>
+		{
+			variant === 'docs' && (
+				<button
+					type="button"
+					class="dy-topbar__segment dy-topbar__sidebar"
+					aria-label="Toggle documentation menu"
+					aria-controls={sidebarId}
+					aria-expanded={sidebarClosed ? 'false' : 'true'}
+					data-sidebar-toggle
+				>
+					<Icon name="menu" size="lg" />
+				</button>
+			)
+		}
+		<div class="dy-topbar__inner">
+			<Logo class="dy-topbar__logo dy-topbar__logo--desktop" />
+			<Logo class="dy-topbar__logo dy-topbar__logo--mobile" size="sm" />
+			{
+				variant === 'docs' && (
+					<div class="dy-topbar__search">
+						<slot name="search" />
+					</div>
+				)
+			}
+			<nav class="dy-topbar__nav" aria-label="Main">
+				{
+					links.map((link) => (
+						<a class="dy-topbar__link" href={link.href} aria-current={link.key && link.key === current ? 'page' : undefined}>
+							{link.label}
+						</a>
+					))
+				}
+				{variant === 'docs' && version && <span class="dy-topbar__version">{version}</span>}
+			</nav>
+		</div>
+	</header>
+</div>
+
+<script>
+	document.addEventListener('click', (event) => {
+		const toggle = (event.target as Element | null)?.closest<HTMLButtonElement>('[data-sidebar-toggle]');
+		if (!toggle) return;
+		const open = toggle.getAttribute('aria-expanded') !== 'true';
+		toggle.setAttribute('aria-expanded', String(open));
+		document.documentElement.toggleAttribute('data-sidebar-closed', !open);
+	});
+</script>
+
+<style>
+	.dy-topbar-wrap {
+		box-sizing: border-box;
+		max-width: var(--dy-width-page);
+		margin: 0 auto;
+		padding: var(--dy-space-3) var(--dy-space-3) 0;
+	}
+
+	.dy-topbar {
+		display: flex;
+		align-items: stretch;
+		min-height: var(--dy-size-topbar-mobile);
+		background: var(--dy-color-surface);
+		border: var(--dy-border-width) solid var(--dy-color-border);
+		border-radius: var(--dy-radius-xl);
+		overflow: hidden;
+		color: var(--dy-color-text);
+		font-family: var(--dy-font-sans);
+		font-size: var(--dy-text-base);
+		line-height: var(--dy-leading-body);
+	}
+
+	.dy-topbar__segment {
+		flex: 0 0 var(--dy-size-segment-mobile);
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		border: 0;
+		border-right: var(--dy-border-width) solid var(--dy-color-border);
+		background: var(--dy-color-surface-control);
+		color: var(--dy-color-text);
+		cursor: pointer;
+	}
+
+	.dy-topbar__segment:focus-visible {
+		outline-offset: calc(var(--dy-focus-width) * -2);
+	}
+
+	.dy-topbar__sidebar,
+	.dy-topbar__logo--desktop,
+	.dy-topbar__search,
+	.dy-topbar__nav {
+		display: none;
+	}
+
+	.dy-topbar__inner {
+		flex: 1 1 0;
+		min-width: 0;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		padding-right: var(--dy-size-segment-mobile);
+	}
+
+	.dy-topbar__link {
+		padding: var(--dy-space-2) 0;
+	}
+
+	.dy-topbar__link[aria-current='page'] {
+		color: var(--dy-color-accent);
+		font-weight: var(--dy-weight-semibold);
+	}
+
+	.dy-topbar__version {
+		color: var(--dy-color-text-muted);
+		font-family: var(--dy-font-mono);
+		font-size: var(--dy-text-sm);
+	}
+
+	@media (width >= 1024px) {
+		.dy-topbar-wrap {
+			padding: var(--dy-space-4) var(--dy-space-4) 0;
+		}
+
+		.dy-topbar {
+			min-height: var(--dy-size-topbar);
+		}
+
+		.dy-topbar__menu,
+		.dy-topbar__logo--mobile {
+			display: none;
+		}
+
+		.dy-topbar__sidebar {
+			display: flex;
+			flex-basis: var(--dy-size-segment);
+		}
+
+		.dy-topbar__logo--desktop {
+			display: inline-flex;
+			margin-right: auto;
+		}
+
+		.dy-topbar__inner {
+			justify-content: flex-start;
+			flex-wrap: wrap;
+			gap: var(--dy-space-3) var(--dy-space-8);
+			padding: var(--dy-space-3) var(--dy-space-6);
+		}
+
+		.dy-topbar__nav {
+			display: flex;
+			flex-wrap: wrap;
+			align-items: center;
+			gap: var(--dy-space-1) var(--dy-space-7);
+		}
+
+		.dy-topbar--docs .dy-topbar__inner {
+			gap: var(--dy-space-3) var(--dy-space-6);
+		}
+
+		.dy-topbar--docs .dy-topbar__search {
+			display: block;
+			flex: 0 1 var(--dy-width-search);
+		}
+
+		.dy-topbar--docs .dy-topbar__nav {
+			gap: var(--dy-space-1) var(--dy-space-5);
+			font-size: var(--dy-text-md);
+		}
+	}
+</style>

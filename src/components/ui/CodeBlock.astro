@@ -1,0 +1,15 @@
+---
+// Code with a file name and a copy button. It uses Expressive Code, the same
+// renderer as docs code blocks, so both look the same.
+import { Code } from '@astrojs/starlight/components';
+
+interface Props {
+	code: string;
+	lang: string;
+	title?: string;
+}
+
+const { code, lang, title } = Astro.props;
+---
+
+<Code code={code} lang={lang} title={title} />

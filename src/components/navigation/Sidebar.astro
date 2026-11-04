@@ -1,0 +1,160 @@
+---
+// Docs navigation with collapsible groups. Only the group with the current
+// page starts open. `card` is the desktop sidebar; `menu` sits in MobileMenu.
+import Badge from '../ui/Badge.astro';
+import Icon from '../ui/Icon.astro';
+import { currentGroup, docsNav } from '../../data/navigation';
+
+interface Props {
+	currentPath: string;
+	variant?: 'card' | 'menu';
+	id: string;
+}
+
+const { currentPath, variant = 'card', id } = Astro.props;
+const openGroup = currentGroup(currentPath) ?? docsNav[0].title;
+const here = currentPath.endsWith('/') ? currentPath : `${currentPath}/`;
+---
+
+<nav id={id} class:list={['dy-sidebar', `dy-sidebar--${variant}`]} aria-label="Documentation">
+	{
+		docsNav.map((group, index) => {
+			const open = group.title === openGroup;
+			const listId = `${id}-group-${index}`;
+			return (
+				<div class="dy-sidebar__group">
+					<button type="button" class="dy-sidebar__toggle" data-disclosure aria-expanded={open ? 'true' : 'false'} aria-controls={listId}>
+						{group.title}
+						<Icon name="chevron" size="sm" class="dy-sidebar__chevron" />
+					</button>
+					<ul class="dy-sidebar__items" id={listId} hidden={!open}>
+						{group.items.map((item) => (
+							<li>
+								{item.href ? (
+									<a class="dy-sidebar__link" href={item.href} aria-current={item.href === here ? 'page' : undefined}>
+										{item.label}
+									</a>
+								) : (
+									<span class="dy-sidebar__soon">
+										{item.label}
+										<Badge>Soon</Badge>
+									</span>
+								)}
+							</li>
+						))}
+					</ul>
+				</div>
+			);
+		})
+	}
+</nav>
+
+<script>
+	import '../../scripts/disclosure';
+</script>
+
+<style>
+	.dy-sidebar {
+		box-sizing: border-box;
+		display: flex;
+		flex-direction: column;
+		gap: var(--dy-space-1);
+		padding: var(--dy-space-3);
+		background: var(--dy-color-surface);
+		border: var(--dy-border-width) solid var(--dy-color-border);
+		border-radius: var(--dy-radius-xl);
+		color: var(--dy-color-text-muted);
+		font-size: var(--dy-text-md);
+		line-height: var(--dy-leading-body);
+	}
+
+	.dy-sidebar--card {
+		gap: var(--dy-space-2);
+		padding: var(--dy-space-5) var(--dy-space-4);
+	}
+
+	.dy-sidebar__group {
+		display: flex;
+		flex-direction: column;
+		gap: 2px;
+	}
+
+	.dy-sidebar__toggle {
+		width: 100%;
+		min-height: var(--dy-size-control);
+		padding: 0 var(--dy-space-3);
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: var(--dy-space-3);
+		border: 0;
+		border-radius: var(--dy-radius-sm);
+		background: transparent;
+		color: var(--dy-color-text);
+		font: inherit;
+		font-size: var(--dy-text-sm);
+		font-weight: var(--dy-weight-semibold);
+		letter-spacing: var(--dy-tracking-label);
+		text-transform: uppercase;
+		cursor: pointer;
+	}
+
+	.dy-sidebar--menu .dy-sidebar__toggle {
+		min-height: var(--dy-size-control-lg);
+	}
+
+	.dy-sidebar__toggle :global(.dy-sidebar__chevron) {
+		color: var(--dy-color-accent);
+		transform: rotate(180deg);
+		transition: transform var(--dy-duration);
+	}
+
+	.dy-sidebar__toggle[aria-expanded='true'] :global(.dy-sidebar__chevron) {
+		transform: none;
+	}
+
+	.dy-sidebar__items {
+		margin: 0;
+		padding: 0;
+		list-style: none;
+		display: flex;
+		flex-direction: column;
+		gap: 2px;
+	}
+
+	.dy-sidebar__items[hidden] {
+		display: none;
+	}
+
+	.dy-sidebar__link,
+	.dy-sidebar__soon {
+		box-sizing: border-box;
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: var(--dy-space-3);
+		padding: var(--dy-space-2) var(--dy-space-4);
+		border-radius: var(--dy-radius-sm);
+	}
+
+	.dy-sidebar--menu .dy-sidebar__link,
+	.dy-sidebar--menu .dy-sidebar__soon {
+		min-height: var(--dy-size-control);
+	}
+
+	.dy-sidebar__link[aria-current='page'] {
+		background: var(--dy-color-accent-tint);
+		color: var(--dy-color-accent);
+		font-weight: var(--dy-weight-semibold);
+	}
+
+	.dy-sidebar__soon {
+		color: var(--dy-color-text-subtle);
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.dy-sidebar__toggle :global(.dy-sidebar__chevron) {
+			transition: none;
+		}
+	}
+</style>

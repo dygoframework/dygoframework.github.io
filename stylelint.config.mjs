@@ -30,5 +30,9 @@ export default {
 		'custom-property-pattern': null,
 		'keyframes-name-pattern': null,
 		'import-notation': 'string',
+		// Astro scopes component styles, so :global() is valid.
+		'selector-pseudo-class-no-unknown': [true, { ignorePseudoClasses: ['global'] }],
+		// Component styles list states after the base rule on purpose.
+		'no-descending-specificity': null,
 	},
 };

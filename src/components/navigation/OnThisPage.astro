@@ -1,0 +1,189 @@
+---
+// Links to the headings on a docs page. `aside` is the desktop column with a
+// rail that follows the scroll position. `collapsible` sits above the article
+// below 1024px.
+import Icon from '../ui/Icon.astro';
+
+export interface Heading {
+	depth: number;
+	slug: string;
+	text: string;
+}
+
+interface Props {
+	title: string;
+	headings: Heading[];
+	variant?: 'aside' | 'collapsible';
+	editUrl?: string;
+	id?: string;
+}
+
+const { title, headings, variant = 'aside', editUrl, id = 'dy-on-this-page' } = Astro.props;
+const links = headings.filter((h) => h.depth === 2 || h.depth === 3);
+---
+
+{
+	variant === 'aside' ? (
+		<aside class="dy-toc" aria-labelledby={`${id}-label`} data-toc>
+			<strong class="dy-toc__label" id={`${id}-label`}>
+				On this page
+			</strong>
+			<ul class="dy-toc__rail">
+				<li>
+					<a class="dy-toc__link" href="#_top" data-toc-link="_top" aria-current="true">
+						{title}
+					</a>
+				</li>
+				{links.map((h) => (
+					<li>
+						<a class:list={['dy-toc__link', { 'dy-toc__link--sub': h.depth === 3 }]} href={`#${h.slug}`} data-toc-link={h.slug}>
+							{h.text}
+						</a>
+					</li>
+				))}
+			</ul>
+			{editUrl && (
+				<a class="dy-toc__edit" href={editUrl}>
+					Edit this page on GitHub
+				</a>
+			)}
+		</aside>
+	) : (
+		<div class="dy-toc-box">
+			<button type="button" class="dy-toc-box__toggle" data-disclosure aria-expanded="false" aria-controls={id}>
+				On this page
+				<Icon name="chevron" size="sm" class="dy-toc-box__chevron" />
+			</button>
+			<nav class="dy-toc-box__list" id={id} aria-label="On this page" hidden>
+				{links.map((h) => (
+					<a class:list={['dy-toc-box__link', { 'dy-toc__link--sub': h.depth === 3 }]} href={`#${h.slug}`}>
+						{h.text}
+					</a>
+				))}
+			</nav>
+		</div>
+	)
+}
+
+<script>
+	import '../../scripts/disclosure';
+
+	// Moves the rail to the last heading that has scrolled past the top.
+	for (const toc of document.querySelectorAll<HTMLElement>('[data-toc]')) {
+		const links = [...toc.querySelectorAll<HTMLAnchorElement>('[data-toc-link]')];
+		const targets = links
+			.map((link) => document.getElementById(link.dataset.tocLink ?? ''))
+			.filter((el): el is HTMLElement => !!el);
+		const update = () => {
+			let active = links[0];
+			for (const target of targets) {
+				if (target.getBoundingClientRect().top < 120) active = links.find((l) => l.dataset.tocLink === target.id) ?? active;
+			}
+			// At the bottom of the page the last headings can't reach the top.
+			if (innerHeight + scrollY >= document.documentElement.scrollHeight - 2) active = links.at(-1) ?? active;
+			for (const link of links) {
+				if (link === active) link.setAttribute('aria-current', 'true');
+				else link.removeAttribute('aria-current');
+			}
+		};
+		addEventListener('scroll', update, { passive: true });
+		update();
+	}
+</script>
+
+<style>
+	.dy-toc {
+		display: flex;
+		flex-direction: column;
+		gap: var(--dy-space-4);
+		color: var(--dy-color-text-muted);
+		font-size: var(--dy-text-md);
+		line-height: var(--dy-leading-docs);
+	}
+
+	.dy-toc__label {
+		color: var(--dy-color-text);
+		font-size: var(--dy-text-xs);
+		letter-spacing: var(--dy-tracking-eyebrow);
+		text-transform: uppercase;
+	}
+
+	.dy-toc__rail {
+		margin: 0;
+		padding: 0;
+		list-style: none;
+		display: flex;
+		flex-direction: column;
+		gap: 2px;
+		border-left: var(--dy-border-width) solid var(--dy-color-border);
+	}
+
+	.dy-toc__link {
+		display: block;
+		margin-left: calc(var(--dy-border-width) * -1);
+		padding: var(--dy-space-1) var(--dy-space-4);
+		border-left: var(--dy-focus-width) solid transparent;
+	}
+
+	.dy-toc__link--sub {
+		padding-left: var(--dy-space-8);
+	}
+
+	.dy-toc__link[aria-current] {
+		border-left-color: var(--dy-color-accent);
+		color: var(--dy-color-accent);
+		font-weight: var(--dy-weight-semibold);
+	}
+
+	.dy-toc__edit {
+		padding: var(--dy-space-1) 0;
+	}
+
+	.dy-toc-box {
+		background: var(--dy-color-surface);
+		border: var(--dy-border-width) solid var(--dy-color-border);
+		border-radius: var(--dy-radius-lg);
+		overflow: hidden;
+	}
+
+	.dy-toc-box__toggle {
+		width: 100%;
+		min-height: var(--dy-size-control-lg);
+		padding: 0 var(--dy-space-4);
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		border: 0;
+		background: transparent;
+		color: var(--dy-color-text);
+		font: inherit;
+		font-size: var(--dy-text-md);
+		font-weight: var(--dy-weight-semibold);
+		cursor: pointer;
+	}
+
+	.dy-toc-box__toggle :global(.dy-toc-box__chevron) {
+		color: var(--dy-color-accent);
+		transform: rotate(180deg);
+	}
+
+	.dy-toc-box__toggle[aria-expanded='true'] :global(.dy-toc-box__chevron) {
+		transform: none;
+	}
+
+	.dy-toc-box__list {
+		display: flex;
+		flex-direction: column;
+		padding: 0 var(--dy-space-4) var(--dy-space-3);
+		color: var(--dy-color-text-muted);
+		font-size: var(--dy-text-md);
+	}
+
+	.dy-toc-box__list[hidden] {
+		display: none;
+	}
+
+	.dy-toc-box__link {
+		padding: var(--dy-space-2) 0;
+	}
+</style>

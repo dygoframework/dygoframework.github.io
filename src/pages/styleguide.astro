@@ -7,10 +7,23 @@ import TokenSwatch from '../components/sections/TokenSwatch.astro';
 import TypeSample from '../components/sections/TypeSample.astro';
 import Button from '../components/ui/Button.astro';
 import Input from '../components/ui/Input.astro';
+import Badge from '../components/ui/Badge.astro';
+import Card from '../components/ui/Card.astro';
+import CodeBlock from '../components/ui/CodeBlock.astro';
+import Hint from '../components/ui/Hint.astro';
+import Icon from '../components/ui/Icon.astro';
+import Logo from '../components/ui/Logo.astro';
+import TopBar from '../components/navigation/TopBar.astro';
+import Sidebar from '../components/navigation/Sidebar.astro';
+import MobileMenu from '../components/navigation/MobileMenu.astro';
+import OnThisPage from '../components/navigation/OnThisPage.astro';
+import SearchField from '../components/navigation/SearchField.astro';
 import { colorTokens, typeTokens } from '../data/styleguide';
 ---
 
 <BaseLayout title="Styleguide | Dygo" noindex>
+	<TopBar />
+	<MobileMenu currentPath="/styleguide/" />
 	<main id="main">
 		<StyleguideShell title="Styleguide">
 			<StyleguideSection title="Colors" id="colors">
@@ -53,6 +66,87 @@ import { colorTokens, typeTokens } from '../data/styleguide';
 				</StyleguideItem>
 				<StyleguideItem label="disabled" wide>
 					<Input id="sg-email-disabled" label="Work email" type="email" placeholder="you@company.com" disabled />
+				</StyleguideItem>
+			</StyleguideSection>
+			<StyleguideSection title="Logo and icons" id="logo">
+				<StyleguideItem label="Logo"><Logo /></StyleguideItem>
+				<StyleguideItem label="Logo, small"><Logo size="sm" /></StyleguideItem>
+				<StyleguideItem label="Icon: menu, close, search, chevron, copy, check">
+					<span>
+						<Icon name="menu" /><Icon name="close" /><Icon name="search" /><Icon name="chevron" /><Icon name="copy" /><Icon name="check" />
+					</span>
+				</StyleguideItem>
+			</StyleguideSection>
+
+			<StyleguideSection title="Badge" id="badge">
+				<StyleguideItem label="default"><Badge>Soon</Badge></StyleguideItem>
+			</StyleguideSection>
+
+			<StyleguideSection title="Card" id="card">
+				<StyleguideItem label="outline, link" wide><Card href="#card" title="Quick start" description="Build your first service." /></StyleguideItem>
+				<StyleguideItem label="outline, hover" wide><Card href="#card" title="Quick start" description="Build your first service." state="hover" /></StyleguideItem>
+				<StyleguideItem label="outline, focus" wide><Card href="#card" title="Quick start" description="Build your first service." state="focus" /></StyleguideItem>
+				<StyleguideItem label="rounded, previous" wide><Card variant="rounded" href="#card" eyebrow="Previous" title="Introduction" /></StyleguideItem>
+				<StyleguideItem label="rounded, next" wide><Card variant="rounded" align="end" href="#card" eyebrow="Next" title="Controllers" /></StyleguideItem>
+				<StyleguideItem label="feature" wide><Card variant="feature" title="Typed handlers" description="Example text for the styleguide." /></StyleguideItem>
+			</StyleguideSection>
+
+			<StyleguideSection title="Hint" id="hint">
+				<StyleguideItem label="default" wide>
+					<Hint>Example note text. Run <code>go version</code> to check yours.</Hint>
+				</StyleguideItem>
+				<StyleguideItem label="warning label" wide>
+					<Hint label="Warning">Example warning text for the styleguide.</Hint>
+				</StyleguideItem>
+			</StyleguideSection>
+
+			<StyleguideSection title="CodeBlock" id="codeblock">
+				<StyleguideItem label="file name and language" wide>
+					<CodeBlock lang="go" title="main.go" code={'package main\n\nimport "fmt"\n\nfunc main() {\n\tfmt.Println("hello")\n}'} />
+				</StyleguideItem>
+				<StyleguideItem label="terminal" wide>
+					<CodeBlock lang="bash" code="go run ." />
+				</StyleguideItem>
+			</StyleguideSection>
+
+			<StyleguideSection title="TopBar" id="topbar">
+				<StyleguideItem label="marketing, Enterprise current" full><TopBar current="enterprise" /></StyleguideItem>
+				<StyleguideItem label="docs, with search and version" full>
+					<TopBar variant="docs" version="v1.0.0-beta.1" sidebarId="sg-sidebar"><SearchField slot="search" searchable /></TopBar>
+				</StyleguideItem>
+			</StyleguideSection>
+
+			<StyleguideSection title="SearchField" id="search">
+				<StyleguideItem label="bar" wide><SearchField searchable /></StyleguideItem>
+				<StyleguideItem label="menu" wide><SearchField variant="menu" searchable /></StyleguideItem>
+				<StyleguideItem label="link to docs" wide><SearchField variant="menu" /></StyleguideItem>
+			</StyleguideSection>
+
+			<StyleguideSection title="Sidebar" id="sidebar">
+				<StyleguideItem label="card, First steps current" wide><Sidebar currentPath="/docs/first-steps/" id="sg-sidebar" /></StyleguideItem>
+				<StyleguideItem label="card, Security open, Soon item" wide><Sidebar currentPath="/docs/security/cors/" id="sg-sidebar-security" /></StyleguideItem>
+			</StyleguideSection>
+
+			<StyleguideSection title="MobileMenu" id="mobile-menu">
+				<StyleguideItem label="open"><MobileMenu currentPath="/docs/first-steps/" preview /></StyleguideItem>
+			</StyleguideSection>
+
+			<StyleguideSection title="OnThisPage" id="on-this-page">
+				<StyleguideItem label="aside" wide>
+					<OnThisPage
+						id="sg-toc"
+						title="First steps"
+						editUrl="https://github.com/dygoframework/dygo"
+						headings={[{ depth: 2, slug: 'colors', text: 'Colors' }, { depth: 2, slug: 'type', text: 'Type' }, { depth: 3, slug: 'button', text: 'Button' }]}
+					/>
+				</StyleguideItem>
+				<StyleguideItem label="collapsible" wide>
+					<OnThisPage
+						id="sg-toc-box"
+						variant="collapsible"
+						title="First steps"
+						headings={[{ depth: 2, slug: 'colors', text: 'Colors' }, { depth: 2, slug: 'type', text: 'Type' }]}
+					/>
 				</StyleguideItem>
 			</StyleguideSection>
 		</StyleguideShell>

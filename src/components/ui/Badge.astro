@@ -1,0 +1,23 @@
+---
+// A short status label, such as "Soon".
+interface Props {
+	class?: string;
+}
+
+const { class: className } = Astro.props;
+---
+
+<span class:list={['dy-badge', className]}><slot /></span>
+
+<style>
+	.dy-badge {
+		display: inline-block;
+		padding: 1px var(--dy-space-2);
+		border: var(--dy-border-width) solid var(--dy-color-border-strong);
+		border-radius: var(--dy-radius-xs);
+		color: var(--dy-color-text-muted);
+		font-size: var(--dy-text-2xs);
+		font-weight: var(--dy-weight-regular);
+		line-height: var(--dy-leading-body);
+	}
+</style>

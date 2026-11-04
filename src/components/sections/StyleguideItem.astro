@@ -3,12 +3,13 @@
 interface Props {
 	label: string;
 	wide?: boolean;
+	full?: boolean;
 }
 
-const { label, wide = false } = Astro.props;
+const { label, wide = false, full = false } = Astro.props;
 ---
 
-<figure class:list={['sg-item', { 'sg-item--wide': wide }]}>
+<figure class:list={['sg-item', { 'sg-item--wide': wide, 'sg-item--full': full }]}>
 	<div class="sg-item__demo"><slot /></div>
 	<figcaption class="sg-item__label">{label}</figcaption>
 </figure>
@@ -24,6 +25,10 @@ const { label, wide = false } = Astro.props;
 	.sg-item--wide {
 		flex: 1 1 300px;
 		max-width: var(--dy-width-form);
+	}
+
+	.sg-item--full {
+		flex: 1 1 100%;
 	}
 
 	.sg-item__label {

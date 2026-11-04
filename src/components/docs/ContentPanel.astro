@@ -1,0 +1,17 @@
+---
+// Starlight wraps the title and the article each in a panel.
+---
+
+<div class="dy-panel"><slot /></div>
+
+<style>
+	.dy-panel + .dy-panel {
+		margin-top: var(--dy-space-5);
+	}
+
+	@media (width >= 1024px) {
+		.dy-panel + .dy-panel {
+			margin-top: var(--dy-space-6);
+		}
+	}
+</style>

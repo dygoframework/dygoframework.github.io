@@ -7,7 +7,7 @@
   },
   "scripts": {
     "dev": "INCLUDE_DEV_PAGES=true astro dev",
-    "build": "astro build",
+    "build": "astro build --force",
     "build:test": "INCLUDE_DEV_PAGES=true npm run build",
     "preview": "astro preview",
     "check": "astro check",

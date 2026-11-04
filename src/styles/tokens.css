@@ -21,6 +21,7 @@
   --dy-color-accent: #ffd400;
   --dy-color-on-accent: #0b0b0c;
   --dy-color-accent-tint: rgb(255 212 0 / 10%);
+  --dy-color-code-text: #ecece6;
   --dy-color-code-keyword: #9cc4dc;
   --dy-color-code-string: #f0d58c;
   --dy-color-code-function: #f7e7b0;
@@ -32,6 +33,7 @@
 
   /* Font sizes */
   --dy-text-2xs: 11px;
+  --dy-text-kbd: 12px;
   --dy-text-xs: 13px;
   --dy-text-sm: 14px;
   --dy-text-md: 15px;
@@ -64,6 +66,9 @@
   /* Letter spacing */
   --dy-tracking-display: -0.02em;
   --dy-tracking-label: 0.06em;
+  --dy-tracking-hint: 0.04em;
+  --dy-tracking-eyebrow: 0.08em;
+  --dy-tracking-heading: -0.01em;
 
   /* Spacing */
   --dy-space-1: 4px;
@@ -90,11 +95,27 @@
   --dy-radius-lg: 12px;
   --dy-radius-xl: 16px;
   --dy-radius-pill: 22px;
+  --dy-radius-pill-lg: 24px;
+  --dy-radius-round: 50%;
 
   /* Sizes */
   --dy-size-control: 44px;
   --dy-size-action: 52px;
   --dy-size-topbar: 72px;
+  --dy-size-topbar-mobile: 64px;
+  --dy-size-control-lg: 48px;
+  --dy-size-segment: 76px;
+  --dy-size-segment-mobile: 68px;
+  --dy-size-logo: 34px;
+  --dy-size-logo-mobile: 32px;
+  --dy-size-icon-sm: 16px;
+  --dy-size-icon: 20px;
+  --dy-size-icon-lg: 26px;
+  --dy-width-sidebar: 310px;
+  --dy-width-aside: 250px;
+  --dy-width-search: 300px;
+  --dy-width-prose: 640px;
+  --dy-hint-border-width: 4px;
   --dy-width-page: 1440px;
   --dy-width-content: 1280px;
   --dy-width-form: 560px;
@@ -105,4 +126,9 @@
   --dy-hover-opacity: 0.8;
   --dy-disabled-opacity: 0.5;
   --dy-duration: 150ms;
+
+  /* Layers */
+  --dy-z-menu: 100;
+
+  /* Breakpoint: the mobile layout is used below 1024px (see components). */
 }

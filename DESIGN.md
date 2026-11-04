@@ -74,6 +74,9 @@ Use these before you build anything new. Keep this table up to date.
 | Sidebar | Docs navigation on desktop |
 | MobileMenu | Full-screen navigation on mobile |
 | OnThisPage | Links to headings on a docs page |
+| Icon | Line icons from the design, in the text color |
+| Logo | The Dygo mark and word, linking home |
+| SearchField | The search control in the top bar and MobileMenu |
 
 ## Changing the design
 
