@@ -4,9 +4,8 @@ import { join, relative, sep } from 'node:path';
 import { brokenLinks } from './lib/links.mjs';
 
 const dist = new URL('../dist/', import.meta.url).pathname;
-// Pages that are linked from the top bar but not built yet. Phase 4 builds
-// /enterprise/; remove it from this list then.
-const pending = new Set(['/enterprise/']);
+// Pages that are linked but not built yet.
+const pending = new Set([]);
 
 /** @param {string} dir @returns {string[]} */
 const walk = (dir) => readdirSync(dir).flatMap((name) => {

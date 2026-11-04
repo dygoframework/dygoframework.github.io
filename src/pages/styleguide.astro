@@ -18,6 +18,7 @@ import Sidebar from '../components/navigation/Sidebar.astro';
 import MobileMenu from '../components/navigation/MobileMenu.astro';
 import OnThisPage from '../components/navigation/OnThisPage.astro';
 import SearchField from '../components/navigation/SearchField.astro';
+import SiteFooter from '../components/navigation/SiteFooter.astro';
 import { colorTokens, typeTokens } from '../data/styleguide';
 ---
 
@@ -46,6 +47,7 @@ import { colorTokens, typeTokens } from '../data/styleguide';
 				<StyleguideItem label="secondary, hover"><Button variant="secondary" state="hover">GitHub</Button></StyleguideItem>
 				<StyleguideItem label="secondary, focus"><Button variant="secondary" state="focus">GitHub</Button></StyleguideItem>
 				<StyleguideItem label="secondary, disabled"><Button variant="secondary" disabled>GitHub</Button></StyleguideItem>
+				<StyleguideItem label="primary, rounded"><Button shape="rounded">Get in touch</Button></StyleguideItem>
 				<StyleguideItem label="tool"><Button variant="tool"><Icon name="copy" size="sm" />Copy markdown</Button></StyleguideItem>
 				<StyleguideItem label="tool, hover"><Button variant="tool" state="hover"><Icon name="copy" size="sm" />Copy markdown</Button></StyleguideItem>
 				<StyleguideItem label="tool, focus"><Button variant="tool" state="focus"><Icon name="copy" size="sm" />Copy markdown</Button></StyleguideItem>
@@ -92,6 +94,7 @@ import { colorTokens, typeTokens } from '../data/styleguide';
 				<StyleguideItem label="rounded, previous" wide><Card variant="rounded" href="#card" eyebrow="Previous" title="Introduction" /></StyleguideItem>
 				<StyleguideItem label="rounded, next" wide><Card variant="rounded" align="end" href="#card" eyebrow="Next" title="Controllers" /></StyleguideItem>
 				<StyleguideItem label="feature" wide><Card variant="feature" title="Typed handlers" description="Example text for the styleguide." /></StyleguideItem>
+				<StyleguideItem label="panel" wide><Card variant="panel" title="Workshops" description="Example text for the styleguide." /></StyleguideItem>
 			</StyleguideSection>
 
 			<StyleguideSection title="Hint" id="hint">
@@ -117,6 +120,11 @@ import { colorTokens, typeTokens } from '../data/styleguide';
 				<StyleguideItem label="docs, with search and version" full>
 					<TopBar variant="docs" version="v1.0.0-beta.1" sidebarId="sg-sidebar"><SearchField slot="search" searchable /></TopBar>
 				</StyleguideItem>
+			</StyleguideSection>
+
+			<StyleguideSection title="SiteFooter" id="footer">
+				<StyleguideItem label="full" full><SiteFooter /></StyleguideItem>
+				<StyleguideItem label="simple" full><SiteFooter variant="simple" /></StyleguideItem>
 			</StyleguideSection>
 
 			<StyleguideSection title="SearchField" id="search">

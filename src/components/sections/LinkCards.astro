@@ -1,0 +1,83 @@
+---
+// "Start with the docs": a big heading, a primary action and link cards.
+import Button from '../ui/Button.astro';
+import Card from '../ui/Card.astro';
+
+interface Props {
+	title: string;
+	action: { label: string; href: string };
+	cards: { title: string; description: string; href: string }[];
+}
+
+const { title, action, cards } = Astro.props;
+---
+
+<section class="dy-links">
+	<div class="dy-links__inner">
+		<div class="dy-links__head">
+			<h2 class="dy-links__title">{title}</h2>
+			<Button href={action.href}>{action.label}</Button>
+		</div>
+		<div class="dy-links__grid">
+			{cards.map((card) => <Card href={card.href} title={card.title} description={card.description} />)}
+		</div>
+	</div>
+</section>
+
+<style>
+	.dy-links {
+		border-bottom: var(--dy-border-width) solid var(--dy-color-border);
+	}
+
+	.dy-links__inner {
+		box-sizing: border-box;
+		max-width: var(--dy-width-content);
+		margin: 0 auto;
+		padding: var(--dy-space-14) var(--dy-space-5);
+		display: flex;
+		flex-direction: column;
+		gap: var(--dy-space-6);
+	}
+
+	.dy-links__head {
+		display: flex;
+		flex-direction: column;
+		gap: var(--dy-space-6);
+	}
+
+	.dy-links__title {
+		margin: 0;
+		max-width: var(--dy-width-heading);
+		font-size: var(--dy-text-cta-mobile);
+		font-weight: var(--dy-weight-extrabold);
+		line-height: var(--dy-leading-title);
+	}
+
+	.dy-links__grid {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(min(250px, 100%), 1fr));
+		gap: var(--dy-space-3);
+	}
+
+	@media (width >= 1024px) {
+		.dy-links__inner {
+			padding: var(--dy-space-24) var(--dy-space-8);
+			gap: var(--dy-space-12);
+		}
+
+		.dy-links__head {
+			flex-flow: row wrap;
+			align-items: flex-end;
+			justify-content: space-between;
+		}
+
+		.dy-links__title {
+			font-size: var(--dy-text-display-cta);
+			line-height: var(--dy-leading-display);
+		}
+
+		.dy-links__grid {
+			gap: var(--dy-space-4);
+		}
+	}
+</style>

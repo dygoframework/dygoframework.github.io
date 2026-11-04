@@ -64,10 +64,10 @@ Use these before you build anything new. Keep this table up to date.
 
 | Component | Use it for |
 |---|---|
-| Button | Page actions, with primary and secondary variants, and a small tool variant such as Copy markdown |
+| Button | Page actions, with primary and secondary variants, a small tool variant such as Copy markdown, and a rounded shape for forms |
 | Input | Labeled form fields |
 | Badge | Short status labels, such as "Soon" |
-| Card | Grouped content on a raised surface |
+| Card | Grouped content on a raised surface: outline, rounded, feature and panel variants |
 | CodeBlock | Code with a file name and copy button |
 | Hint | Notes and warnings in docs |
 | TopBar | The floating bar on every page |
@@ -77,6 +77,7 @@ Use these before you build anything new. Keep this table up to date.
 | Icon | Line icons from the design, in the text color |
 | Logo | The Dygo mark and word, linking home |
 | SearchField | The search control in the top bar and MobileMenu |
+| SiteFooter | The footer on Home (full) and Enterprise (simple) |
 
 ## Changing the design
 

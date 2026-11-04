@@ -1,0 +1,135 @@
+---
+// The footer of Home (full) and Enterprise (simple).
+import { footerNav, mainNav } from '../../data/navigation';
+
+interface Props {
+	variant?: 'full' | 'simple';
+}
+
+const { variant = 'full' } = Astro.props;
+const year = 2026;
+---
+
+<footer class:list={['dy-footer', `dy-footer--${variant}`]}>
+	<div class="dy-footer__inner">
+		{
+			variant === 'full' ? (
+				<>
+					<div class="dy-footer__grid">
+						<div class="dy-footer__brand">
+							<span class="dy-footer__name">Dygo</span>
+							<span class="dy-footer__muted">dygoframework.com</span>
+						</div>
+						{footerNav.map((group) => (
+							<nav class="dy-footer__group" aria-label={group.title}>
+								<strong>{group.title}</strong>
+								{group.links.map((link) => (
+									<a class="dy-footer__muted" href={link.href}>
+										{link.label}
+									</a>
+								))}
+							</nav>
+						))}
+					</div>
+					<p class="dy-footer__copy">© {year} Dygo Framework</p>
+				</>
+			) : (
+				<>
+					<span>© {year} Dygo Framework</span>
+					<nav class="dy-footer__row" aria-label="Footer">
+						{mainNav.map((link) => (
+							<a href={link.href}>{link.label === 'Docs' ? 'Documentation' : link.label}</a>
+						))}
+					</nav>
+				</>
+			)
+		}
+	</div>
+</footer>
+
+<style>
+	.dy-footer__inner {
+		box-sizing: border-box;
+		max-width: var(--dy-width-content);
+		margin: 0 auto;
+		padding: var(--dy-space-12) var(--dy-space-5) var(--dy-space-8);
+		display: flex;
+		flex-direction: column;
+		gap: var(--dy-space-8);
+	}
+
+	.dy-footer__grid {
+		display: grid;
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		gap: var(--dy-space-6);
+	}
+
+	.dy-footer__brand {
+		grid-column: 1 / -1;
+		display: flex;
+		flex-direction: column;
+		gap: var(--dy-space-1);
+	}
+
+	.dy-footer__name {
+		font-size: var(--dy-text-3xl);
+		font-weight: var(--dy-weight-extrabold);
+	}
+
+	.dy-footer__group {
+		display: flex;
+		flex-direction: column;
+		gap: var(--dy-space-2);
+	}
+
+	.dy-footer__muted {
+		color: var(--dy-color-text-muted);
+	}
+
+	.dy-footer__copy {
+		margin: 0;
+		padding-top: var(--dy-space-5);
+		border-top: var(--dy-border-width) solid var(--dy-color-border);
+		color: var(--dy-color-text-muted);
+		font-size: var(--dy-text-sm);
+	}
+
+	.dy-footer--simple .dy-footer__inner {
+		flex-flow: row wrap;
+		justify-content: space-between;
+		gap: var(--dy-space-4) var(--dy-space-8);
+		color: var(--dy-color-text-muted);
+		font-size: var(--dy-text-md);
+	}
+
+	.dy-footer__row {
+		display: flex;
+		flex-wrap: wrap;
+		gap: var(--dy-space-2) var(--dy-space-6);
+	}
+
+	@media (width >= 1024px) {
+		.dy-footer__inner {
+			padding: var(--dy-space-18) var(--dy-space-8) var(--dy-space-10);
+			gap: var(--dy-space-14);
+		}
+
+		.dy-footer--simple .dy-footer__inner {
+			padding: var(--dy-space-14) var(--dy-space-8) var(--dy-space-10);
+		}
+
+		.dy-footer__grid {
+			grid-template-columns: repeat(auto-fit, minmax(min(180px, 100%), 1fr));
+			gap: var(--dy-space-8);
+		}
+
+		.dy-footer__brand {
+			grid-column: auto;
+			gap: var(--dy-space-2);
+		}
+
+		.dy-footer__name {
+			font-size: var(--dy-text-display-docs);
+		}
+	}
+</style>

@@ -79,3 +79,22 @@ export function currentGroup(path: string): string | undefined {
 	const normal = path.endsWith('/') ? path : `${path}/`;
 	return docsNav.find((g) => g.items.some((i) => i.href === normal))?.title;
 }
+
+export const footerNav = [
+	{
+		title: 'Documentation',
+		links: [
+			{ label: 'Quick start', href: '/docs/first-steps/' },
+			{ label: 'Guides', href: '/docs/' },
+			{ label: 'Benchmarks', href: '/docs/project/benchmarks/' },
+		],
+	},
+	{
+		title: 'Project',
+		links: [
+			{ label: 'GitHub', href: githubUrl },
+			{ label: 'Changelog', href: '/docs/project/changelog/' },
+			{ label: 'Security policy', href: '/docs/project/security-policy/' },
+		],
+	},
+];

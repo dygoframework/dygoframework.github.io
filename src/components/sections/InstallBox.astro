@@ -1,0 +1,107 @@
+---
+// The install commands under the Home hero, with a copy button.
+interface Props {
+	commands: string[];
+	note?: string;
+}
+
+const { commands, note } = Astro.props;
+---
+
+<div class="dy-install">
+	<div class="dy-install__box">
+		<pre class="dy-install__code" tabindex="0" aria-label="Install commands"><code>{commands.join('\n')}</code></pre>
+		<button type="button" class="dy-install__copy" data-copy-install={commands.join('\n')}>
+			<span data-copy-text>Copy</span>
+		</button>
+	</div>
+	{note && <p class="dy-install__note">{note}</p>}
+</div>
+
+<script>
+	document.addEventListener('click', async (event) => {
+		const button = (event.target as Element | null)?.closest<HTMLButtonElement>('[data-copy-install]');
+		const text = button?.querySelector('[data-copy-text]');
+		if (!button || !text) return;
+		try {
+			await navigator.clipboard.writeText(button.dataset.copyInstall ?? '');
+			text.textContent = 'Copied';
+		} catch {
+			text.textContent = 'Copy failed';
+		}
+		setTimeout(() => (text.textContent = 'Copy'), 2000);
+	});
+</script>
+
+<style>
+	.dy-install {
+		display: flex;
+		flex-direction: column;
+		gap: var(--dy-space-3);
+		max-width: 100%;
+	}
+
+	.dy-install__box {
+		box-sizing: border-box;
+		max-width: 100%;
+		display: flex;
+		align-items: center;
+		gap: var(--dy-space-3);
+		padding: var(--dy-space-1) var(--dy-space-1) var(--dy-space-1) var(--dy-space-4);
+		background: var(--dy-color-surface-code);
+		border: var(--dy-border-width) solid var(--dy-color-border);
+		text-align: left;
+	}
+
+	.dy-install__code {
+		flex: 1 1 0;
+		min-width: 0;
+		margin: 0;
+		padding: var(--dy-space-2) 0;
+		overflow-x: auto;
+		font-size: var(--dy-text-sm);
+		line-height: var(--dy-leading-docs);
+	}
+
+	.dy-install__copy {
+		flex: none;
+		min-width: var(--dy-size-control);
+		min-height: var(--dy-size-control);
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		gap: var(--dy-space-2);
+		padding: 0 var(--dy-space-3);
+		border: 0;
+		background: var(--dy-color-border);
+		color: var(--dy-color-text);
+		font: inherit;
+		font-size: var(--dy-text-sm);
+		cursor: pointer;
+	}
+
+	.dy-install__copy:hover {
+		opacity: var(--dy-hover-opacity);
+	}
+
+	.dy-install__note {
+		margin: 0;
+		color: var(--dy-color-text-muted);
+		font-size: var(--dy-text-md);
+	}
+
+	@media (width >= 1024px) {
+		.dy-install__box {
+			gap: var(--dy-space-6);
+			padding: var(--dy-space-2) var(--dy-space-2) var(--dy-space-2) var(--dy-space-5);
+		}
+
+		.dy-install__code {
+			font-size: var(--dy-text-md);
+		}
+
+		.dy-install__copy {
+			min-width: var(--dy-space-20);
+		}
+	}
+</style>
