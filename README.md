@@ -8,7 +8,7 @@ Read `CLAUDE.md`, `DESIGN.md` and `PLAN.md` before you change anything.
 
 The docs live in the [Dygo repo](https://github.com/dygoframework/dygo), so they change with the code. `npm run sync-docs` copies them into `src/content/docs/docs/`, which isn't committed, and splits them into the pages of `design/docs-menu-map.md`. `scripts/lib/docs-manifest.mjs` says where each page comes from.
 
-- `DOCS_SOURCE=../dygo-framework npm run sync-docs` uses a local checkout. Without it, the script clones `DOCS_REF` (default `main`).
+- `DOCS_SOURCE=../com.dygoframework npm run sync-docs` uses a local checkout. Without it, the script clones `DOCS_REF` (default `main`).
 - "New" pages, written from the code, are in `src/content/docs-pages/`. Their Go examples run in `tests/examples` (`cd tests/examples && go test ./...`).
 - `npm run build` syncs first if nothing was synced yet, and fails on broken internal links.
 
