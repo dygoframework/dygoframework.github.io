@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Dygo Enterprise Mobile</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Fira+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#0B0B0C}
+a{color:inherit;text-decoration:none}a:hover{color:inherit;opacity:.8}
+</style>
+</helmet>
+<sc-if value="{{menuOpen}}" hint-placeholder-val="{{ false }}">
+<dc-import name="MobileMenu" accent="{{accent}}" on-close="{{closeMenu}}" hint-size="390px,844px"></dc-import>
+</sc-if>
+<sc-if value="{{menuClosed}}" hint-placeholder-val="{{ true }}">
+<div style="width: 390px; min-height: 3700px; box-sizing: border-box; background: #0B0B0C; color: #F4F4EF; font-family: Manrope, system-ui, sans-serif; font-size: 17px; line-height: 1.6">
+
+<div style="padding: 12px 12px 0">
+<header style="display: flex; align-items: stretch; min-height: 64px; background: #121211; border: 1px solid #2A2A28; border-radius: 16px; overflow: hidden">
+<button type="button" onClick="{{openMenu}}" aria-label="Open menu" aria-expanded="false" style="flex: 0 0 68px; display: flex; align-items: center; justify-content: center; border: 0; border-right: 1px solid #2A2A28; background: #1C1C1A; color: #F4F4EF; cursor: pointer">
+<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18"></path></svg>
+</button>
+<a href="HomeMobile.dc.html" style="flex: 1 1 0; display: flex; align-items: center; justify-content: center; gap: 10px; padding-right: 68px">
+<svg width="32" height="32" viewBox="0 0 64 64" aria-hidden="true" style="flex: none"><path d="M32 3L57 11V31C57 45 47 55 32 61C17 55 7 45 7 31V11ZM23 17L36 32L23 47H34L47 32L34 17Z" fill="{{accent}}" fill-rule="evenodd"></path></svg>
+<span style="font-weight: 800; font-size: 18px">Dygo</span>
+</a>
+</header>
+</div>
+
+<section style="padding: 64px 20px; display: flex; flex-direction: column; gap: 24px; background-image: radial-gradient(#2A2A28 1px, transparent 1px); background-size: 28px 28px">
+<p style="margin: 0; font-family: 'Fira Mono', monospace; font-size: 14px; color: {{accent}}">Dygo Enterprise</p>
+<h1 style="margin: 0; font-size: 44px; font-weight: 800; line-height: 1.08; letter-spacing: -0.02em">Run Dygo with expert support.</h1>
+<p style="margin: 0; font-size: 18px; color: #BDBDB4">Work directly with the people who build Dygo to design, secure and tune your Go services.</p>
+<a href="#contact" style="min-height: 52px; box-sizing: border-box; padding: 13px 24px; background: {{accent}}; color: #0B0B0C; font-weight: 600; text-align: center">Get in touch</a>
+</section>
+
+<section style="padding: 56px 20px; border-top: 1px solid #2A2A28; display: flex; flex-direction: column; gap: 24px">
+<div style="display: flex; flex-direction: column; gap: 12px">
+<h2 style="margin: 0; font-size: 32px; font-weight: 700; line-height: 1.15">Help where your team needs it.</h2>
+<p style="margin: 0; font-size: 18px; color: #BDBDB4">Bring us in for one review or for ongoing support across a project.</p>
+</div>
+<div style="display: flex; flex-direction: column; gap: 1px; background: #2A2A28; border: 1px solid #2A2A28">
+<article style="background: #0B0B0C; padding: 20px"><h3 style="margin: 0 0 4px; font-size: 19px; font-weight: 600">Architecture reviews</h3><p style="margin: 0; color: #BDBDB4">Check your module boundaries, data flow and service design.</p></article>
+<article style="background: #0B0B0C; padding: 20px"><h3 style="margin: 0 0 4px; font-size: 19px; font-weight: 600">Security reviews</h3><p style="margin: 0; color: #BDBDB4">Review your auth, access rules and production settings.</p></article>
+<article style="background: #0B0B0C; padding: 20px"><h3 style="margin: 0 0 4px; font-size: 19px; font-weight: 600">Performance tuning</h3><p style="margin: 0; color: #BDBDB4">Find bottlenecks and measure each improvement.</p></article>
+<article style="background: #0B0B0C; padding: 20px"><h3 style="margin: 0 0 4px; font-size: 19px; font-weight: 600">Code reviews</h3><p style="margin: 0; color: #BDBDB4">Get detailed feedback on the changes that matter most.</p></article>
+<article style="background: #0B0B0C; padding: 20px"><h3 style="margin: 0 0 4px; font-size: 19px; font-weight: 600">Team mentoring</h3><p style="margin: 0; color: #BDBDB4">Help your engineers become confident with Dygo.</p></article>
+<article style="background: #0B0B0C; padding: 20px"><h3 style="margin: 0 0 4px; font-size: 19px; font-weight: 600">Upgrade support</h3><p style="margin: 0; color: #BDBDB4">Plan and complete moves to new Dygo releases.</p></article>
+</div>
+</section>
+
+<section style="padding: 48px 20px; border-top: 1px solid #2A2A28; display: flex; flex-direction: column; gap: 14px">
+<h2 style="margin: 0; font-size: 34px; font-weight: 800; line-height: 1.1; color: {{accent}}">Reduce security risk.</h2>
+<p style="margin: 0; font-size: 18px; color: #BDBDB4">Check your app against the OWASP Top 10 and cover what the framework leaves to your code.</p>
+</section>
+
+<section style="padding: 48px 20px; background: #161615; display: flex; flex-direction: column; gap: 14px">
+<h2 style="margin: 0; font-size: 34px; font-weight: 800; line-height: 1.1; color: {{accent}}">Stay fast in production.</h2>
+<p style="margin: 0; font-size: 18px; color: #BDBDB4">Benchmark real endpoints, find the slowest paths and prepare for heavy load.</p>
+</section>
+
+<section style="padding: 48px 20px; display: flex; flex-direction: column; gap: 16px">
+<article style="padding: 24px; background: #121211; border: 1px solid #2A2A28; border-radius: 16px"><h2 style="margin: 0 0 8px; font-size: 26px; font-weight: 700; line-height: 1.2">Team support</h2><p style="margin: 0; color: #BDBDB4">Work alongside your engineers on a project, from planning through launch.</p></article>
+<article style="padding: 24px; background: #121211; border: 1px solid #2A2A28; border-radius: 16px"><h2 style="margin: 0 0 8px; font-size: 26px; font-weight: 700; line-height: 1.2">Workshops</h2><p style="margin: 0; color: #BDBDB4">Run hands-on sessions on architecture, security, testing and performance.</p></article>
+</section>
+
+<section id="contact" style="padding: 56px 20px; background: #121211; border-top: 1px solid #2A2A28; border-bottom: 1px solid #2A2A28; display: flex; flex-direction: column; gap: 20px">
+<h2 style="margin: 0; font-size: 36px; font-weight: 800; line-height: 1.1">Tell us what you're building.</h2>
+<p style="margin: 0; font-size: 18px; color: #BDBDB4">Leave your work email and we'll get back to you.</p>
+<sc-if value="{{waiting}}" hint-placeholder-val="{{ true }}">
+<form onSubmit="{{submit}}" style="display: flex; flex-direction: column; gap: 12px">
+<label style="display: flex; flex-direction: column; gap: 6px; font-size: 15px; font-weight: 600">Work email
+<input type="email" required placeholder="you@company.com" autocomplete="email" style="min-height: 52px; box-sizing: border-box; padding: 0 16px; background: #0B0B0C; border: 1px solid #3A3A37; border-radius: 8px; color: #F4F4EF; font: inherit; font-weight: 400">
+</label>
+<button type="submit" style="min-height: 52px; padding: 0 20px; border: 0; border-radius: 8px; background: {{accent}}; color: #0B0B0C; font: inherit; font-weight: 600; cursor: pointer">Get in touch</button>
+</form>
+</sc-if>
+<sc-if value="{{sent}}" hint-placeholder-val="{{ false }}">
+<p role="status" style="margin: 0; font-weight: 600">Thanks. We'll reply by email.</p>
+</sc-if>
+</section>
+
+<footer style="padding: 32px 20px; display: flex; flex-direction: column; gap: 12px; color: #BDBDB4; font-size: 15px">
+<nav aria-label="Footer" style="display: flex; flex-wrap: wrap; gap: 8px 20px">
+<a href="DocsMobile.dc.html">Documentation</a>
+<a href="EnterpriseMobile.dc.html">Enterprise</a>
+<a href="https://github.com/dygoframework/dygo">GitHub</a>
+</nav>
+<span>© 2026 Dygo Framework</span>
+</footer>
+
+</div>
+</sc-if>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"accent":{"editor":"color","default":"#FFD400","options":["#FFD400","#FFC400","#F5E11B"]},"$preview":{"width":390,"height":3700}}'>
+class Component extends DCLogic {
+  state = { menuOpen: false, sent: false };
+
+  renderVals() {
+    return {
+      accent: this.props.accent ?? '#FFD400',
+      menuOpen: this.state.menuOpen,
+      menuClosed: !this.state.menuOpen,
+      openMenu: () => this.setState({ menuOpen: true }),
+      closeMenu: () => this.setState({ menuOpen: false }),
+      sent: this.state.sent,
+      waiting: !this.state.sent,
+      submit: (e) => {
+        e.preventDefault();
+        this.setState({ sent: true });
+      }
+    };
+  }
+}
+</script>
+</body>
+</html>

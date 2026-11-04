@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Dygo Mobile Menu</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Fira+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+</style>
+</helmet>
+<div style="width: 390px; min-height: 844px; box-sizing: border-box; padding: 12px; background: #0B0B0C; color: #B9B9B1; font-family: Manrope, system-ui, sans-serif; font-size: 16px; line-height: 1.6; display: flex; flex-direction: column; gap: 12px">
+
+<header style="display: flex; align-items: stretch; min-height: 64px; background: #121211; border: 1px solid #2A2A28; border-radius: 16px; overflow: hidden">
+<button type="button" onClick="{{close}}" aria-label="Close menu" style="flex: 0 0 68px; display: flex; align-items: center; justify-content: center; border: 0; border-right: 1px solid #2A2A28; background: #1C1C1A; color: #F4F4EF; cursor: pointer">
+<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M5 5l14 14M19 5L5 19"></path></svg>
+</button>
+<a href="HomeMobile.dc.html" style="flex: 1 1 0; display: flex; align-items: center; justify-content: center; gap: 10px; color: #F4F4EF; text-decoration: none">
+<svg width="32" height="32" viewBox="0 0 64 64" aria-hidden="true" style="flex: none"><path d="M32 3L57 11V31C57 45 47 55 32 61C17 55 7 45 7 31V11ZM23 17L36 32L23 47H34L47 32L34 17Z" fill="{{accent}}" fill-rule="evenodd"></path></svg>
+<span style="font-family: Manrope, system-ui, sans-serif; font-weight: 800; font-size: 18px">Dygo</span>
+</a>
+<button type="button" aria-label="Switch theme" style="flex: 0 0 68px; display: flex; align-items: center; justify-content: center; border: 0; background: transparent; color: #F4F4EF; cursor: pointer">
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"></path></svg>
+</button>
+</header>
+
+<label style="position: relative; display: flex; flex-direction: column">
+<span style="position: absolute; width: 1px; height: 1px; overflow: hidden">Search the docs</span>
+<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#B9B9B1" stroke-width="2" stroke-linecap="round" aria-hidden="true" style="position: absolute; left: 16px; top: 15px"><circle cx="11" cy="11" r="7"></circle><path d="M20 20l-4-4"></path></svg>
+<input type="search" placeholder="Search" style="min-height: 48px; box-sizing: border-box; padding: 0 16px 0 44px; background: #161615; border: 1px solid #2A2A28; border-radius: 24px; color: #F4F4EF; font: inherit">
+</label>
+
+<nav aria-label="Documentation" style="padding: 12px; background: #121211; border: 1px solid #2A2A28; border-radius: 16px; display: flex; flex-direction: column; gap: 4px">
+<sc-for list="{{sections}}" as="section" hint-placeholder-count="4">
+<div style="display: flex; flex-direction: column; gap: 2px">
+<button type="button" onClick="{{section.toggle}}" aria-expanded="{{section.expanded}}" style="width: 100%; min-height: 48px; padding: 0 12px; display: flex; align-items: center; justify-content: space-between; gap: 12px; border: 0; background: transparent; color: #F4F4EF; font: inherit; font-size: 14px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; cursor: pointer">{{section.title}}<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="{{accent}}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="transform: {{section.rotate}}"><path d="M6 15l6-6 6 6"></path></svg></button>
+<sc-if value="{{section.open}}" hint-placeholder-val="{{ true }}">
+<sc-for list="{{section.items}}" as="item" hint-placeholder-count="3">
+<sc-if value="{{item.live}}" hint-placeholder-val="{{ true }}"><a href="{{item.href}}" aria-current="{{item.current}}" style="min-height: 44px; box-sizing: border-box; padding: 9px 14px; border-radius: 8px; background: {{item.bg}}; color: {{item.fg}}; font-weight: {{item.weight}}; text-decoration: none">{{item.label}}</a></sc-if>
+<sc-if value="{{item.soon}}" hint-placeholder-val="{{ false }}"><span style="min-height: 44px; box-sizing: border-box; padding: 9px 14px; display: flex; align-items: center; justify-content: space-between; gap: 12px; color: #8E8E86">{{item.label}}<span style="padding: 1px 7px; border: 1px solid #3A3A37; border-radius: 6px; font-size: 11px; color: #B9B9B1">Soon</span></span></sc-if>
+</sc-for>
+</sc-if>
+</div>
+</sc-for>
+</nav>
+
+<a href="EnterpriseMobile.dc.html" style="padding: 12px; color: #F4F4EF; font-weight: 600; text-align: center; text-decoration: none">Enterprise</a>
+<a href="https://github.com/" style="padding: 12px; color: #F4F4EF; font-weight: 600; text-align: center; text-decoration: none">GitHub</a>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"accent":{"editor":"color","default":"#FFD400","options":["#FFD400","#FFC400","#F5E11B"]},"onClose":{"editor":null},"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+  state = { closedSections: { Fundamentals: true, Application: true, Data: true, Security: true, HTTP: true, APIs: true, Microservices: true, Production: true, CLI: true, Project: true } };
+
+  renderVals() {
+    const accent = this.props.accent ?? '#FFD400';
+    const groups = [
+      { title: 'Overview', items: [['Introduction', 'HomeMobile.dc.html'], ['First steps', 'DocsMobile.dc.html'], ['Controllers', '#'], ['Providers', '#'], ['Modules', '#'], ['Middleware', '#'], ['Exception filters', '#'], ['Pipes', '#'], ['Guards', '#'], ['Interceptors', '#'], ['Route metadata', '#']] },
+      { title: 'Fundamentals', items: [['Custom providers', '#'], ['Dynamic modules', '#'], ['Injection scopes', '#'], ['Circular dependency', '#'], ['Module reference', '#'], ['Execution context', '#'], ['Lifecycle events', '#'], ['Discovery', '#'], ['Standalone apps', '#'], ['Testing', '#']] },
+      { title: 'Application', items: [['Configuration', '#'], ['Validation', '#'], ['Logging', '#'], ['Events', '#'], ['Task scheduling', '#'], ['Queues', '#'], ['CQRS', '#'], ['Console commands', '#'], ['Serialization', null], ['HTTP client', null], ['Internationalization', null], ['Mail', null], ['File storage', null]] },
+      { title: 'Data', items: [['SQL databases', '#'], ['Repositories', '#'], ['Transactions', '#'], ['Migrations', '#'], ['Multiple databases', '#'], ['Caching', '#'], ['MongoDB', null]] },
+      { title: 'Security', items: [['Authentication', '#'], ['Authorization', '#'], ['OIDC login', '#'], ['Password hashing', '#'], ['Security headers', '#'], ['CORS', '#'], ['CSRF protection', '#'], ['Rate limiting', '#'], ['OWASP Top 10', '#'], ['Encryption', null]] },
+      { title: 'HTTP', items: [['Versioning', '#'], ['Cookies', '#'], ['File upload and streaming', '#'], ['Compression', '#'], ['Server-Sent Events', '#'], ['Health checks', '#'], ['Session', null], ['Model-View-Controller', null], ['Webhooks', null]] },
+      { title: 'APIs', items: [['OpenAPI', '#'], ['GraphQL', '#'], ['WebSockets', '#']] },
+      { title: 'Microservices', items: [['Overview', '#'], ['Redis', '#'], ['NATS', '#'], ['Kafka', '#'], ['gRPC', '#']] },
+      { title: 'Production', items: [['Tracing and metrics', '#'], ['Docker', '#']] },
+      { title: 'CLI', items: [['Overview', '#'], ['Generators', '#'], ['Database commands', '#'], ['Inspect your app', '#'], ['Development server', '#']] },
+      { title: 'Project', items: [['Benchmarks', '#'], ['Changelog', '#'], ['Security policy', '#']] }
+    ];
+    const sections = groups.map((group) => {
+      const open = !this.state.closedSections[group.title];
+      return {
+        title: group.title,
+        open,
+        expanded: open ? 'true' : 'false',
+        rotate: open ? 'none' : 'rotate(180deg)',
+        toggle: () => this.setState({ closedSections: { ...this.state.closedSections, [group.title]: open } }),
+        items: group.items.map(([label, href]) => {
+          const active = label === 'First steps';
+          return {
+            label,
+            soon: !href,
+            live: !!href,
+            href,
+            current: active ? 'page' : 'false',
+            bg: active ? 'rgba(255, 212, 0, 0.1)' : 'transparent',
+            fg: active ? accent : '#B9B9B1',
+            weight: active ? 600 : 400
+          };
+        })
+      };
+    });
+    return {
+      accent,
+      sections,
+      close: () => { if (this.props.onClose) this.props.onClose(); }
+    };
+  }
+}
+</script>
+</body>
+</html>

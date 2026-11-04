@@ -1,0 +1,235 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Dygo Framework Home</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Fira+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#0B0B0C}
+a{color:inherit;text-decoration:none}a:hover{color:inherit;opacity:.8}
+</style>
+</helmet>
+<div style="background: #0B0B0C; color: #F4F4EF; font-family: Manrope, system-ui, sans-serif; font-size: 17px; line-height: 1.6">
+
+<div style="max-width: 1440px; margin: 0 auto; padding: 16px 16px 0; box-sizing: border-box">
+<header style="background: #121211; border: 1px solid #2A2A28; border-radius: 16px">
+<div style="padding: 12px 24px; box-sizing: border-box; min-height: 72px; display: flex; flex-wrap: wrap; align-items: center; gap: 12px 32px">
+<a href="#top" style="display: flex; align-items: center; gap: 12px; margin-right: auto">
+<svg width="34" height="34" viewBox="0 0 64 64" aria-hidden="true" style="flex: none"><path d="M32 3L57 11V31C57 45 47 55 32 61C17 55 7 45 7 31V11ZM23 17L36 32L23 47H34L47 32L34 17Z" fill="{{accent}}" fill-rule="evenodd"></path></svg>
+<span style="font-family: Manrope, system-ui, sans-serif; font-weight: 800; font-size: 19px">Dygo</span>
+</a>
+<nav aria-label="Main" style="display: flex; flex-wrap: wrap; align-items: center; gap: 4px 28px">
+<a href="Docs.dc.html" style="padding: 10px 0">Docs</a>
+<a href="Enterprise.dc.html" style="padding: 10px 0">Enterprise</a>
+<a href="#security" style="padding: 10px 0">Security</a>
+<a href="#performance" style="padding: 10px 0">Performance</a>
+<a href="https://github.com/" style="padding: 10px 0">GitHub</a>
+<span aria-hidden="true" style="width: 1px; height: 24px; background: #3A3A37"></span>
+<button type="button" aria-label="Switch theme" style="width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; border: 0; background: transparent; color: #F4F4EF; cursor: pointer">
+<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"></path></svg>
+</button>
+</nav>
+</div>
+</header>
+</div>
+
+<section id="top" style="background-image: radial-gradient(#2A2A28 1px, transparent 1px); background-size: 28px 28px">
+<div style="max-width: 1280px; margin: 0 auto; padding: 112px 32px 104px; box-sizing: border-box; display: flex; flex-direction: column; align-items: center; gap: 32px; text-align: center">
+<p style="margin: 0; font-family: 'Fira Mono', monospace; font-size: 14px; color: {{accent}}">The Dygo Framework for Go</p>
+<h1 style="margin: 0; font-family: Manrope, system-ui, sans-serif; font-weight: 800; font-size: clamp(38px, 6.2vw, 88px); line-height: 1.05; letter-spacing: -0.02em">Secure by default.<br><span style="color: {{accent}}">Fast by design.</span></h1>
+<p style="margin: 0; max-width: 640px; font-size: 20px; color: #BDBDB4; text-wrap: pretty">Dygo is a Go backend framework built around two priorities: keeping your services safe and keeping them fast.</p>
+<div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 16px">
+<a href="Docs.dc.html" style="min-height: 52px; box-sizing: border-box; padding: 13px 32px; background: {{accent}}; color: #0B0B0C; font-weight: 600">Get started</a>
+<a href="https://github.com/" style="min-height: 52px; box-sizing: border-box; padding: 12px 32px; border: 1px solid #F4F4EF; font-weight: 600">GitHub</a>
+</div>
+<div style="display: flex; align-items: center; gap: 24px; max-width: 100%; box-sizing: border-box; padding: 8px 8px 8px 20px; background: #161615; border: 1px solid #2A2A28">
+<code style="font-family: 'Fira Mono', monospace; font-size: 15px; overflow-x: auto; white-space: nowrap">go get github.com/[YOUR-ORG]/dygo</code>
+<button type="button" onClick="{{copy}}" style="min-width: 80px; min-height: 44px; border: 0; background: #2A2A28; color: #F4F4EF; font: inherit; font-size: 14px; cursor: pointer">{{copyLabel}}</button>
+</div>
+</div>
+</section>
+
+<section aria-label="Security and performance" style="border-top: 1px solid #2A2A28; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(480px, 100%), 1fr))">
+<div id="security" style="background: #0B0B0C; padding: clamp(40px, 6vw, 80px) clamp(24px, 5vw, 72px); display: flex; flex-direction: column; gap: 24px">
+<h2 style="margin: 0; font-family: Manrope, system-ui, sans-serif; font-weight: 800; font-size: clamp(38px, 5vw, 68px); line-height: 1.05; color: {{accent}}">Security</h2>
+<p style="margin: 0; font-size: 20px; color: #BDBDB4; text-wrap: pretty">Common protections are on from the start, so a new service isn't exposed by a missed setting.</p>
+<ul style="margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; font-weight: 600">
+<li style="padding: 14px 0; border-top: 1px solid #3A3A37">Secure headers by default</li>
+<li style="padding: 14px 0; border-top: 1px solid #3A3A37">Built-in rate limiting</li>
+<li style="padding: 14px 0; border-top: 1px solid #3A3A37">Strict request validation</li>
+<li style="padding: 14px 0; border-top: 1px solid #3A3A37; border-bottom: 1px solid #3A3A37">Safe error responses</li>
+</ul>
+</div>
+<div id="performance" style="background: #161615; padding: clamp(40px, 6vw, 80px) clamp(24px, 5vw, 72px); display: flex; flex-direction: column; gap: 24px">
+<h2 style="margin: 0; font-family: Manrope, system-ui, sans-serif; font-weight: 800; font-size: clamp(38px, 5vw, 68px); line-height: 1.05; color: {{accent}}">Performance</h2>
+<p style="margin: 0; font-size: 20px; color: #BDBDB4; text-wrap: pretty">A small, efficient core keeps latency low and leaves more of your server for your own code.</p>
+<ul style="margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; font-weight: 600">
+<li style="padding: 14px 0; border-top: 1px solid #3A3A37">Fast route matching</li>
+<li style="padding: 14px 0; border-top: 1px solid #3A3A37">Low-allocation request handling</li>
+<li style="padding: 14px 0; border-top: 1px solid #3A3A37">Graceful handling under load</li>
+<li style="padding: 14px 0; border-top: 1px solid #3A3A37; border-bottom: 1px solid #3A3A37">Built-in profiling</li>
+</ul>
+</div>
+</section>
+
+<section aria-label="Benchmarks" style="border-bottom: 1px solid #2A2A28">
+<div style="max-width: 1280px; margin: 0 auto; padding: 48px 32px; box-sizing: border-box; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr)); gap: 32px">
+<div style="display: flex; flex-direction: column; gap: 4px">
+<strong style="font-family: 'Fira Mono', monospace; font-size: 30px; font-weight: 500; color: #F4F4EF">[REQ/SEC]</strong>
+<span style="color: #BDBDB4">Requests per second</span>
+</div>
+<div style="display: flex; flex-direction: column; gap: 4px">
+<strong style="font-family: 'Fira Mono', monospace; font-size: 30px; font-weight: 500; color: #F4F4EF">[P99 MS]</strong>
+<span style="color: #BDBDB4">P99 latency</span>
+</div>
+<div style="display: flex; flex-direction: column; gap: 4px">
+<strong style="font-family: 'Fira Mono', monospace; font-size: 30px; font-weight: 500; color: #F4F4EF">[KB/REQ]</strong>
+<span style="color: #BDBDB4">Memory per request</span>
+</div>
+</div>
+</section>
+
+<section id="features">
+<div style="max-width: 1280px; margin: 0 auto; padding: 104px 32px; box-sizing: border-box; display: flex; flex-direction: column; gap: 56px">
+<h2 style="margin: 0; max-width: 780px; font-family: Manrope, system-ui, sans-serif; font-weight: 700; font-size: clamp(32px, 4.5vw, 56px); line-height: 1.1">Security and speed in every layer.</h2>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(320px, 100%), 1fr)); gap: 1px; background: #2A2A28; border: 1px solid #2A2A28">
+<article style="background: #0B0B0C; padding: 32px; display: flex; flex-direction: column; gap: 12px">
+<h3 style="margin: 0; font-size: 22px; font-weight: 600; color: #F4F4EF">Routing</h3>
+<p style="margin: 0; color: #BDBDB4">Match routes quickly and keep each handler small.</p>
+</article>
+<article style="background: #0B0B0C; padding: 32px; display: flex; flex-direction: column; gap: 12px">
+<h3 style="margin: 0; font-size: 22px; font-weight: 600; color: #F4F4EF">Middleware</h3>
+<p style="margin: 0; color: #BDBDB4">Add auth, rate limits and logging where you need them.</p>
+</article>
+<article style="background: #0B0B0C; padding: 32px; display: flex; flex-direction: column; gap: 12px">
+<h3 style="margin: 0; font-size: 22px; font-weight: 600; color: #F4F4EF">Dependency injection</h3>
+<p style="margin: 0; color: #BDBDB4">Wire services explicitly and swap them in tests.</p>
+</article>
+<article style="background: #0B0B0C; padding: 32px; display: flex; flex-direction: column; gap: 12px">
+<h3 style="margin: 0; font-size: 22px; font-weight: 600; color: #F4F4EF">Configuration</h3>
+<p style="margin: 0; color: #BDBDB4">Load typed settings and keep secrets out of your code.</p>
+</article>
+<article style="background: #0B0B0C; padding: 32px; display: flex; flex-direction: column; gap: 12px">
+<h3 style="margin: 0; font-size: 22px; font-weight: 600; color: #F4F4EF">Validation</h3>
+<p style="margin: 0; color: #BDBDB4">Reject bad input before it reaches your services.</p>
+</article>
+<article style="background: #0B0B0C; padding: 32px; display: flex; flex-direction: column; gap: 12px">
+<h3 style="margin: 0; font-size: 22px; font-weight: 600; color: #F4F4EF">Testing</h3>
+<p style="margin: 0; color: #BDBDB4">Test handlers and security rules without starting a server.</p>
+</article>
+</div>
+</div>
+</section>
+
+<section id="code" style="background: #121211; border-top: 1px solid #2A2A28; border-bottom: 1px solid #2A2A28">
+<div style="max-width: 1280px; margin: 0 auto; padding: 104px 32px; box-sizing: border-box; display: flex; flex-wrap: wrap; align-items: flex-start; gap: 48px 72px">
+<div style="flex: 1 1 340px; min-width: 0; display: flex; flex-direction: column; gap: 20px">
+<h2 style="margin: 0; font-family: Manrope, system-ui, sans-serif; font-weight: 700; font-size: clamp(32px, 4.5vw, 56px); line-height: 1.1">Protected from the first line.</h2>
+<p style="margin: 0; color: #BDBDB4">Turn on security middleware in a line each, and keep your handlers small and fast.</p>
+<a href="Docs.dc.html" style="color: {{accent}}; font-weight: 600; padding: 10px 0">Read the quick start</a>
+</div>
+<div style="flex: 2 1 560px; min-width: 0; background: #0B0B0C; border: 1px solid #2A2A28">
+<div role="group" aria-label="Code files" style="display: flex; flex-wrap: wrap; border-bottom: 1px solid #2A2A28">
+<sc-for list="{{tabs}}" as="tab" hint-placeholder-count="3">
+<button type="button" onClick="{{tab.pick}}" aria-pressed="{{tab.pressed}}" style="min-height: 48px; padding: 0 20px; border: 0; background: {{tab.bg}}; color: {{tab.fg}}; font-family: 'Fira Mono', monospace; font-size: 14px; cursor: pointer">{{tab.name}}</button>
+</sc-for>
+</div>
+<div tabindex="0" aria-label="Code sample" style="padding: 24px; min-height: 340px; box-sizing: border-box; overflow-x: auto; font-family: 'Fira Mono', monospace; font-size: 15px; line-height: 1.7">
+<sc-for list="{{lines}}" as="line" hint-placeholder-count="12"><div style="white-space: pre"><sc-for list="{{line.tokens}}" as="tok" hint-placeholder-count="3"><span style="color: {{tok.color}}">{{tok.text}}</span></sc-for></div></sc-for>
+</div>
+</div>
+</div>
+</section>
+
+<section style="background: #0B0B0C; border-bottom: 1px solid #2A2A28">
+<div style="max-width: 1280px; margin: 0 auto; padding: 96px 32px; box-sizing: border-box; display: flex; flex-direction: column; gap: 48px">
+<div style="display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 24px">
+<h2 style="margin: 0; max-width: 760px; font-family: Manrope, system-ui, sans-serif; font-weight: 800; font-size: clamp(36px, 5.5vw, 72px); line-height: 1.02">Start with the docs.</h2>
+<a href="Docs.dc.html" style="min-height: 52px; box-sizing: border-box; padding: 13px 32px; background: {{accent}}; color: #0B0B0C; font-weight: 600">Get started</a>
+</div>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(250px, 100%), 1fr)); gap: 16px">
+<a href="Docs.dc.html" style="display: flex; flex-direction: column; gap: 8px; padding: 24px; border: 1px solid #2A2A28"><strong style="font-size: 20px">Quick start</strong><span style="color: #BDBDB4">Build your first service.</span></a>
+<a href="Docs.dc.html" style="display: flex; flex-direction: column; gap: 8px; padding: 24px; border: 1px solid #2A2A28"><strong style="font-size: 20px">Security</strong><span style="color: #BDBDB4">Harden your service.</span></a>
+<a href="Docs.dc.html" style="display: flex; flex-direction: column; gap: 8px; padding: 24px; border: 1px solid #2A2A28"><strong style="font-size: 20px">Performance</strong><span style="color: #BDBDB4">Measure and tune your service.</span></a>
+<a href="Docs.dc.html" style="display: flex; flex-direction: column; gap: 8px; padding: 24px; border: 1px solid #2A2A28"><strong style="font-size: 20px">API reference</strong><span style="color: #BDBDB4">Look up every package.</span></a>
+</div>
+</div>
+</section>
+
+<footer>
+<div style="max-width: 1280px; margin: 0 auto; padding: 72px 32px 40px; box-sizing: border-box; display: flex; flex-direction: column; gap: 56px">
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(180px, 100%), 1fr)); gap: 32px">
+<div style="display: flex; flex-direction: column; gap: 10px">
+<span style="font-family: Manrope, system-ui, sans-serif; font-weight: 800; font-size: 28px">Dygo</span>
+<span style="color: #BDBDB4">dygoframework.com</span>
+</div>
+<nav aria-label="Documentation" style="display: flex; flex-direction: column; gap: 10px">
+<strong>Documentation</strong>
+<a href="Docs.dc.html" style="color: #BDBDB4">Quick start</a>
+<a href="Docs.dc.html" style="color: #BDBDB4">Guides</a>
+<a href="Docs.dc.html" style="color: #BDBDB4">API reference</a>
+</nav>
+<nav aria-label="Project" style="display: flex; flex-direction: column; gap: 10px">
+<strong>Project</strong>
+<a href="https://github.com/" style="color: #BDBDB4">GitHub</a>
+<a href="https://github.com/" style="color: #BDBDB4">Releases</a>
+<a href="https://github.com/" style="color: #BDBDB4">Contributing</a>
+</nav>
+</div>
+<p style="margin: 0; padding-top: 24px; border-top: 1px solid #2A2A28; font-size: 14px; color: #BDBDB4">© 2026 Dygo Framework</p>
+</div>
+</footer>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"accent":{"editor":"color","default":"#FFD400","options":["#FFD400","#FFC400","#F5E11B"]},"$preview":{"width":1440,"height":3950}}'>
+class Component extends DCLogic {
+  state = { tab: 'main.go', copied: false };
+
+  renderVals() {
+    const accent = this.props.accent ?? '#FFD400';
+    const files = {
+      'main.go': 'package main\n\nimport "github.com/[YOUR-ORG]/dygo"\n\nfunc main() {\n  app := dygo.New()\n\n  app.Use(dygo.SecureHeaders())\n  app.Use(dygo.RateLimit(100))\n\n  users := NewUserService()\n  app.GET("/users/:id", GetUser(users))\n\n  app.Listen(":8080")\n}',
+      'handler.go': 'package main\n\nimport "github.com/[YOUR-ORG]/dygo"\n\nfunc GetUser(users *UserService) dygo.Handler {\n  return func(c *dygo.Context) error {\n    user, err := users.Find(c.Param("id"))\n    if err != nil {\n      return dygo.NotFound("user not found")\n    }\n    return c.JSON(200, user)\n  }\n}',
+      'service.go': 'package main\n\ntype User struct {\n  ID   string `json:"id"`\n  Name string `json:"name"`\n}\n\ntype UserService struct{}\n\nfunc NewUserService() *UserService {\n  return &UserService{}\n}'
+    };
+    const pattern = /(\/\/.*$|"[^"]*"|`[^`]*`|\b(?:package|import|func|return|type|struct|if|nil)\b)/;
+    const colorOf = (text) => {
+      if (text.startsWith('"') || text.startsWith('`')) return '#D9D9CF';
+      if (text.startsWith('//')) return '#A3A399';
+      if (pattern.test(text)) return accent;
+      return '#F4F4EF';
+    };
+    const lines = files[this.state.tab].split('\n').map((line) => ({
+      tokens: (line || ' ').split(pattern).filter(Boolean).map((text) => ({ text, color: colorOf(text) }))
+    }));
+    const tabs = Object.keys(files).map((name) => {
+      const active = name === this.state.tab;
+      return {
+        name,
+        pressed: active ? 'true' : 'false',
+        bg: active ? accent : 'transparent',
+        fg: active ? '#0B0B0C' : '#BDBDB4',
+        pick: () => this.setState({ tab: name })
+      };
+    });
+    return {
+      accent,
+      tabs,
+      lines,
+      copyLabel: this.state.copied ? 'Copied' : 'Copy',
+      copy: () => {
+        try { navigator.clipboard.writeText('go get github.com/[YOUR-ORG]/dygo'); } catch (e) {}
+        this.setState({ copied: true });
+      }
+    };
+  }
+}
+</script>
+</body>
+</html>

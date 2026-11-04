@@ -1,0 +1,192 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Dygo Home Mobile</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Fira+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#0B0B0C}
+a{color:inherit;text-decoration:none}a:hover{color:inherit;opacity:.8}
+</style>
+</helmet>
+<sc-if value="{{menuOpen}}" hint-placeholder-val="{{ false }}">
+<dc-import name="MobileMenu" accent="{{accent}}" on-close="{{closeMenu}}" hint-size="390px,844px"></dc-import>
+</sc-if>
+<sc-if value="{{menuClosed}}" hint-placeholder-val="{{ true }}">
+<div style="width: 390px; min-height: 4900px; box-sizing: border-box; background: #0B0B0C; color: #F4F4EF; font-family: Manrope, system-ui, sans-serif; font-size: 17px; line-height: 1.6">
+
+<div style="padding: 12px 12px 0">
+<header style="display: flex; align-items: stretch; min-height: 64px; background: #121211; border: 1px solid #2A2A28; border-radius: 16px; overflow: hidden">
+<button type="button" onClick="{{openMenu}}" aria-label="Open menu" aria-expanded="false" style="flex: 0 0 68px; display: flex; align-items: center; justify-content: center; border: 0; border-right: 1px solid #2A2A28; background: #1C1C1A; color: #F4F4EF; cursor: pointer">
+<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18"></path></svg>
+</button>
+<a href="HomeMobile.dc.html" style="flex: 1 1 0; display: flex; align-items: center; justify-content: center; gap: 10px">
+<svg width="32" height="32" viewBox="0 0 64 64" aria-hidden="true" style="flex: none"><path d="M32 3L57 11V31C57 45 47 55 32 61C17 55 7 45 7 31V11ZM23 17L36 32L23 47H34L47 32L34 17Z" fill="{{accent}}" fill-rule="evenodd"></path></svg>
+<span style="font-weight: 800; font-size: 18px">Dygo</span>
+</a>
+<button type="button" aria-label="Switch theme" style="flex: 0 0 68px; display: flex; align-items: center; justify-content: center; border: 0; background: transparent; color: #F4F4EF; cursor: pointer">
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"></path></svg>
+</button>
+</header>
+</div>
+
+<section style="padding: 64px 20px; display: flex; flex-direction: column; gap: 24px; background-image: radial-gradient(#2A2A28 1px, transparent 1px); background-size: 28px 28px">
+<p style="margin: 0; font-family: 'Fira Mono', monospace; font-size: 14px; color: {{accent}}">The Dygo Framework for Go</p>
+<h1 style="margin: 0; font-size: 46px; font-weight: 800; line-height: 1.08; letter-spacing: -0.02em">Secure by default.<br><span style="color: {{accent}}">Fast by design.</span></h1>
+<p style="margin: 0; font-size: 18px; color: #BDBDB4">Dygo is a Go backend framework built around two priorities: keeping your services safe and keeping them fast.</p>
+<div style="display: flex; flex-direction: column; gap: 12px">
+<a href="DocsMobile.dc.html" style="min-height: 52px; box-sizing: border-box; padding: 13px 24px; background: {{accent}}; color: #0B0B0C; font-weight: 600; text-align: center">Get started</a>
+<a href="https://github.com/" style="min-height: 52px; box-sizing: border-box; padding: 12px 24px; border: 1px solid #F4F4EF; font-weight: 600; text-align: center">GitHub</a>
+</div>
+<div style="display: flex; align-items: center; gap: 12px; padding: 4px 4px 4px 16px; background: #161615; border: 1px solid #2A2A28">
+<code style="flex: 1 1 0; min-width: 0; font-family: 'Fira Mono', monospace; font-size: 14px; overflow-x: auto; white-space: nowrap">go get github.com/[YOUR-ORG]/dygo</code>
+<button type="button" onClick="{{copy}}" aria-label="{{copyLabel}}" style="flex: 0 0 44px; height: 44px; display: flex; align-items: center; justify-content: center; border: 0; background: #2A2A28; color: #F4F4EF; cursor: pointer"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="9" y="8" width="11" height="13" rx="1.5"></rect><path d="M5 16V4.5A1.5 1.5 0 0 1 6.5 3H16"></path></svg></button>
+</div>
+</section>
+
+<section id="security" style="padding: 48px 20px; border-top: 1px solid #2A2A28; display: flex; flex-direction: column; gap: 20px">
+<h2 style="margin: 0; font-size: 40px; font-weight: 800; line-height: 1.1; color: {{accent}}">Security</h2>
+<p style="margin: 0; font-size: 18px; color: #BDBDB4">Common protections are on from the start, so a new service isn't exposed by a missed setting.</p>
+<ul style="margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; font-weight: 600">
+<li style="padding: 13px 0; border-top: 1px solid #3A3A37">Secure headers by default</li>
+<li style="padding: 13px 0; border-top: 1px solid #3A3A37">Built-in rate limiting</li>
+<li style="padding: 13px 0; border-top: 1px solid #3A3A37">Strict request validation</li>
+<li style="padding: 13px 0; border-top: 1px solid #3A3A37; border-bottom: 1px solid #3A3A37">Safe error responses</li>
+</ul>
+</section>
+
+<section id="performance" style="padding: 48px 20px; background: #161615; display: flex; flex-direction: column; gap: 20px">
+<h2 style="margin: 0; font-size: 40px; font-weight: 800; line-height: 1.1; color: {{accent}}">Performance</h2>
+<p style="margin: 0; font-size: 18px; color: #BDBDB4">A small, efficient core keeps latency low and leaves more of your server for your own code.</p>
+<ul style="margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; font-weight: 600">
+<li style="padding: 13px 0; border-top: 1px solid #3A3A37">Fast route matching</li>
+<li style="padding: 13px 0; border-top: 1px solid #3A3A37">Low-allocation request handling</li>
+<li style="padding: 13px 0; border-top: 1px solid #3A3A37">Graceful handling under load</li>
+<li style="padding: 13px 0; border-top: 1px solid #3A3A37; border-bottom: 1px solid #3A3A37">Built-in profiling</li>
+</ul>
+</section>
+
+<section aria-label="Benchmarks" style="padding: 40px 20px; border-bottom: 1px solid #2A2A28; display: flex; flex-direction: column; gap: 24px">
+<div style="display: flex; flex-direction: column; gap: 2px"><strong style="font-family: 'Fira Mono', monospace; font-size: 26px; font-weight: 500">[REQ/SEC]</strong><span style="color: #BDBDB4">Requests per second</span></div>
+<div style="display: flex; flex-direction: column; gap: 2px"><strong style="font-family: 'Fira Mono', monospace; font-size: 26px; font-weight: 500">[P99 MS]</strong><span style="color: #BDBDB4">P99 latency</span></div>
+<div style="display: flex; flex-direction: column; gap: 2px"><strong style="font-family: 'Fira Mono', monospace; font-size: 26px; font-weight: 500">[KB/REQ]</strong><span style="color: #BDBDB4">Memory per request</span></div>
+</section>
+
+<section style="padding: 56px 20px; display: flex; flex-direction: column; gap: 28px">
+<h2 style="margin: 0; font-size: 32px; font-weight: 700; line-height: 1.15">Security and speed in every layer.</h2>
+<div style="display: flex; flex-direction: column; gap: 1px; background: #2A2A28; border: 1px solid #2A2A28">
+<article style="background: #0B0B0C; padding: 20px"><h3 style="margin: 0 0 4px; font-size: 19px; font-weight: 600">Routing</h3><p style="margin: 0; color: #BDBDB4">Match routes quickly and keep each handler small.</p></article>
+<article style="background: #0B0B0C; padding: 20px"><h3 style="margin: 0 0 4px; font-size: 19px; font-weight: 600">Middleware</h3><p style="margin: 0; color: #BDBDB4">Add auth, rate limits and logging where you need them.</p></article>
+<article style="background: #0B0B0C; padding: 20px"><h3 style="margin: 0 0 4px; font-size: 19px; font-weight: 600">Dependency injection</h3><p style="margin: 0; color: #BDBDB4">Wire services explicitly and swap them in tests.</p></article>
+<article style="background: #0B0B0C; padding: 20px"><h3 style="margin: 0 0 4px; font-size: 19px; font-weight: 600">Configuration</h3><p style="margin: 0; color: #BDBDB4">Load typed settings and keep secrets out of your code.</p></article>
+<article style="background: #0B0B0C; padding: 20px"><h3 style="margin: 0 0 4px; font-size: 19px; font-weight: 600">Validation</h3><p style="margin: 0; color: #BDBDB4">Reject bad input before it reaches your services.</p></article>
+<article style="background: #0B0B0C; padding: 20px"><h3 style="margin: 0 0 4px; font-size: 19px; font-weight: 600">Testing</h3><p style="margin: 0; color: #BDBDB4">Test handlers and security rules without starting a server.</p></article>
+</div>
+</section>
+
+<section style="padding: 56px 20px; background: #121211; border-top: 1px solid #2A2A28; border-bottom: 1px solid #2A2A28; display: flex; flex-direction: column; gap: 20px">
+<h2 style="margin: 0; font-size: 32px; font-weight: 700; line-height: 1.15">Protected from the first line.</h2>
+<p style="margin: 0; color: #BDBDB4">Turn on security middleware in a line each, and keep your handlers small and fast.</p>
+<div style="background: #0B0B0C; border: 1px solid #2A2A28">
+<div role="group" aria-label="Code files" style="display: flex; border-bottom: 1px solid #2A2A28">
+<sc-for list="{{tabs}}" as="tab" hint-placeholder-count="3">
+<button type="button" onClick="{{tab.pick}}" aria-pressed="{{tab.pressed}}" style="flex: 1 1 0; min-height: 48px; padding: 0 4px; border: 0; background: {{tab.bg}}; color: {{tab.fg}}; font-family: 'Fira Mono', monospace; font-size: 13px; cursor: pointer">{{tab.name}}</button>
+</sc-for>
+</div>
+<div tabindex="0" aria-label="Code sample" style="padding: 16px; min-height: 340px; box-sizing: border-box; overflow-x: auto; font-family: 'Fira Mono', monospace; font-size: 14px; line-height: 1.7">
+<sc-for list="{{lines}}" as="line" hint-placeholder-count="12"><div style="white-space: pre"><sc-for list="{{line.tokens}}" as="tok" hint-placeholder-count="3"><span style="color: {{tok.color}}">{{tok.text}}</span></sc-for></div></sc-for>
+</div>
+</div>
+</section>
+
+<section style="padding: 56px 20px; border-bottom: 1px solid #2A2A28; display: flex; flex-direction: column; gap: 24px">
+<h2 style="margin: 0; font-size: 36px; font-weight: 800; line-height: 1.1">Start with the docs.</h2>
+<a href="DocsMobile.dc.html" style="min-height: 52px; box-sizing: border-box; padding: 13px 24px; background: {{accent}}; color: #0B0B0C; font-weight: 600; text-align: center">Get started</a>
+<div style="display: flex; flex-direction: column; gap: 12px">
+<a href="DocsMobile.dc.html" style="display: flex; flex-direction: column; gap: 2px; padding: 18px 20px; border: 1px solid #2A2A28"><strong style="font-size: 19px">Quick start</strong><span style="color: #BDBDB4">Build your first service.</span></a>
+<a href="DocsMobile.dc.html" style="display: flex; flex-direction: column; gap: 2px; padding: 18px 20px; border: 1px solid #2A2A28"><strong style="font-size: 19px">Security</strong><span style="color: #BDBDB4">Harden your service.</span></a>
+<a href="DocsMobile.dc.html" style="display: flex; flex-direction: column; gap: 2px; padding: 18px 20px; border: 1px solid #2A2A28"><strong style="font-size: 19px">Performance</strong><span style="color: #BDBDB4">Measure and tune your service.</span></a>
+<a href="DocsMobile.dc.html" style="display: flex; flex-direction: column; gap: 2px; padding: 18px 20px; border: 1px solid #2A2A28"><strong style="font-size: 19px">API reference</strong><span style="color: #BDBDB4">Look up every package.</span></a>
+</div>
+</section>
+
+<footer style="padding: 48px 20px 32px; display: flex; flex-direction: column; gap: 32px">
+<div style="display: flex; flex-direction: column; gap: 4px">
+<span style="font-weight: 800; font-size: 26px">Dygo</span>
+<span style="color: #BDBDB4">dygoframework.com</span>
+</div>
+<div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px">
+<nav aria-label="Documentation" style="display: flex; flex-direction: column; gap: 8px">
+<strong>Documentation</strong>
+<a href="DocsMobile.dc.html" style="color: #BDBDB4">Quick start</a>
+<a href="DocsMobile.dc.html" style="color: #BDBDB4">Guides</a>
+<a href="DocsMobile.dc.html" style="color: #BDBDB4">API reference</a>
+</nav>
+<nav aria-label="Project" style="display: flex; flex-direction: column; gap: 8px">
+<strong>Project</strong>
+<a href="https://github.com/" style="color: #BDBDB4">GitHub</a>
+<a href="https://github.com/" style="color: #BDBDB4">Releases</a>
+<a href="https://github.com/" style="color: #BDBDB4">Contributing</a>
+</nav>
+</div>
+<p style="margin: 0; padding-top: 20px; border-top: 1px solid #2A2A28; font-size: 14px; color: #BDBDB4">© 2026 Dygo Framework</p>
+</footer>
+
+</div>
+</sc-if>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"accent":{"editor":"color","default":"#FFD400","options":["#FFD400","#FFC400","#F5E11B"]},"$preview":{"width":390,"height":4900}}'>
+class Component extends DCLogic {
+  state = { tab: 'main.go', copied: false, menuOpen: false };
+
+  renderVals() {
+    const accent = this.props.accent ?? '#FFD400';
+    const files = {
+      'main.go': 'package main\n\nimport "github.com/[YOUR-ORG]/dygo"\n\nfunc main() {\n  app := dygo.New()\n\n  app.Use(dygo.SecureHeaders())\n  app.Use(dygo.RateLimit(100))\n\n  users := NewUserService()\n  app.GET("/users/:id", GetUser(users))\n\n  app.Listen(":8080")\n}',
+      'handler.go': 'package main\n\nimport "github.com/[YOUR-ORG]/dygo"\n\nfunc GetUser(users *UserService) dygo.Handler {\n  return func(c *dygo.Context) error {\n    user, err := users.Find(c.Param("id"))\n    if err != nil {\n      return dygo.NotFound("user not found")\n    }\n    return c.JSON(200, user)\n  }\n}',
+      'service.go': 'package main\n\ntype User struct {\n  ID   string `json:"id"`\n  Name string `json:"name"`\n}\n\ntype UserService struct{}\n\nfunc NewUserService() *UserService {\n  return &UserService{}\n}'
+    };
+    const pattern = /(\/\/.*$|"[^"]*"|`[^`]*`|\b(?:package|import|func|return|type|struct|if|nil)\b)/;
+    const colorOf = (text) => {
+      if (text.startsWith('"') || text.startsWith('`')) return '#D9D9CF';
+      if (text.startsWith('//')) return '#A3A399';
+      if (pattern.test(text)) return accent;
+      return '#F4F4EF';
+    };
+    const lines = files[this.state.tab].split('\n').map((line) => ({
+      tokens: (line || ' ').split(pattern).filter(Boolean).map((text) => ({ text, color: colorOf(text) }))
+    }));
+    const tabs = Object.keys(files).map((name) => {
+      const active = name === this.state.tab;
+      return {
+        name,
+        pressed: active ? 'true' : 'false',
+        bg: active ? accent : 'transparent',
+        fg: active ? '#0B0B0C' : '#BDBDB4',
+        pick: () => this.setState({ tab: name })
+      };
+    });
+    return {
+      accent,
+      tabs,
+      lines,
+      menuOpen: this.state.menuOpen,
+      menuClosed: !this.state.menuOpen,
+      openMenu: () => this.setState({ menuOpen: true }),
+      closeMenu: () => this.setState({ menuOpen: false }),
+      copyLabel: this.state.copied ? 'Copied' : 'Copy install command',
+      copy: () => {
+        try { navigator.clipboard.writeText('go get github.com/[YOUR-ORG]/dygo'); } catch (e) {}
+        this.setState({ copied: true });
+      }
+    };
+  }
+}
+</script>
+</body>
+</html>
