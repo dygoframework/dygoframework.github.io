@@ -65,9 +65,12 @@ const describedBy = [hintId, errorId].filter(Boolean).join(' ') || undefined;
 		border-color: var(--dy-color-text-muted);
 	}
 
+	/* A text field shows focus with its own border, not the global white
+	   outline ring, which looked like a box around the field on mobile. */
+	.dy-input__field:focus-visible,
 	.dy-input__field[data-state='focus'] {
-		outline: var(--dy-focus-width) solid var(--dy-color-text);
-		outline-offset: var(--dy-focus-width);
+		outline: none;
+		border-color: var(--dy-color-text);
 	}
 
 	.dy-input__field:disabled {
