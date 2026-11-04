@@ -1,0 +1,55 @@
+---
+// Docs shell from design/Docs: the floating top bar, the sidebar card and the
+// page. Below 1024px the sidebar moves into MobileMenu.
+import MobileMenu from '../navigation/MobileMenu.astro';
+import Sidebar from '../navigation/Sidebar.astro';
+
+const path = Astro.url.pathname;
+---
+
+<div class="dy-docs">
+	<slot name="header" />
+	<div class="dy-docs__body">
+		<div class="dy-docs__sidebar">
+			<Sidebar currentPath={path} id="dy-docs-sidebar" />
+		</div>
+		<div class="dy-docs__main"><slot /></div>
+	</div>
+	<MobileMenu currentPath={path} searchable />
+</div>
+
+<style>
+	.dy-docs__body {
+		box-sizing: border-box;
+		max-width: var(--dy-width-page);
+		margin: 0 auto;
+		padding: 0 var(--dy-space-3);
+		display: flex;
+		align-items: flex-start;
+	}
+
+	.dy-docs__sidebar {
+		display: none;
+	}
+
+	.dy-docs__main {
+		flex: 1 1 0;
+		min-width: 0;
+	}
+
+	@media (width >= 1024px) {
+		.dy-docs__body {
+			padding: 0 var(--dy-space-4);
+		}
+
+		.dy-docs__sidebar {
+			display: block;
+			flex: 0 0 var(--dy-width-sidebar);
+			margin-top: var(--dy-space-4);
+		}
+
+		:global(html[data-sidebar-closed]) .dy-docs__sidebar {
+			display: none;
+		}
+	}
+</style>

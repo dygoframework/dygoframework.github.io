@@ -1,0 +1,24 @@
+---
+// Previous and Next links at the end of a docs page.
+import Card from '../ui/Card.astro';
+
+const { prev, next } = Astro.locals.starlightRoute.pagination;
+---
+
+{
+	(prev || next) && (
+		<nav class="dy-pagination" aria-label="Pages">
+			{prev ? <Card variant="rounded" href={prev.href} eyebrow="Previous" title={String(prev.label)} /> : <span />}
+			{next && <Card variant="rounded" align="end" href={next.href} eyebrow="Next" title={String(next.label)} />}
+		</nav>
+	)
+}
+
+<style>
+	.dy-pagination {
+		margin-top: var(--dy-space-8);
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(min(240px, 100%), 1fr));
+		gap: var(--dy-space-4);
+	}
+</style>

@@ -1,0 +1,54 @@
+---
+// Line icons from the design. They inherit the text color.
+const paths = {
+	menu: '<path d="M3 6h18M3 12h18M3 18h18"/>',
+	close: '<path d="M5 5l14 14M19 5L5 19"/>',
+	search: '<circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/>',
+	chevron: '<path d="M6 15l6-6 6 6"/>',
+	copy: '<rect x="9" y="8" width="11" height="13" rx="1.5"/><path d="M5 16V4.5A1.5 1.5 0 0 1 6.5 3H16"/>',
+	check: '<path d="M5 13l4 4L19 7"/>',
+} as const;
+
+export type IconName = keyof typeof paths;
+
+interface Props {
+	name: IconName;
+	size?: 'sm' | 'md' | 'lg';
+	class?: string;
+}
+
+const { name, size = 'md', class: className } = Astro.props;
+---
+
+<svg
+	class:list={['dy-icon', `dy-icon--${size}`, className]}
+	viewBox="0 0 24 24"
+	fill="none"
+	stroke="currentColor"
+	stroke-width="1.8"
+	stroke-linecap="round"
+	stroke-linejoin="round"
+	aria-hidden="true"
+	set:html={paths[name]}
+/>
+
+<style>
+	.dy-icon {
+		flex: none;
+	}
+
+	.dy-icon--sm {
+		width: var(--dy-size-icon-sm);
+		height: var(--dy-size-icon-sm);
+	}
+
+	.dy-icon--md {
+		width: var(--dy-size-icon);
+		height: var(--dy-size-icon);
+	}
+
+	.dy-icon--lg {
+		width: var(--dy-size-icon-lg);
+		height: var(--dy-size-icon-lg);
+	}
+</style>

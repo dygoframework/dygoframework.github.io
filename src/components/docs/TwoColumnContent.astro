@@ -1,0 +1,55 @@
+---
+// The article and, from 1024px, "On this page" on the right.
+import OnThisPage from '../navigation/OnThisPage.astro';
+
+const { toc, entry, editUrl } = Astro.locals.starlightRoute;
+const headings = toc?.items.flatMap((item) => [item, ...item.children]) ?? [];
+---
+
+<div class="dy-columns">
+	<div class="dy-columns__main"><slot /></div>
+	{
+		toc && (
+			<div class="dy-columns__aside">
+				<OnThisPage
+					title={entry.data.title}
+					headings={headings.filter((h) => h.slug !== '_top')}
+					editUrl={editUrl?.href}
+				/>
+			</div>
+		)
+	}
+</div>
+
+<style>
+	.dy-columns {
+		display: flex;
+		align-items: flex-start;
+	}
+
+	.dy-columns__main {
+		box-sizing: border-box;
+		flex: 1 1 0;
+		min-width: 0;
+		padding: var(--dy-space-7) var(--dy-space-2) var(--dy-space-10);
+	}
+
+	.dy-columns__aside {
+		display: none;
+	}
+
+	@media (width >= 1024px) {
+		.dy-columns__main {
+			padding: var(--dy-space-10) var(--dy-space-10) var(--dy-space-18);
+		}
+
+		.dy-columns__aside {
+			display: block;
+			position: sticky;
+			top: 0;
+			flex: 0 0 var(--dy-width-aside);
+			box-sizing: border-box;
+			padding: var(--dy-space-12) var(--dy-space-8) var(--dy-space-10) var(--dy-space-4);
+		}
+	}
+</style>

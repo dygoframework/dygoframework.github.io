@@ -1,16 +1,22 @@
 ---
 import BaseLayout from './BaseLayout.astro';
+import TopBar from '../components/navigation/TopBar.astro';
+import MobileMenu from '../components/navigation/MobileMenu.astro';
+import type { NavLink } from '../data/navigation';
 
 interface Props {
 	title: string;
 	description?: string;
 	noindex?: boolean;
+	current?: NavLink['key'];
 }
 
-const props = Astro.props;
+const { current, ...props } = Astro.props;
 ---
 
 <BaseLayout {...props}>
+	<TopBar current={current} />
+	<MobileMenu currentPath={Astro.url.pathname} />
 	<main id="main">
 		<slot />
 	</main>

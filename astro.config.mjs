@@ -27,10 +27,18 @@ export default defineConfig({
 	integrations: [
 		starlight({
 			title: 'Dygo',
-			customCss: ['./src/styles/starlight.css'],
+			customCss: ['./src/styles/starlight.css', './src/styles/docs.css'],
 			components: {
+				ContentPanel: './src/components/docs/ContentPanel.astro',
+				Footer: './src/components/docs/Footer.astro',
+				Header: './src/components/docs/Header.astro',
+				PageFrame: './src/components/docs/PageFrame.astro',
+				PageSidebar: './src/components/docs/PageSidebar.astro',
+				PageTitle: './src/components/docs/PageTitle.astro',
+				Search: './src/components/docs/Search.astro',
 				ThemeProvider: './src/components/docs/ThemeProvider.astro',
 				ThemeSelect: './src/components/docs/ThemeSelect.astro',
+				TwoColumnContent: './src/components/docs/TwoColumnContent.astro',
 			},
 		}),
 		sitemap({

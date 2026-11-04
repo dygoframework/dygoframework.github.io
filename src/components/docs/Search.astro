@@ -1,0 +1,13 @@
+---
+// Keeps Starlight's Pagefind dialog and keyboard shortcut, but hides its
+// button. SearchField in the top bar and menu opens the dialog.
+import Default from '@astrojs/starlight/components/Search.astro';
+---
+
+<div class="dy-pagefind"><Default /></div>
+
+<style>
+	.dy-pagefind :global(button[data-open-modal]) {
+		display: none;
+	}
+</style>

@@ -1,0 +1,48 @@
+---
+// The page title, with "On this page" folded above the article below 1024px.
+import OnThisPage from '../navigation/OnThisPage.astro';
+
+const { toc, entry } = Astro.locals.starlightRoute;
+const headings = toc?.items.flatMap((item) => [item, ...item.children]).filter((h) => h.slug !== '_top') ?? [];
+---
+
+<div class="dy-title">
+	<h1 class="dy-title__heading" id="_top">{entry.data.title}</h1>
+	<slot />
+</div>
+{
+	headings.length > 0 && (
+		<div class="dy-title__toc">
+			<OnThisPage variant="collapsible" title={entry.data.title} headings={headings} id="dy-on-this-page-mobile" />
+		</div>
+	)
+}
+
+<style>
+	.dy-title {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		justify-content: space-between;
+		gap: var(--dy-space-3) var(--dy-space-6);
+	}
+
+	.dy-title__heading {
+		margin: 0;
+		color: var(--dy-color-text);
+		font-size: var(--dy-text-display-docs);
+		font-weight: var(--dy-weight-bold);
+		line-height: var(--dy-leading-heading);
+		letter-spacing: var(--dy-tracking-heading);
+	}
+
+	.dy-title__toc {
+		margin-top: var(--dy-space-5);
+	}
+
+	@media (width >= 1024px) {
+		.dy-title__toc {
+			display: none;
+		}
+	}
+</style>

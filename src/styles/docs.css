@@ -1,0 +1,94 @@
+/* Docs article typography from design/Docs and DocsMobile. Tokens only. */
+@import "./base.css";
+
+.sl-markdown-content {
+  color: var(--dy-color-text-muted);
+  font-size: var(--dy-text-base);
+  line-height: var(--dy-leading-docs);
+}
+
+.sl-markdown-content :is(h2, h3, h4) {
+  margin-top: var(--dy-space-10);
+  color: var(--dy-color-text);
+  font-weight: var(--dy-weight-medium);
+  line-height: var(--dy-leading-subheading);
+}
+
+.sl-markdown-content h2 {
+  font-size: var(--dy-text-3xl);
+}
+
+.sl-markdown-content h3 {
+  font-size: var(--dy-text-xl);
+}
+
+.sl-markdown-content strong {
+  color: var(--dy-color-text);
+  font-weight: var(--dy-weight-bold);
+}
+
+.sl-markdown-content a:not(.dy-card) {
+  color: var(--dy-color-text);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.sl-markdown-content :not(pre) > code {
+  padding: 3px var(--dy-space-2);
+  background: var(--dy-color-surface-inline-code);
+  border-radius: var(--dy-radius-xs);
+  color: var(--dy-color-text-code);
+  font-size: var(--dy-text-md);
+}
+
+.sl-markdown-content table {
+  border-collapse: collapse;
+}
+
+.sl-markdown-content :is(th, td) {
+  padding: var(--dy-space-2) var(--dy-space-4);
+  border-bottom: var(--dy-border-width) solid var(--dy-color-border);
+  text-align: left;
+}
+
+.sl-markdown-content th {
+  color: var(--dy-color-text);
+}
+
+/* Expressive Code frame header: file name left, language right. */
+.expressive-code .frame .header {
+  display: flex;
+}
+
+.expressive-code .frame figcaption.header {
+  align-items: center;
+  justify-content: space-between;
+}
+
+.expressive-code .dy-code-lang {
+  padding-inline: var(--dy-space-7);
+  color: var(--dy-color-text);
+  font-family: var(--dy-font-sans);
+  font-weight: var(--dy-weight-semibold);
+  text-transform: uppercase;
+}
+
+@media (width < 1024px) {
+  .sl-markdown-content :not(pre) > code {
+    font-size: var(--dy-text-sm);
+  }
+
+  .sl-markdown-content h2 {
+    font-size: var(--dy-text-2xl);
+  }
+
+  .expressive-code {
+    --ec-codePadBlk: var(--dy-space-4);
+    --ec-codePadInl: var(--dy-space-4);
+    --ec-codeFontSize: var(--dy-text-sm);
+  }
+
+  .expressive-code .dy-code-lang {
+    display: none;
+  }
+}

@@ -1,0 +1,141 @@
+---
+// Full-screen navigation below 1024px. TopBar's menu button opens it.
+import Icon from '../ui/Icon.astro';
+import Logo from '../ui/Logo.astro';
+import SearchField from './SearchField.astro';
+import Sidebar from './Sidebar.astro';
+import { mainNav } from '../../data/navigation';
+
+interface Props {
+	currentPath: string;
+	searchable?: boolean;
+	/** Renders the menu open in place, for /styleguide. */
+	preview?: boolean;
+}
+
+const { currentPath, searchable = false, preview = false } = Astro.props;
+const links = mainNav.filter((link) => link.key !== 'docs');
+---
+
+<dialog
+	class:list={['dy-menu', { 'dy-menu--preview': preview }]}
+	id={preview ? undefined : 'dy-mobile-menu'}
+	aria-label="Menu"
+	open={preview || undefined}
+>
+	<div class="dy-menu__inner">
+		<div class="dy-menu__bar">
+			<button type="button" class="dy-menu__close" aria-label="Close menu" data-close-menu>
+				<Icon name="close" size="lg" />
+			</button>
+			<Logo size="sm" class="dy-menu__logo" />
+		</div>
+		<SearchField variant="menu" searchable={searchable} />
+		<Sidebar currentPath={currentPath} variant="menu" id={preview ? 'dy-menu-preview-nav' : 'dy-menu-nav'} />
+		{
+			links.map((link) => (
+				<a class="dy-menu__link" href={link.href}>
+					{link.label}
+				</a>
+			))
+		}
+	</div>
+</dialog>
+
+<script>
+	document.addEventListener('click', (event) => {
+		const target = event.target as Element | null;
+		const menu = document.querySelector<HTMLDialogElement>('#dy-mobile-menu');
+		if (!menu) return;
+		const opener = target?.closest<HTMLButtonElement>('[data-open-menu]');
+		if (opener) {
+			menu.showModal();
+			opener.setAttribute('aria-expanded', 'true');
+		} else if (target?.closest('[data-close-menu]')) {
+			menu.close();
+		}
+	});
+	document.querySelector('#dy-mobile-menu')?.addEventListener('close', () => {
+		document.querySelectorAll('[data-open-menu]').forEach((b) => b.setAttribute('aria-expanded', 'false'));
+	});
+	// The menu only exists below 1024px.
+	matchMedia('(min-width: 1024px)').addEventListener('change', (query) => {
+		if (query.matches) document.querySelector<HTMLDialogElement>('#dy-mobile-menu')?.close();
+	});
+</script>
+
+<style>
+	.dy-menu {
+		box-sizing: border-box;
+		width: 100%;
+		max-width: none;
+		height: 100%;
+		max-height: none;
+		margin: 0;
+		padding: 0;
+		border: 0;
+		background: var(--dy-color-bg);
+		color: var(--dy-color-text-muted);
+		font-family: var(--dy-font-sans);
+		font-size: var(--dy-text-base);
+		line-height: var(--dy-leading-body);
+	}
+
+	.dy-menu::backdrop {
+		background: var(--dy-color-bg);
+	}
+
+	.dy-menu--preview {
+		position: static;
+		width: 390px;
+		height: auto;
+		border: var(--dy-border-width) solid var(--dy-color-border);
+	}
+
+	.dy-menu__inner {
+		box-sizing: border-box;
+		display: flex;
+		flex-direction: column;
+		gap: var(--dy-space-3);
+		padding: var(--dy-space-3);
+	}
+
+	.dy-menu__bar {
+		display: flex;
+		align-items: stretch;
+		min-height: var(--dy-size-topbar-mobile);
+		background: var(--dy-color-surface);
+		border: var(--dy-border-width) solid var(--dy-color-border);
+		border-radius: var(--dy-radius-xl);
+		overflow: hidden;
+	}
+
+	.dy-menu__close {
+		flex: 0 0 var(--dy-size-segment-mobile);
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		border: 0;
+		border-right: var(--dy-border-width) solid var(--dy-color-border);
+		background: var(--dy-color-surface-control);
+		color: var(--dy-color-text);
+		cursor: pointer;
+	}
+
+	.dy-menu__close:focus-visible {
+		outline-offset: calc(var(--dy-focus-width) * -2);
+	}
+
+	.dy-menu__bar :global(.dy-menu__logo) {
+		flex: 1 1 0;
+		justify-content: center;
+		padding-right: var(--dy-size-segment-mobile);
+	}
+
+	.dy-menu__link {
+		padding: var(--dy-space-3);
+		color: var(--dy-color-text);
+		font-weight: var(--dy-weight-semibold);
+		text-align: center;
+	}
+</style>

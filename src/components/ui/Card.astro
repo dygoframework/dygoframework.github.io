@@ -1,0 +1,103 @@
+---
+// Grouped content on a raised surface.
+// outline: a square link card (home "Start with the docs")
+// rounded: a rounded link card (docs Previous and Next)
+// feature: a filled panel for a feature grid
+interface Props {
+	title: string;
+	description?: string;
+	eyebrow?: string;
+	href?: string;
+	variant?: 'outline' | 'rounded' | 'feature';
+	align?: 'start' | 'end';
+	headingLevel?: 2 | 3 | 4;
+	state?: 'hover' | 'focus';
+}
+
+const {
+	title,
+	description,
+	eyebrow,
+	href,
+	variant = 'outline',
+	align = 'start',
+	headingLevel = 3,
+	state,
+} = Astro.props;
+
+const Tag = href ? 'a' : 'article';
+const Heading = href ? 'strong' : (`h${headingLevel}` as const);
+---
+
+<Tag href={href} class:list={['dy-card', `dy-card--${variant}`, `dy-card--${align}`]} data-state={state}>
+	{eyebrow && <span class="dy-card__eyebrow">{eyebrow}</span>}
+	<Heading class="dy-card__title">{title}</Heading>
+	{description && <span class="dy-card__description">{description}</span>}
+</Tag>
+
+<style>
+	.dy-card {
+		box-sizing: border-box;
+		display: flex;
+		flex-direction: column;
+		gap: var(--dy-space-2);
+		color: var(--dy-color-text);
+	}
+
+	.dy-card--end {
+		text-align: right;
+	}
+
+	a.dy-card:hover,
+	.dy-card[data-state='hover'] {
+		opacity: var(--dy-hover-opacity);
+	}
+
+	.dy-card[data-state='focus'] {
+		outline: var(--dy-focus-width) solid var(--dy-color-text);
+		outline-offset: var(--dy-focus-width);
+	}
+
+	.dy-card__title {
+		margin: 0;
+		font-size: var(--dy-text-xl);
+		font-weight: var(--dy-weight-bold);
+	}
+
+	.dy-card__description,
+	.dy-card__eyebrow {
+		color: var(--dy-color-text-muted);
+	}
+
+	.dy-card--outline {
+		padding: var(--dy-space-6);
+		border: var(--dy-border-width) solid var(--dy-color-border);
+	}
+
+	.dy-card--rounded {
+		gap: 0;
+		padding: var(--dy-space-4) var(--dy-space-6);
+		border: var(--dy-border-width) solid var(--dy-color-border);
+		border-radius: var(--dy-radius-lg);
+	}
+
+	.dy-card--rounded .dy-card__eyebrow {
+		font-size: var(--dy-text-sm);
+	}
+
+	.dy-card--rounded .dy-card__title {
+		font-size: var(--dy-text-base);
+		font-weight: var(--dy-weight-semibold);
+	}
+
+	.dy-card--feature {
+		gap: var(--dy-space-3);
+		padding: var(--dy-space-8);
+		background: var(--dy-color-bg);
+	}
+
+	.dy-card--feature .dy-card__title {
+		font-size: var(--dy-text-2xl);
+		font-weight: var(--dy-weight-semibold);
+	}
+</style>

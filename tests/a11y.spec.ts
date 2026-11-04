@@ -9,8 +9,6 @@ for (const { name, path } of pages) {
 			await page.goto(path);
 			const results = await new AxeBuilder({ page })
 				.withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa'])
-				// Starlight's stock search button. The Dygo top bar replaces it in Phase 2.
-				.exclude('button[data-open-modal]')
 				.analyze();
 			expect(results.violations.map((v) => `${v.id}: ${v.nodes.map((n) => n.target).join(', ')}`)).toEqual([]);
 		});

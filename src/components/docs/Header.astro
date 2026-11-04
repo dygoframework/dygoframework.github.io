@@ -1,0 +1,11 @@
+---
+import Search from 'virtual:starlight/components/Search';
+import TopBar from '../navigation/TopBar.astro';
+import SearchField from '../navigation/SearchField.astro';
+import { version } from '../../data/site';
+---
+
+<TopBar variant="docs" version={version}>
+	<SearchField slot="search" searchable />
+</TopBar>
+<Search />
