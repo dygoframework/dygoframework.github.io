@@ -104,3 +104,49 @@ test.describe('desktop, 1440px', () => {
 		await expect(nav.getByRole('link', { name: 'GitHub' })).toHaveAttribute('href', 'https://github.com/dygoframework/dygo');
 	});
 });
+
+test.describe('docs pages', () => {
+	test.use({ viewport: { width: 1440, height: 900 } });
+
+	test('every menu item opens its page, and Soon items have no page', async ({ page, request }) => {
+		await page.goto('/docs/');
+		const sidebar = page.locator('#dy-docs-sidebar');
+		const links = await sidebar.locator('a.dy-sidebar__link').evaluateAll((as) =>
+			as.map((a) => ({ href: a.getAttribute('href') ?? '', label: a.textContent?.trim() ?? '' })),
+		);
+		expect(links.length).toBe(68);
+		for (const { href, label } of links) {
+			const res = await request.get(href);
+			expect(res.status(), href).toBe(200);
+			const title = label.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+			expect(await res.text(), href).toMatch(new RegExp(`<h1 class="dy-title__heading[^"]*" id="_top">${title}</h1>`));
+		}
+		await expect(sidebar.locator('.dy-sidebar__soon')).toHaveCount(10);
+	});
+
+	test('search finds docs pages', async ({ page }) => {
+		await page.goto('/docs/');
+		await page.locator('site-search button[data-open-modal]:not([disabled])').waitFor({ state: 'attached' });
+		await page.getByRole('button', { name: 'Search' }).click();
+		await page.locator('site-search dialog input').fill('guard');
+		await expect(page.locator('site-search .pagefind-ui__result').first()).toBeVisible();
+	});
+
+	test('Copy markdown copies the page source', async ({ page, context }) => {
+		await context.grantPermissions(['clipboard-read', 'clipboard-write']);
+		await page.goto('/docs/guards/');
+		await page.getByRole('button', { name: 'Copy markdown' }).click();
+		await expect(page.getByRole('button', { name: 'Copied' })).toBeVisible();
+		const copied = await page.evaluate(() => navigator.clipboard.readText());
+		expect(copied.startsWith('# Guards\n')).toBe(true);
+		expect(copied).toContain('CanActivate');
+	});
+
+	test('a Markdown note renders as a Hint', async ({ page }) => {
+		await page.goto('/docs/test/fixture/');
+		const hint = page.locator('.starlight-aside');
+		await expect(hint).toBeVisible();
+		const border = await hint.evaluate((el) => getComputedStyle(el).borderLeftWidth);
+		expect(border).toBe('4px');
+	});
+});

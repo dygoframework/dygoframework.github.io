@@ -8,7 +8,7 @@ const [project, ...args] = process.argv.slice(2);
 const image = 'mcr.microsoft.com/playwright:v1.63.0-noble';
 
 function run(command, commandArgs) {
-	const result = spawnSync(command, commandArgs, { stdio: 'inherit', env: { ...process.env, INCLUDE_DEV_PAGES: 'true' } });
+	const result = spawnSync(command, commandArgs, { stdio: 'inherit', env: { ...process.env, INCLUDE_DEV_PAGES: 'true', DYGO_TEST_VERSION: 'v0.0.0-test' } });
 	if (result.status !== 0) process.exit(result.status ?? 1);
 }
 

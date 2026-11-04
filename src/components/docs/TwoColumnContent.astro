@@ -21,6 +21,13 @@ const headings = toc?.items.flatMap((item) => [item, ...item.children]) ?? [];
 	}
 </div>
 
+<script>
+	// Wide tables scroll sideways, so keyboard users must be able to focus them.
+	for (const table of document.querySelectorAll<HTMLElement>('.sl-markdown-content table')) {
+		if (table.scrollWidth > table.clientWidth) table.tabIndex = 0;
+	}
+</script>
+
 <style>
 	.dy-columns {
 		display: flex;

@@ -1,3 +1,7 @@
-// The Dygo version shown in the docs top bar. The docs sync sets it from the
-// latest Git tag. When it is missing, the top bar hides the version.
-export const version: string | undefined = import.meta.env.DYGO_VERSION || undefined;
+// The Dygo version shown in the docs top bar. The docs sync writes it from the
+// latest Git tag. When there is no tag, the top bar hides the version.
+// Screenshot tests set DYGO_TEST_VERSION so a new release doesn't change them.
+const generated = import.meta.glob<{ version: string | null }>('../generated/docs.json', { eager: true, import: 'default' });
+
+export const version: string | undefined =
+	process.env.DYGO_TEST_VERSION || (Object.values(generated)[0]?.version ?? undefined);

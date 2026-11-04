@@ -36,3 +36,15 @@ test('Tab reaches the styleguide buttons and inputs with a visible focus ring', 
 	await page.keyboard.press('Tab');
 	await expect(page.locator(':focus')).toHaveCount(1);
 });
+
+// Synced pages change with the Dygo repo, so they get axe checks but no screenshots.
+for (const path of ['/docs/', '/docs/controllers/', '/docs/security/security-headers/', '/docs/project/changelog/']) {
+	for (const width of [390, 1440]) {
+		test(`synced page ${path} at ${width}px has no axe violations`, async ({ page }) => {
+			await page.setViewportSize({ width, height: 900 });
+			await page.goto(path);
+			const results = await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa']).analyze();
+			expect(results.violations.map((v) => `${v.id}: ${v.nodes.map((n) => n.target).join(', ')}`)).toEqual([]);
+		});
+	}
+}

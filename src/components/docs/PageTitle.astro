@@ -1,14 +1,20 @@
 ---
 // The page title, with "On this page" folded above the article below 1024px.
 import OnThisPage from '../navigation/OnThisPage.astro';
+import Button from '../ui/Button.astro';
+import Icon from '../ui/Icon.astro';
 
-const { toc, entry } = Astro.locals.starlightRoute;
+const { toc, entry, id } = Astro.locals.starlightRoute;
+const markdownUrl = `/${id === 'docs' ? 'docs' : id}.md`;
 const headings = toc?.items.flatMap((item) => [item, ...item.children]).filter((h) => h.slug !== '_top') ?? [];
 ---
 
 <div class="dy-title">
 	<h1 class="dy-title__heading" id="_top">{entry.data.title}</h1>
-	<slot />
+	<Button variant="tool" data-copy-markdown={markdownUrl}>
+		<Icon name="copy" size="sm" />
+		<span data-copy-label>Copy markdown</span>
+	</Button>
 </div>
 {
 	headings.length > 0 && (
@@ -17,6 +23,23 @@ const headings = toc?.items.flatMap((item) => [item, ...item.children]).filter((
 		</div>
 	)
 }
+
+<script>
+	document.addEventListener('click', async (event) => {
+		const button = (event.target as Element | null)?.closest<HTMLButtonElement>('[data-copy-markdown]');
+		const label = button?.querySelector('[data-copy-label]');
+		if (!button || !label) return;
+		try {
+			const response = await fetch(button.dataset.copyMarkdown ?? '');
+			if (!response.ok) throw new Error(String(response.status));
+			await navigator.clipboard.writeText(await response.text());
+			label.textContent = 'Copied';
+		} catch {
+			label.textContent = 'Copy failed';
+		}
+		setTimeout(() => (label.textContent = 'Copy markdown'), 2000);
+	});
+</script>
 
 <style>
 	.dy-title {

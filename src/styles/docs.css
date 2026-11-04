@@ -1,5 +1,6 @@
 /* Docs article typography from design/Docs and DocsMobile. Tokens only. */
 @import "./base.css";
+@import "./hint.css";
 
 .sl-markdown-content {
   color: var(--dy-color-text-muted);
