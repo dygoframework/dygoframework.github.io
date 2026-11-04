@@ -1,0 +1,95 @@
+---
+// Benchmark numbers under the panels on Home.
+interface Props {
+	label: string;
+	stats: { value: string; label: string }[];
+	note?: string;
+	link?: { label: string; href: string };
+}
+
+const { label, stats, note, link } = Astro.props;
+---
+
+<section class="dy-stats" aria-label={label}>
+	<div class="dy-stats__inner">
+		<dl class="dy-stats__list">
+			{
+				stats.map((stat) => (
+					<div class="dy-stats__item">
+						<dt class="dy-stats__label">{stat.label}</dt>
+						<dd class="dy-stats__value">{stat.value}</dd>
+					</div>
+				))
+			}
+		</dl>
+		{
+			(note || link) && (
+				<p class="dy-stats__note">
+					{note} {link && <a href={link.href}>{link.label}</a>}
+				</p>
+			)
+		}
+	</div>
+</section>
+
+<style>
+	.dy-stats {
+		border-bottom: var(--dy-border-width) solid var(--dy-color-border);
+	}
+
+	.dy-stats__inner {
+		box-sizing: border-box;
+		max-width: var(--dy-width-content);
+		margin: 0 auto;
+		padding: var(--dy-space-10) var(--dy-space-5);
+		display: flex;
+		flex-direction: column;
+		gap: var(--dy-space-6);
+	}
+
+	.dy-stats__list {
+		margin: 0;
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr));
+		gap: var(--dy-space-6) var(--dy-space-8);
+	}
+
+	.dy-stats__item {
+		display: flex;
+		flex-direction: column-reverse;
+		gap: var(--dy-space-1);
+	}
+
+	.dy-stats__value {
+		margin: 0;
+		font-family: var(--dy-font-mono);
+		font-size: var(--dy-text-3xl);
+		font-weight: var(--dy-weight-medium);
+	}
+
+	.dy-stats__label {
+		color: var(--dy-color-text-muted);
+	}
+
+	.dy-stats__note {
+		margin: 0;
+		color: var(--dy-color-text-muted);
+		font-size: var(--dy-text-md);
+	}
+
+	.dy-stats__note a {
+		color: var(--dy-color-text);
+		text-decoration: underline;
+		text-underline-offset: 3px;
+	}
+
+	@media (width >= 1024px) {
+		.dy-stats__inner {
+			padding: var(--dy-space-12) var(--dy-space-8);
+		}
+
+		.dy-stats__value {
+			font-size: var(--dy-text-4xl);
+		}
+	}
+</style>

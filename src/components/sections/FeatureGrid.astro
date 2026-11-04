@@ -1,0 +1,76 @@
+---
+// A heading and a grid of feature cards divided by hairlines.
+import Card from '../ui/Card.astro';
+
+interface Props {
+	title: string;
+	lead?: string;
+	items: { title: string; description: string }[];
+}
+
+const { title, lead, items } = Astro.props;
+---
+
+<section class="dy-features">
+	<div class="dy-features__inner">
+		<div class="dy-features__intro">
+			<h2 class="dy-features__title">{title}</h2>
+			{lead && <p class="dy-features__lead">{lead}</p>}
+		</div>
+		<div class="dy-features__grid">
+			{items.map((item) => <Card variant="feature" title={item.title} description={item.description} />)}
+		</div>
+	</div>
+</section>
+
+<style>
+	.dy-features__inner {
+		box-sizing: border-box;
+		max-width: var(--dy-width-content);
+		margin: 0 auto;
+		padding: var(--dy-space-14) var(--dy-space-5);
+		display: flex;
+		flex-direction: column;
+		gap: var(--dy-space-7);
+	}
+
+	.dy-features__intro {
+		max-width: var(--dy-width-heading);
+		display: flex;
+		flex-direction: column;
+		gap: var(--dy-space-4);
+	}
+
+	.dy-features__title {
+		margin: 0;
+		font-size: var(--dy-text-heading-mobile);
+		font-weight: var(--dy-weight-bold);
+		line-height: var(--dy-leading-heading);
+	}
+
+	.dy-features__lead {
+		margin: 0;
+		color: var(--dy-color-text-muted);
+		font-size: var(--dy-text-xl);
+	}
+
+	.dy-features__grid {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(min(320px, 100%), 1fr));
+		gap: var(--dy-border-width);
+		background: var(--dy-color-border);
+		border: var(--dy-border-width) solid var(--dy-color-border);
+	}
+
+	@media (width >= 1024px) {
+		.dy-features__inner {
+			padding: var(--dy-space-26) var(--dy-space-8);
+			gap: var(--dy-space-14);
+		}
+
+		.dy-features__title {
+			font-size: var(--dy-text-display-md);
+			line-height: var(--dy-leading-title);
+		}
+	}
+</style>

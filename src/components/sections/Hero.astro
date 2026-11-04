@@ -1,29 +1,111 @@
 ---
-// Home hero. The full section, with install and actions, lands in Phase 4.
+// The dotted hero at the top of Home and Enterprise. Centered from 1024px,
+// left aligned with stacked actions below it.
+interface Props {
+	eyebrow: string;
+	lead?: string;
+	size?: 'home' | 'enterprise';
+}
+
+const { eyebrow, lead, size = 'home' } = Astro.props;
 ---
 
-<section class="hero">
-	<h1 class="hero__title">Secure by default.<br /><span class="hero__accent">Fast by design.</span></h1>
+<section class:list={['dy-hero', `dy-hero--${size}`]}>
+	<div class="dy-hero__inner">
+		<p class="dy-hero__eyebrow">{eyebrow}</p>
+		<h1 class="dy-hero__title"><slot name="title" /></h1>
+		{lead && <p class="dy-hero__lead">{lead}</p>}
+		<div class="dy-hero__actions"><slot name="actions" /></div>
+		<slot />
+	</div>
 </section>
 
 <style>
-	.hero {
+	.dy-hero {
+		background-image: radial-gradient(var(--dy-color-border) 1px, transparent 1px);
+		background-size: var(--dy-dot-grid) var(--dy-dot-grid);
+	}
+
+	.dy-hero__inner {
 		box-sizing: border-box;
 		max-width: var(--dy-width-content);
 		margin: 0 auto;
-		padding: var(--dy-space-28) var(--dy-space-8) var(--dy-space-26);
-		text-align: center;
+		padding: var(--dy-space-14) var(--dy-space-5) var(--dy-space-14);
+		display: flex;
+		flex-direction: column;
+		gap: var(--dy-space-6);
 	}
 
-	.hero__title {
+	.dy-hero__eyebrow {
 		margin: 0;
-		font-size: var(--dy-text-display-hero);
+		color: var(--dy-color-accent);
+		font-family: var(--dy-font-mono);
+		font-size: var(--dy-text-sm);
+	}
+
+	.dy-hero__title {
+		margin: 0;
+		font-size: var(--dy-text-hero-mobile);
 		font-weight: var(--dy-weight-extrabold);
 		line-height: var(--dy-leading-display);
 		letter-spacing: var(--dy-tracking-display);
 	}
 
-	.hero__accent {
+	.dy-hero--enterprise .dy-hero__title {
+		font-size: var(--dy-text-enterprise-mobile);
+	}
+
+	.dy-hero__title :global(.dy-hero__accent) {
 		color: var(--dy-color-accent);
+	}
+
+	.dy-hero__lead {
+		margin: 0;
+		max-width: var(--dy-width-prose);
+		color: var(--dy-color-text-muted);
+		font-size: var(--dy-text-lg);
+		text-wrap: pretty;
+	}
+
+	.dy-hero__actions {
+		display: flex;
+		flex-direction: column;
+		gap: var(--dy-space-3);
+	}
+
+	.dy-hero__actions:empty {
+		display: none;
+	}
+
+	@media (width >= 1024px) {
+		.dy-hero__inner {
+			padding: var(--dy-space-28) var(--dy-space-8) var(--dy-space-26);
+			align-items: center;
+			gap: var(--dy-space-8);
+			text-align: center;
+		}
+
+		.dy-hero--enterprise .dy-hero__inner {
+			max-width: var(--dy-width-hero);
+			gap: var(--dy-space-7);
+		}
+
+		.dy-hero__title {
+			font-size: var(--dy-text-display-hero);
+		}
+
+		.dy-hero--enterprise .dy-hero__title {
+			font-size: var(--dy-text-display-enterprise);
+		}
+
+		.dy-hero__lead {
+			font-size: var(--dy-text-xl);
+		}
+
+		.dy-hero__actions {
+			flex-flow: row wrap;
+			justify-content: center;
+			gap: var(--dy-space-4);
+		}
 	}
 </style>

@@ -3,12 +3,13 @@
 // outline: a square link card (home "Start with the docs")
 // rounded: a rounded link card (docs Previous and Next)
 // feature: a filled panel for a feature grid
+// panel: a large rounded panel (Enterprise "Team support")
 interface Props {
 	title: string;
 	description?: string;
 	eyebrow?: string;
 	href?: string;
-	variant?: 'outline' | 'rounded' | 'feature';
+	variant?: 'outline' | 'rounded' | 'feature' | 'panel';
 	align?: 'start' | 'end';
 	headingLevel?: 2 | 3 | 4;
 	state?: 'hover' | 'focus';
@@ -70,7 +71,8 @@ const Heading = href ? 'strong' : (`h${headingLevel}` as const);
 	}
 
 	.dy-card--outline {
-		padding: var(--dy-space-6);
+		gap: 2px;
+		padding: var(--dy-space-4) var(--dy-space-5);
 		border: var(--dy-border-width) solid var(--dy-color-border);
 	}
 
@@ -91,13 +93,58 @@ const Heading = href ? 'strong' : (`h${headingLevel}` as const);
 	}
 
 	.dy-card--feature {
-		gap: var(--dy-space-3);
-		padding: var(--dy-space-8);
+		gap: var(--dy-space-1);
+		padding: var(--dy-space-5);
 		background: var(--dy-color-bg);
 	}
 
 	.dy-card--feature .dy-card__title {
-		font-size: var(--dy-text-2xl);
+		font-size: var(--dy-text-lg);
 		font-weight: var(--dy-weight-semibold);
+	}
+
+	.dy-card--panel {
+		padding: var(--dy-space-6);
+		background: var(--dy-color-surface);
+		border: var(--dy-border-width) solid var(--dy-color-border);
+		border-radius: var(--dy-radius-xl);
+	}
+
+	.dy-card--panel .dy-card__title {
+		font-size: var(--dy-text-3xl);
+		line-height: var(--dy-leading-heading);
+	}
+
+	.dy-card--outline .dy-card__title {
+		font-size: var(--dy-text-lg);
+	}
+
+	@media (width >= 1024px) {
+		.dy-card--outline {
+			gap: var(--dy-space-2);
+			padding: var(--dy-space-6);
+		}
+
+		.dy-card--outline .dy-card__title {
+			font-size: var(--dy-text-xl);
+		}
+
+		.dy-card--feature {
+			gap: var(--dy-space-3);
+			padding: var(--dy-space-8);
+		}
+
+		.dy-card--feature .dy-card__title {
+			font-size: var(--dy-text-2xl);
+		}
+
+		.dy-card--panel {
+			gap: var(--dy-space-3);
+			padding: var(--dy-space-10);
+		}
+
+		.dy-card--panel .dy-card__title {
+			font-size: var(--dy-text-heading-mobile);
+		}
 	}
 </style>

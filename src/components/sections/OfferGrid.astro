@@ -1,0 +1,40 @@
+---
+// Large rounded cards side by side (Enterprise "Team support" and "Workshops").
+import Card from '../ui/Card.astro';
+
+interface Props {
+	label: string;
+	items: { title: string; description: string }[];
+}
+
+const { label, items } = Astro.props;
+---
+
+<section class="dy-offers" aria-label={label}>
+	<div class="dy-offers__inner">
+		{items.map((item) => <Card variant="panel" headingLevel={2} title={item.title} description={item.description} />)}
+	</div>
+</section>
+
+<style>
+	.dy-offers {
+		border-top: var(--dy-border-width) solid var(--dy-color-border);
+	}
+
+	.dy-offers__inner {
+		box-sizing: border-box;
+		max-width: var(--dy-width-content);
+		margin: 0 auto;
+		padding: var(--dy-space-12) var(--dy-space-5);
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(min(420px, 100%), 1fr));
+		gap: var(--dy-space-4);
+	}
+
+	@media (width >= 1024px) {
+		.dy-offers__inner {
+			padding: var(--dy-space-26) var(--dy-space-8);
+			gap: var(--dy-space-8);
+		}
+	}
+</style>

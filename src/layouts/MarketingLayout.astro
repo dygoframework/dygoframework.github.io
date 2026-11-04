@@ -2,6 +2,7 @@
 import BaseLayout from './BaseLayout.astro';
 import TopBar from '../components/navigation/TopBar.astro';
 import MobileMenu from '../components/navigation/MobileMenu.astro';
+import SiteFooter from '../components/navigation/SiteFooter.astro';
 import type { NavLink } from '../data/navigation';
 
 interface Props {
@@ -9,9 +10,10 @@ interface Props {
 	description?: string;
 	noindex?: boolean;
 	current?: NavLink['key'];
+	footer?: 'full' | 'simple';
 }
 
-const { current, ...props } = Astro.props;
+const { current, footer = 'full', ...props } = Astro.props;
 ---
 
 <BaseLayout {...props}>
@@ -20,4 +22,5 @@ const { current, ...props } = Astro.props;
 	<main id="main">
 		<slot />
 	</main>
+	<SiteFooter variant={footer} />
 </BaseLayout>

@@ -1,0 +1,178 @@
+---
+// A heading beside a code sample with one tab per file.
+import { Code } from '@astrojs/starlight/components';
+
+interface Props {
+	title: string;
+	lead: string;
+	link?: { label: string; href: string };
+	files: { name: string; code: string }[];
+}
+
+const { title, lead, link, files } = Astro.props;
+---
+
+<section class="dy-codetabs">
+	<div class="dy-codetabs__inner">
+		<div class="dy-codetabs__intro">
+			<h2 class="dy-codetabs__title">{title}</h2>
+			<p class="dy-codetabs__lead">{lead}</p>
+			{
+				link && (
+					<a class="dy-codetabs__link" href={link.href}>
+						{link.label}
+					</a>
+				)
+			}
+		</div>
+		<div class="dy-codetabs__sample" data-code-tabs>
+			<div class="dy-codetabs__tabs" role="group" aria-label="Code files">
+				{
+					files.map((file, i) => (
+						<button type="button" class="dy-codetabs__tab" aria-pressed={i === 0 ? 'true' : 'false'} data-tab={i}>
+							{file.name}
+						</button>
+					))
+				}
+			</div>
+			{
+				files.map((file, i) => (
+					<div class="dy-codetabs__panel" data-panel={i} hidden={i !== 0}>
+						<Code code={file.code.trimEnd()} lang="go" frame="none" />
+					</div>
+				))
+			}
+		</div>
+	</div>
+</section>
+
+<script>
+	document.addEventListener('click', (event) => {
+		const tab = (event.target as Element | null)?.closest<HTMLButtonElement>('[data-tab]');
+		const root = tab?.closest('[data-code-tabs]');
+		if (!tab || !root) return;
+		for (const t of root.querySelectorAll('[data-tab]')) t.setAttribute('aria-pressed', String(t === tab));
+		for (const p of root.querySelectorAll<HTMLElement>('[data-panel]')) p.hidden = p.dataset.panel !== tab.dataset.tab;
+	});
+</script>
+
+<style>
+	.dy-codetabs {
+		background: var(--dy-color-surface);
+		border-block: var(--dy-border-width) solid var(--dy-color-border);
+	}
+
+	.dy-codetabs__inner {
+		box-sizing: border-box;
+		max-width: var(--dy-width-content);
+		margin: 0 auto;
+		padding: var(--dy-space-14) var(--dy-space-5);
+		display: flex;
+		flex-direction: column;
+		gap: var(--dy-space-5);
+	}
+
+	.dy-codetabs__intro {
+		display: flex;
+		flex-direction: column;
+		gap: var(--dy-space-5);
+	}
+
+	.dy-codetabs__title {
+		margin: 0;
+		font-size: var(--dy-text-heading-mobile);
+		font-weight: var(--dy-weight-bold);
+		line-height: var(--dy-leading-heading);
+	}
+
+	.dy-codetabs__lead {
+		margin: 0;
+		color: var(--dy-color-text-muted);
+	}
+
+	.dy-codetabs__link {
+		align-self: flex-start;
+		padding: var(--dy-space-2) 0;
+		color: var(--dy-color-accent);
+		font-weight: var(--dy-weight-semibold);
+	}
+
+	.dy-codetabs__sample {
+		min-width: 0;
+		background: var(--dy-color-bg);
+		border: var(--dy-border-width) solid var(--dy-color-border);
+	}
+
+	.dy-codetabs__tabs {
+		display: flex;
+		border-bottom: var(--dy-border-width) solid var(--dy-color-border);
+	}
+
+	.dy-codetabs__tab {
+		flex: 1 1 0;
+		min-height: var(--dy-size-control-lg);
+		padding: 0 var(--dy-space-1);
+		border: 0;
+		background: transparent;
+		color: var(--dy-color-text-muted);
+		font-family: var(--dy-font-mono);
+		font-size: var(--dy-text-xs);
+		cursor: pointer;
+	}
+
+	.dy-codetabs__tab[aria-pressed='true'] {
+		background: var(--dy-color-accent);
+		color: var(--dy-color-on-accent);
+	}
+
+	.dy-codetabs__tab:focus-visible {
+		outline-offset: calc(var(--dy-focus-width) * -2);
+	}
+
+	.dy-codetabs__panel[hidden] {
+		display: none;
+	}
+
+	.dy-codetabs__panel :global(.expressive-code) {
+		--ec-brdRad: 0;
+		--ec-brdCol: transparent;
+		--ec-codeBg: var(--dy-color-bg);
+	}
+
+	.dy-codetabs__panel :global(pre) {
+		min-height: 340px;
+	}
+
+	@media (width >= 1024px) {
+		.dy-codetabs__inner {
+			flex-flow: row wrap;
+			align-items: flex-start;
+			gap: var(--dy-space-12) var(--dy-space-18);
+			padding: var(--dy-space-26) var(--dy-space-8);
+		}
+
+		.dy-codetabs__intro {
+			flex: 1 1 340px;
+			min-width: 0;
+		}
+
+		.dy-codetabs__sample {
+			flex: 2 1 560px;
+		}
+
+		.dy-codetabs__title {
+			font-size: var(--dy-text-display-md);
+			line-height: var(--dy-leading-title);
+		}
+
+		.dy-codetabs__tabs {
+			flex-wrap: wrap;
+		}
+
+		.dy-codetabs__tab {
+			flex: none;
+			padding: 0 var(--dy-space-5);
+			font-size: var(--dy-text-sm);
+		}
+	}
+</style>

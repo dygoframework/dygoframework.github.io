@@ -1,8 +1,25 @@
 ---
 import MarketingLayout from '../layouts/MarketingLayout.astro';
 import Hero from '../components/sections/Hero.astro';
+import InstallBox from '../components/sections/InstallBox.astro';
+import SplitPanels from '../components/sections/SplitPanels.astro';
+import StatStrip from '../components/sections/StatStrip.astro';
+import FeatureGrid from '../components/sections/FeatureGrid.astro';
+import CodeTabs from '../components/sections/CodeTabs.astro';
+import LinkCards from '../components/sections/LinkCards.astro';
+import Button from '../components/ui/Button.astro';
+import { benchmarks, code, docsLinks, features, hero, install, panels } from '../data/home';
 ---
 
-<MarketingLayout title="Dygo Framework" description="Dygo is a Go backend framework. Secure by default. Fast by design.">
-	<Hero />
+<MarketingLayout title="Dygo: a secure, fast Go framework" description={hero.lead}>
+	<Hero eyebrow={hero.eyebrow} lead={hero.lead}>
+		<Fragment slot="title">Secure by default.<br /><span class="dy-hero__accent">Fast by design.</span></Fragment>
+		<Fragment slot="actions">{hero.actions.map((a) => <Button href={a.href} variant={a.variant}>{a.label}</Button>)}</Fragment>
+		<InstallBox commands={install.commands} note={install.note} />
+	</Hero>
+	<SplitPanels label="Security and performance" panels={panels} />
+	<StatStrip label="Benchmarks" stats={benchmarks.stats} note={benchmarks.note} link={benchmarks.link} />
+	<FeatureGrid title={features.title} items={features.items} />
+	<CodeTabs title={code.title} lead={code.lead} link={code.link} files={code.files} />
+	<LinkCards title={docsLinks.title} action={docsLinks.action} cards={docsLinks.cards} />
 </MarketingLayout>

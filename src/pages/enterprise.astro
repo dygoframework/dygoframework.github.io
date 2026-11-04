@@ -1,0 +1,34 @@
+---
+import MarketingLayout from '../layouts/MarketingLayout.astro';
+import Hero from '../components/sections/Hero.astro';
+import FeatureGrid from '../components/sections/FeatureGrid.astro';
+import SplitPanels from '../components/sections/SplitPanels.astro';
+import OfferGrid from '../components/sections/OfferGrid.astro';
+import ContactForm from '../components/sections/ContactForm.astro';
+import Button from '../components/ui/Button.astro';
+import { contact, drafts, hero, showDrafts } from '../data/enterprise';
+
+const endpoint = import.meta.env.PUBLIC_CONTACT_FORM_URL;
+---
+
+<MarketingLayout
+	title="Dygo Enterprise"
+	description="Expert support for teams that run Dygo. Tell us what you're building."
+	current="enterprise"
+	footer="simple"
+>
+	<Hero eyebrow={hero.eyebrow} lead={showDrafts ? drafts.heroLead : undefined} size="enterprise">
+		<Fragment slot="title">{hero.titleLines[0]}<br />{hero.titleLines[1]}</Fragment>
+		<Fragment slot="actions"><Button href={hero.action.href}>{hero.action.label}</Button></Fragment>
+	</Hero>
+	{
+		showDrafts && (
+			<>
+				<FeatureGrid title={drafts.services.title} lead={drafts.services.lead} items={drafts.services.items} />
+				<SplitPanels label="Security and performance" panels={drafts.panels} size="small" />
+				<OfferGrid label="Ways to work together" items={drafts.offers} />
+			</>
+		)
+	}
+	<ContactForm {...contact} endpoint={endpoint} />
+</MarketingLayout>

@@ -3,6 +3,9 @@ import { rm } from 'node:fs/promises';
 import { defineConfig } from 'astro/config';
 import starlight from '@astrojs/starlight';
 import sitemap from '@astrojs/sitemap';
+import { checkEnv } from './scripts/lib/env.mjs';
+
+checkEnv(process.env);
 
 // Pages that exist only for local work and tests. They never ship.
 const devPages = ['styleguide', 'docs/test'];
