@@ -20,7 +20,8 @@
     "test:cover": "node --test --experimental-test-coverage \"scripts/**/*.test.mjs\"",
     "sync-docs": "node scripts/sync-docs.mjs",
     "postbuild": "node scripts/check-links.mjs",
-    "prebuild": "node scripts/sync-docs.mjs --if-missing"
+    "prebuild": "node scripts/sync-docs.mjs --if-missing",
+    "test:lighthouse": "node scripts/lighthouse.mjs"
   },
   "dependencies": {
     "@astrojs/sitemap": "3.7.4",
@@ -33,7 +34,9 @@
     "@astrojs/check": "0.9.12",
     "@axe-core/playwright": "4.14.0",
     "@playwright/test": "1.63.0",
+    "chrome-launcher": "1.2.2",
     "github-slugger": "2.0.0",
+    "lighthouse": "13.6.0",
     "postcss-html": "2.0.0",
     "stylelint": "18.0.0",
     "stylelint-config-standard": "41.0.0",

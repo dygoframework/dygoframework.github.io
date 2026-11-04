@@ -163,7 +163,7 @@ export function render(page, { prev, next }) {
 	const front = [
 		'---',
 		`title: ${yaml(page.title)}`,
-		`description: ${yaml(description(body) || `${page.title} in the Dygo framework docs.`)}`,
+		`description: ${yaml(description(body) || `${page.title} in Dygo, the secure-by-default web framework for Go.`)}`,
 		`editUrl: ${yaml(page.editUrl)}`,
 		prev ? `prev:\n  link: ${yaml(prev.href)}\n  label: ${yaml(prev.title)}` : 'prev: false',
 		next ? `next:\n  link: ${yaml(next.href)}\n  label: ${yaml(next.title)}` : 'next: false',

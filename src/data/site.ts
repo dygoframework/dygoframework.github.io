@@ -5,3 +5,6 @@ const generated = import.meta.glob<{ version: string | null }>('../generated/doc
 
 export const version: string | undefined =
 	process.env.DYGO_TEST_VERSION || (Object.values(generated)[0]?.version ?? undefined);
+
+export const siteName = 'Dygo';
+export const shareImage = { path: '/og.png', width: 1280, height: 640, alt: 'Dygo: secure by default, fast by design.' };
