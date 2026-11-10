@@ -140,6 +140,7 @@ Beta. The group title shows a Beta badge, and every page starts with a note that
 | Menu item | NestJS item | Dygo source | Status |
 |---|---|---|---|
 | Benchmarks | None | `benchmarks/README.md` | Ready |
+| What's new | None | `CHANGELOG.md`: Unreleased, marked as not released, and the latest release | Split |
 | Changelog | None | `CHANGELOG.md` | Ready |
 | Security policy | None | `SECURITY.md` | Ready |
 

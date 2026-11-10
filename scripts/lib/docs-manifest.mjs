@@ -7,8 +7,10 @@
 // - local: a "New" page kept in this repo under src/content/docs-pages/.
 
 // - intro: also take the text before the first heading.
+// - releases: from a changelog, the Unreleased section (marked as such) and
+//   the latest release.
 
-/** @typedef {{ file: string, sections?: string[], heading?: boolean, intro?: boolean } | { local: string }} Source */
+/** @typedef {{ file: string, sections?: string[], heading?: boolean, intro?: boolean, releases?: boolean } | { local: string }} Source */
 
 const guide = (file, ...sections) => ({ file: `docs/${file}`, sections });
 
@@ -121,6 +123,7 @@ export const manifest = {
 
 	// Project
 	'/docs/project/benchmarks/': [{ file: 'benchmarks/README.md' }],
+	'/docs/project/whats-new/': [{ file: 'CHANGELOG.md', releases: true }],
 	'/docs/project/changelog/': [{ file: 'CHANGELOG.md' }],
 	'/docs/project/security-policy/': [{ file: 'SECURITY.md' }],
 };
@@ -161,3 +164,19 @@ export const fileHomes = {
  * top of each page under `prefix`.
  */
 export const modules = [{ name: 'ai', label: 'AI', prefix: '/docs/ai/' }];
+
+/**
+ * Dygo docs that are on purpose not in the menu: a whole file (true) or some
+ * of its top-level headings. Known on 2026-11-10; review them with Dylan
+ * before moving any into the menu.
+ * @type {Record<string, string[] | true>}
+ */
+export const notInMenu = {
+	// The MkDocs index of the docs folder; /docs/ uses docs/index.md.
+	'docs/README.md': true,
+	'docs/guide-cli.md': ['Authentication', 'Security', 'Background work and transports'],
+	'docs/guide-http.md': ['App options', 'Testing'],
+	'docs/guide-pipeline.md': ['Where enhancers bind'],
+	'docs/recipes/security.md': ['Store users in a database', 'Generators in a security project', 'Test protected routes'],
+	'docs/recipes/sql.md': ['Testing'],
+};

@@ -4,6 +4,10 @@ on:
   pull_request:
   push:
     branches: [main]
+  # Nightly, so a new Dygo guide that the docs menu misses fails here even
+  # when nothing in this repo changed.
+  schedule:
+    - cron: '41 3 * * *'
 
 permissions:
   contents: read
@@ -35,6 +39,13 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npm run sync-docs
+      - name: The docs menu covers every Dygo guide and section
+        run: npm run check:menu
+      - name: The menu check fails on a guide the menu misses
+        run: |
+          cp -r .dygo-src "$RUNNER_TEMP/dygo-copy"
+          printf '# A test guide\n\n## Something new\n' > "$RUNNER_TEMP/dygo-copy/docs/guide-test.md"
+          ! DOCS_SOURCE="$RUNNER_TEMP/dygo-copy" npm run check:menu
       - name: Docs sync gives the same output twice
         run: |
           cp -r src/content/docs first-sync

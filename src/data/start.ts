@@ -55,7 +55,7 @@ export const groups = [
 	},
 	{
 		key: 'ai',
-		title: 'AI (beta)',
+		title: 'AI',
 		options: [
 			{ value: 'none', label: 'None', hint: 'Add it later' },
 			{ value: 'openai', label: 'OpenAI', hint: 'And compatible servers' },
@@ -97,11 +97,18 @@ export function commands(choices: Choices): string[] {
 	return lines;
 }
 
-export function notes(choices: Choices): string[] {
+/** The AI group's legend, with the module's label from its tags, such as "AI (beta)". */
+export function aiTitle(label?: string): string {
+	return label ? `AI (${label.toLowerCase()})` : 'AI';
+}
+
+/** `aiLabel` is the AI module's label from its tags: Beta, Unreleased or none. */
+export function notes(choices: Choices, aiLabel: string | undefined = 'Beta'): string[] {
 	const out = ['Your API runs on localhost:9900, with OpenAPI docs at /docs. Requires Go 1.27+.'];
 	if (choices.db !== 'none') out.push('The database runs in Docker, from compose.yaml.');
 	if (choices.security === 'oidc') out.push('Set OAUTH_ISSUER_URL and OAUTH_AUDIENCE in .env to your identity provider.');
 	if (needsKey(choices.ai)) out.push('Put your API key in .env. It is git-ignored.');
-	if (choices.ai !== 'none') out.push('The AI module is in beta.');
+	if (choices.ai !== 'none' && aiLabel === 'Beta') out.push('The AI module is in beta.');
+	if (choices.ai !== 'none' && aiLabel === 'Unreleased') out.push("The AI module isn't released yet.");
 	return out;
 }

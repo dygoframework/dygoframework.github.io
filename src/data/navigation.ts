@@ -27,13 +27,14 @@ export interface DocsItem {
 export interface DocsGroup {
 	title: string;
 	items: DocsItem[];
-	/** Shows a Beta badge next to the group title. */
-	beta?: boolean;
+	/** A separately versioned Dygo module. Its label, such as Beta, comes from its tags. */
+	module?: string;
 }
 
 const slug = (text: string) =>
 	text
 		.toLowerCase()
+		.replace(/'/g, '')
 		.replace(/[^a-z0-9]+/g, '-')
 		.replace(/^-|-$/g, '');
 
@@ -61,7 +62,7 @@ export const docsNav: DocsGroup[] = [
 		['Configuration', 'Validation', 'Logging', 'Events', 'Task scheduling', 'Queues', 'CQRS', 'Console commands'],
 		['Serialization', 'HTTP client', 'Internationalization', 'Mail', 'File storage'],
 	),
-	{ ...group('AI', ['Overview and setup', 'Ask and wait', 'Stream to the browser', 'Typed output', 'Errors', 'Retries, timeouts and logs', 'Testing']), beta: true },
+	{ ...group('AI', ['Overview and setup', 'Ask and wait', 'Stream to the browser', 'Typed output', 'Errors', 'Retries, timeouts and logs', 'Testing']), module: 'ai' },
 	group('Data', ['SQL databases', 'Repositories', 'Transactions', 'Migrations', 'Multiple databases', 'Caching'], ['MongoDB']),
 	group(
 		'Security',
@@ -77,7 +78,7 @@ export const docsNav: DocsGroup[] = [
 	group('Microservices', ['Overview', 'Redis', 'NATS', 'Kafka', 'gRPC']),
 	group('Production', ['Tracing and metrics', 'Docker']),
 	group('CLI', ['Overview', 'Generators', 'Database commands', 'Inspect your app', 'Development server']),
-	group('Project', ['Benchmarks', 'Changelog', 'Security policy']),
+	group('Project', ['Benchmarks', "What's new", 'Changelog', 'Security policy']),
 ];
 
 /** The group that holds `path`, so only that group starts open. */

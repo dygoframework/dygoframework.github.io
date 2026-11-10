@@ -97,3 +97,12 @@ test('the note goes on top, but the description comes from the page text', () =>
 	assert.match(out, /description: "Real text\."/);
 	assert.match(out, /---\n\n:::note\[Beta\]\nNote\.\n:::\n\nReal text\./);
 });
+
+test("What's new takes Unreleased, marked, and the latest release only", () => {
+	const changelog = '# Changelog\n\nIntro.\n\n## Unreleased\n\n### Added\n\n- New thing.\n\n## v1.1.0 (2026-11-01)\n\n- Fix.\n\n## v1.0.0 (2026-10-01)\n\n- Old.\n';
+	const page = buildPage({ href: '/docs/project/whats-new/', title: "What's new" }, [{ file: 'CHANGELOG.md', releases: true }], () => changelog, readLocal, 'main');
+	const text = page.lines.join('\n');
+	assert.match(text, /## Unreleased\n\n:::caution\[Not released yet\]/);
+	assert.match(text, /## Latest release: v1\.1\.0 \(2026-11-01\)\n\n- Fix\./);
+	assert.doesNotMatch(text, /Old\./);
+});

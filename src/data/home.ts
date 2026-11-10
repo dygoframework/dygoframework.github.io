@@ -8,6 +8,10 @@ import productsGo from '../../tests/examples/home/products.go?raw';
 import productsGenGo from '../../tests/examples/home/dygo_gen.go?raw';
 import aiGo from '../../tests/examples/ai/ai.go?raw';
 import { startUrl } from './navigation';
+import { moduleLabel } from './site';
+
+// Beta, Unreleased or nothing, from the ai/v* tags.
+const aiLabel = moduleLabel('ai');
 
 /**
  * The top-level declarations of a gofmt'ed Go file whose first line (after
@@ -44,7 +48,7 @@ function line(src: string, text: string): string {
 export const aiDocs = '/docs/ai/overview-and-setup/';
 
 export const hero = {
-	pill: { label: 'New', text: 'AI module, now in beta', href: aiDocs },
+	pill: { label: 'New', text: aiLabel === 'Beta' ? 'AI module, now in beta' : aiLabel === 'Unreleased' ? 'AI module, unreleased' : 'AI module', href: aiDocs },
 	lead: 'A modular, secure-by-default web framework for Go. Modules, dependency injection and typed handlers, on plain net/http, with a core that uses only the standard library.',
 	leadShort: 'A modular, secure-by-default web framework for Go. Modules, dependency injection and typed handlers, on plain net/http.',
 	actions: [
@@ -130,7 +134,7 @@ export const panels = [
 
 // From docs/guide-ai.md. The code is the guide's, compiled in tests/examples/ai.
 export const ai = {
-	badge: 'Beta',
+	badge: aiLabel,
 	title: 'Add AI to your app.',
 	lead: 'Ask a model, stream answers to the browser and get typed Go structs back. Switch vendors in .env, not in code.',
 	items: ['OpenAI, Anthropic and compatible servers', 'Local models with Ollama, vLLM or LM Studio', 'A fake model for tests, with no network or key'],
@@ -163,7 +167,7 @@ export const features = {
 		{ title: 'OpenAPI', description: 'An OpenAPI 3.1 document and a docs page, built from your routes.', short: 'An OpenAPI 3.1 document and docs page from your routes.' },
 		{ title: 'CLI', description: 'New projects, generators, database migrations and a development server.', short: 'Projects, generators, migrations and a dev server.' },
 		{ title: 'Transports', description: 'Message handlers over NATS, Redis, Kafka and gRPC, plus WebSockets and GraphQL.', short: 'NATS, Redis, Kafka, gRPC, WebSockets and GraphQL.' },
-		{ title: 'AI', description: 'Ask models, stream answers and get typed results.', badge: 'Beta' },
+		{ title: 'AI', description: 'Ask models, stream answers and get typed results.', badge: aiLabel },
 	],
 };
 

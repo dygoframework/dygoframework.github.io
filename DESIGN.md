@@ -94,6 +94,16 @@ New patterns start on the design canvas. Don't add one to the code until Dylan a
 
 Don't change a baseline just to make a check pass.
 
+## Adding a new Dygo module
+
+When Dygo adds a module, such as `ai`:
+
+1. Add the docs: pages in `src/data/navigation.ts` and their sources in `scripts/lib/docs-manifest.mjs`. `npm run check:menu` fails until every guide and section is covered.
+2. Update the menu map in `design/docs-menu-map.md`. The same check fails until it matches the menu.
+3. Add a Home card in `src/data/home.ts` if the module is a main feature.
+4. Add version labels: give the menu group a `module`, and list it in `modules` in `scripts/lib/docs-manifest.mjs`. Beta and Unreleased labels then come from the module's Git tags, not from hand-written text.
+5. Get design approval on the canvas for any new section.
+
 ## Before you open a pull request
 
 - [ ] I reused existing tokens and components

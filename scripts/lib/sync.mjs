@@ -8,7 +8,7 @@ export const siteRepoUrl = 'https://github.com/dygoframework/dygoframework.githu
 
 /**
  * @typedef {{ href: string, title: string }} NavPage
- * @typedef {{ file?: string, local?: string, sections?: string[], heading?: boolean, intro?: boolean }} Source
+ * @typedef {{ file?: string, local?: string, sections?: string[], heading?: boolean, intro?: boolean, releases?: boolean }} Source
  * @typedef {{ href: string, title: string, lines: string[], editUrl: string, anchors: Map<string, string>, files: string[], note?: string[] }} Page
  */
 
@@ -51,6 +51,24 @@ export function buildPage(nav, sources, read, readLocal, ref) {
 		const doc = parse(read(file));
 		const fileSlug = (/** @type {string} */ text) => slugger()(text);
 
+		if (source.releases) {
+			// What's new: the unreleased changes, clearly marked, then the latest release.
+			const level2 = doc.sections.filter((x) => x.level === 2);
+			const unreleased = level2.find((x) => /^unreleased\b/i.test(headingText(x.text)));
+			const latest = level2.find((x) => /^v\d/.test(headingText(x.text)));
+			lines.push(`What changed in Dygo lately: the changes on the main branch that aren't released yet, then the latest release. The [changelog](${file}) has every release.`, '');
+			if (unreleased) {
+				lines.push('## Unreleased', '', ':::caution[Not released yet]', 'These changes are on the main branch of Dygo and are not in a release yet.', ':::', '');
+				lines.push(...trim(unreleased.lines.slice(1)), '');
+				anchors.set(`${file}#${fileSlug(unreleased.text)}`, 'Unreleased');
+			}
+			if (latest) {
+				const title = `Latest release: ${latest.text}`;
+				lines.push(`## ${title}`, '', ...trim(latest.lines.slice(1)), '');
+				anchors.set(`${file}#${fileSlug(latest.text)}`, title);
+			}
+			continue;
+		}
 		if (source.sections) {
 			if (source.intro) {
 				lines.push(...trim(doc.intro), '');
@@ -188,7 +206,7 @@ export function render(page, { prev, next }) {
  */
 export function moduleNote(module, tag) {
 	const version = tag?.slice(tag.lastIndexOf('/') + 1);
-	const stage = !version ? 'Unreleased' : /-beta/.test(version) ? 'Beta' : undefined;
+	const stage = !version ? 'Unreleased' : /-(alpha|beta|rc)/.test(version) ? 'Beta' : undefined;
 	if (!stage) return undefined;
 	const text = version
 		? `The ${module.label} module is in beta. Its latest release is \`${tag}\`.`

@@ -19,6 +19,7 @@
     "test": "npm run test:unit && npm run test:a11y && npm run test:visual",
     "test:cover": "node --test --experimental-test-coverage \"scripts/**/*.test.mjs\"",
     "sync-docs": "node scripts/sync-docs.mjs",
+    "check:menu": "node scripts/check-menu-coverage.mjs",
     "postbuild": "node scripts/check-links.mjs",
     "prebuild": "node scripts/sync-docs.mjs --if-missing",
     "test:lighthouse": "node scripts/lighthouse.mjs"

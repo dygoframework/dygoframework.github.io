@@ -114,11 +114,11 @@ test.describe('docs pages', () => {
 		const links = await sidebar.locator('a.dy-sidebar__link').evaluateAll((as) =>
 			as.map((a) => ({ href: a.getAttribute('href') ?? '', label: a.textContent?.trim() ?? '' })),
 		);
-		expect(links.length).toBe(75);
+		expect(links.length).toBe(76);
 		for (const { href, label } of links) {
 			const res = await request.get(href);
 			expect(res.status(), href).toBe(200);
-			const title = label.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+			const title = label.replace(/[.*+?^${}()|[\]\\]/g, '\\$&').replace(/'/g, "(?:'|&#39;)");
 			expect(await res.text(), href).toMatch(new RegExp(`<h1 class="dy-title__heading[^"]*" id="_top">${title}</h1>`));
 		}
 		await expect(sidebar.locator('.dy-sidebar__soon')).toHaveCount(10);

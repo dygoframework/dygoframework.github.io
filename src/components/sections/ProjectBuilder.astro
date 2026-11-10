@@ -5,7 +5,10 @@
 import Input from '../ui/Input.astro';
 import OptionGroup from '../ui/OptionGroup.astro';
 import InstallBox from './InstallBox.astro';
-import { commands, defaults, groups, nameHint, notes } from '../../data/start';
+import { aiTitle, commands, defaults, groups, nameHint, notes } from '../../data/start';
+import { moduleLabel } from '../../data/site';
+
+const aiLabel = moduleLabel('ai');
 
 interface Props {
 	title: string;
@@ -24,11 +27,13 @@ const { title, lead, link } = Astro.props;
 	<div class="dy-builder__body">
 		<form class="dy-builder__form" data-builder>
 			<Input id="project-name" name="name" label="Project name" hint={nameHint} value={defaults.name} variant="code" spellcheck="false" autocomplete="off" autocapitalize="off" maxlength="40" />
-			{groups.map((group) => <OptionGroup legend={group.title} name={group.key} options={group.options} value={defaults[group.key]} />)}
+			{groups.map((group) => (
+				<OptionGroup legend={group.key === 'ai' ? aiTitle(aiLabel) : group.title} name={group.key} options={group.options} value={defaults[group.key]} />
+			))}
 		</form>
 		<InstallBox id="dy-builder-output" title="Your commands" label="Generated commands" copyLabel="Copy all" copy="accent" live commands={commands(defaults)}>
-			<div class="dy-builder__notes" data-notes>
-				{notes(defaults).map((note) => <p>{note}</p>)}
+			<div class="dy-builder__notes" data-notes data-ai-label={aiLabel ?? ''}>
+				{notes(defaults, aiLabel).map((note) => <p>{note}</p>)}
 			</div>
 			<a class="dy-builder__link" href={link.href}>{link.label}</a>
 		</InstallBox>
@@ -75,8 +80,9 @@ const { title, lead, link } = Astro.props;
 		const lines = commands(choices);
 		code.replaceChildren(...lines.map(line));
 		copy.dataset.copyInstall = lines.join('\n');
+		const aiLabel = (notesBox as HTMLElement).dataset.aiLabel || undefined;
 		notesBox.replaceChildren(
-			...notes(choices).map((text) => {
+			...notes(choices, aiLabel).map((text) => {
 				const p = document.createElement('p');
 				p.textContent = text;
 				return p;
