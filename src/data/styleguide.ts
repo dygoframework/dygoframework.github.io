@@ -16,6 +16,7 @@ export const colorTokens = [
 	'--dy-color-accent',
 	'--dy-color-on-accent',
 	'--dy-color-accent-tint',
+	'--dy-color-accent-border',
 	'--dy-color-code-text',
 	'--dy-color-code-keyword',
 	'--dy-color-code-string',

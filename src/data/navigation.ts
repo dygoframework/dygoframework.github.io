@@ -24,6 +24,8 @@ export interface DocsItem {
 export interface DocsGroup {
 	title: string;
 	items: DocsItem[];
+	/** Shows a Beta badge next to the group title. */
+	beta?: boolean;
 }
 
 const slug = (text: string) =>
@@ -56,6 +58,7 @@ export const docsNav: DocsGroup[] = [
 		['Configuration', 'Validation', 'Logging', 'Events', 'Task scheduling', 'Queues', 'CQRS', 'Console commands'],
 		['Serialization', 'HTTP client', 'Internationalization', 'Mail', 'File storage'],
 	),
+	{ ...group('AI', ['Overview and setup', 'Ask and wait', 'Stream to the browser', 'Typed output', 'Errors', 'Retries, timeouts and logs', 'Testing']), beta: true },
 	group('Data', ['SQL databases', 'Repositories', 'Transactions', 'Migrations', 'Multiple databases', 'Caching'], ['MongoDB']),
 	group(
 		'Security',

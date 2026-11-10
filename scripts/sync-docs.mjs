@@ -9,8 +9,8 @@ import { existsSync, mkdirSync, mkdtempSync, readFileSync, readdirSync, rmSync, 
 import { tmpdir } from 'node:os';
 import { dirname, join } from 'node:path';
 import { docsNav } from '../src/data/navigation.ts';
-import { excluded, fileHomes, manifest } from './lib/docs-manifest.mjs';
-import { buildPage, render, repoUrl, rewriteLinks } from './lib/sync.mjs';
+import { excluded, fileHomes, manifest, modules } from './lib/docs-manifest.mjs';
+import { buildPage, moduleNote, render, repoUrl, rewriteLinks } from './lib/sync.mjs';
 
 const root = new URL('..', import.meta.url).pathname;
 const out = join(root, 'src/content/docs/docs');
@@ -28,11 +28,14 @@ function checkout() {
 	return dir;
 }
 
-/** The newest root module tag reachable from the checkout, like v1.0.0-beta.1. */
-function latestTag(dir) {
+/**
+ * The newest tag reachable from the checkout, like v1.0.0-beta.1 for the root
+ * module, or ai/v0.1.0-beta.1 for `prefix` "ai/".
+ */
+function latestTag(dir, prefix = '') {
 	try {
-		const tags = execFileSync('git', ['-C', dir, 'tag', '--merged', 'HEAD', '--sort=-v:refname', '--list', 'v*'], { encoding: 'utf8', stdio: ['ignore', 'pipe', 'ignore'] });
-		return tags.split('\n').find((tag) => /^v\d/.test(tag));
+		const tags = execFileSync('git', ['-C', dir, 'tag', '--merged', 'HEAD', '--sort=-v:refname', '--list', `${prefix}v*`], { encoding: 'utf8', stdio: ['ignore', 'pipe', 'ignore'] });
+		return tags.split('\n').find((tag) => tag.startsWith(`${prefix}v`) && /^v\d/.test(tag.slice(prefix.length)));
 	} catch {
 		return undefined;
 	}
@@ -52,6 +55,11 @@ if (missing.length || extra.length) {
 }
 
 const pages = navPages.map((nav) => buildPage(nav, manifest[nav.href], read, readLocal, ref));
+const moduleTags = Object.fromEntries(modules.map((m) => [m.name, latestTag(source, `${m.name}/`) ?? null]));
+for (const page of pages) {
+	const module = modules.find((m) => page.href.startsWith(m.prefix));
+	if (module) page.note = moduleNote(module, moduleTags[module.name] ?? undefined);
+}
 const problems = pages.flatMap((page) => rewriteLinks(page, pages, { fileHomes, excluded, ref, exists, isDir }));
 if (problems.length) throw new Error(`Links that point nowhere:\n${problems.join('\n')}`);
 
@@ -68,7 +76,7 @@ pages.forEach((page, i) => {
 
 const version = latestTag(source);
 mkdirSync(join(root, 'src/generated'), { recursive: true });
-writeFileSync(join(root, 'src/generated/docs.json'), `${JSON.stringify({ ref, version: version ?? null }, null, 2)}\n`);
+writeFileSync(join(root, 'src/generated/docs.json'), `${JSON.stringify({ ref, version: version ?? null, modules: moduleTags }, null, 2)}\n`);
 
 if (!process.env.DOCS_SOURCE) rmSync(source, { recursive: true, force: true });
 console.log(`Synced ${pages.length} docs pages from ${ref}${version ? ` (${version})` : ''}.`);

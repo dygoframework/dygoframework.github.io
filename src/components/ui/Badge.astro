@@ -1,13 +1,15 @@
 ---
-// A short status label, such as "Soon".
+// A short status label: "Soon" for menu items without a page, "Beta" for a
+// module that isn't stable yet.
 interface Props {
+	variant?: 'soon' | 'beta';
 	class?: string;
 }
 
-const { class: className } = Astro.props;
+const { variant = 'soon', class: className } = Astro.props;
 ---
 
-<span class:list={['dy-badge', className]}><slot /></span>
+<span class:list={['dy-badge', `dy-badge--${variant}`, className]}><slot /></span>
 
 <style>
 	.dy-badge {
@@ -19,5 +21,16 @@ const { class: className } = Astro.props;
 		font-size: var(--dy-text-2xs);
 		font-weight: var(--dy-weight-regular);
 		line-height: var(--dy-leading-body);
+	}
+
+	.dy-badge--beta {
+		padding: 0 var(--dy-space-badge);
+		border-color: var(--dy-color-accent-border);
+		border-radius: var(--dy-radius-full);
+		background: var(--dy-color-accent-tint);
+		color: var(--dy-color-accent);
+		font-weight: var(--dy-weight-semibold);
+		letter-spacing: var(--dy-tracking-hint);
+		text-transform: none;
 	}
 </style>

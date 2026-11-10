@@ -24,7 +24,10 @@ const here = currentPath.endsWith('/') ? currentPath : `${currentPath}/`;
 			return (
 				<div class="dy-sidebar__group">
 					<button type="button" class="dy-sidebar__toggle" data-disclosure aria-expanded={open ? 'true' : 'false'} aria-controls={listId}>
-						{group.title}
+						<span class="dy-sidebar__title">
+							{group.title}
+							{group.beta && <Badge variant="beta">Beta</Badge>}
+						</span>
 						<Icon name="chevron" size="sm" class="dy-sidebar__chevron" />
 					</button>
 					<ul class="dy-sidebar__items" id={listId} hidden={!open}>
@@ -97,6 +100,12 @@ const here = currentPath.endsWith('/') ? currentPath : `${currentPath}/`;
 		letter-spacing: var(--dy-tracking-label);
 		text-transform: uppercase;
 		cursor: pointer;
+	}
+
+	.dy-sidebar__title {
+		display: flex;
+		align-items: center;
+		gap: var(--dy-space-2);
 	}
 
 	.dy-sidebar--menu .dy-sidebar__toggle {

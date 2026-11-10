@@ -21,6 +21,7 @@
   --dy-color-accent: #ffd400;
   --dy-color-on-accent: #0b0b0c;
   --dy-color-accent-tint: rgb(255 212 0 / 10%);
+  --dy-color-accent-border: rgb(255 212 0 / 40%);
   --dy-color-code-text: #ecece6;
   --dy-color-code-keyword: #9cc4dc;
   --dy-color-code-string: #f0d58c;
@@ -97,6 +98,7 @@
   --dy-space-24: 96px;
   --dy-space-26: 104px;
   --dy-space-28: 112px;
+  --dy-space-badge: 7px;
 
   /* Radius */
   --dy-radius-xs: 6px;
@@ -107,6 +109,7 @@
   --dy-radius-pill: 22px;
   --dy-radius-pill-lg: 24px;
   --dy-radius-round: 50%;
+  --dy-radius-full: 999px;
 
   /* Sizes */
   --dy-size-control: 44px;
