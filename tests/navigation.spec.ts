@@ -114,7 +114,7 @@ test.describe('docs pages', () => {
 		const links = await sidebar.locator('a.dy-sidebar__link').evaluateAll((as) =>
 			as.map((a) => ({ href: a.getAttribute('href') ?? '', label: a.textContent?.trim() ?? '' })),
 		);
-		expect(links.length).toBe(68);
+		expect(links.length).toBe(75);
 		for (const { href, label } of links) {
 			const res = await request.get(href);
 			expect(res.status(), href).toBe(200);
@@ -122,6 +122,14 @@ test.describe('docs pages', () => {
 			expect(await res.text(), href).toMatch(new RegExp(`<h1 class="dy-title__heading[^"]*" id="_top">${title}</h1>`));
 		}
 		await expect(sidebar.locator('.dy-sidebar__soon')).toHaveCount(10);
+	});
+
+	test('the AI group has a Beta badge, and its pages name the module release', async ({ page }) => {
+		await page.goto('/docs/ai/typed-output/');
+		const toggle = page.locator('#dy-docs-sidebar').getByRole('button', { name: /AI/ });
+		await expect(toggle).toContainText('Beta');
+		await expect(toggle).toHaveAttribute('aria-expanded', 'true');
+		await expect(page.locator('main')).toContainText('The AI module is in beta. Its latest release is ai/v');
 	});
 
 	test('search finds docs pages', async ({ page }) => {

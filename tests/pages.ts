@@ -6,6 +6,7 @@ export const pages = [
 	{ name: 'home', path: '/' },
 	{ name: 'enterprise', path: '/enterprise/' },
 	{ name: 'not-found', path: '/no-such-page/' },
+	{ name: 'start', path: '/start/' },
 	{ name: 'styleguide', path: '/styleguide/' },
 	{ name: 'docs', path: '/docs/test/fixture/' },
 ] as const;
