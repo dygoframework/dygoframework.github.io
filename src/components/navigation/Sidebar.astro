@@ -26,7 +26,7 @@ const here = currentPath.endsWith('/') ? currentPath : `${currentPath}/`;
 					<button type="button" class="dy-sidebar__toggle" data-disclosure aria-expanded={open ? 'true' : 'false'} aria-controls={listId}>
 						<span class="dy-sidebar__title">
 							{group.title}
-							{group.beta && <Badge variant="beta">Beta</Badge>}
+							{group.beta && <Badge variant="accent" size="xs">Beta</Badge>}
 						</span>
 						<Icon name="chevron" size="sm" class="dy-sidebar__chevron" />
 					</button>

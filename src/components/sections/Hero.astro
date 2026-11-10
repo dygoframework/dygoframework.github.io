@@ -1,21 +1,40 @@
 ---
-// The dotted hero at the top of Home and Enterprise. Centered from 1024px,
-// left aligned with stacked actions below it.
+// The dotted hero at the top of pages. Centered from 1024px, left aligned
+// with stacked actions below it. split: Home, with a pill above the heading
+// and the default slot (the install terminal) beside the text from 1024px.
 interface Props {
-	eyebrow: string;
+	eyebrow?: string;
 	lead?: string;
-	size?: 'home' | 'enterprise';
+	/** A shorter lead for below 1024px. */
+	leadShort?: string;
+	size?: 'home' | 'enterprise' | 'split';
 }
 
-const { eyebrow, lead, size = 'home' } = Astro.props;
+const { eyebrow, lead, leadShort, size = 'home' } = Astro.props;
 ---
 
 <section class:list={['dy-hero', `dy-hero--${size}`]}>
 	<div class="dy-hero__inner">
-		<p class="dy-hero__eyebrow">{eyebrow}</p>
-		<h1 class="dy-hero__title"><slot name="title" /></h1>
-		{lead && <p class="dy-hero__lead">{lead}</p>}
-		<div class="dy-hero__actions"><slot name="actions" /></div>
+		<div class="dy-hero__main">
+			<slot name="pill" />
+			{eyebrow && <p class="dy-hero__eyebrow">{eyebrow}</p>}
+			<h1 class="dy-hero__title"><slot name="title" /></h1>
+			{
+				lead && (
+					<p class="dy-hero__lead">
+						{leadShort ? (
+							<>
+								<span class="dy-hero__long">{lead}</span>
+								<span class="dy-hero__short">{leadShort}</span>
+							</>
+						) : (
+							lead
+						)}
+					</p>
+				)
+			}
+			<div class="dy-hero__actions"><slot name="actions" /></div>
+		</div>
 		<slot />
 	</div>
 </section>
@@ -34,6 +53,42 @@ const { eyebrow, lead, size = 'home' } = Astro.props;
 		display: flex;
 		flex-direction: column;
 		gap: var(--dy-space-6);
+	}
+
+	.dy-hero__main {
+		display: contents;
+	}
+
+	.dy-hero__long {
+		display: none;
+	}
+
+	.dy-hero--split {
+		background-image: radial-gradient(var(--dy-color-dot) 1px, transparent 1px);
+	}
+
+	.dy-hero--split .dy-hero__inner {
+		padding: var(--dy-space-12) var(--dy-space-5) var(--dy-space-10);
+		align-items: flex-start;
+		gap: var(--dy-space-5-5);
+	}
+
+	.dy-hero--split .dy-hero__title {
+		line-height: var(--dy-leading-hero);
+		letter-spacing: var(--dy-tracking-hero);
+	}
+
+	.dy-hero--split .dy-hero__lead {
+		font-size: var(--dy-text-lead-mobile);
+	}
+
+	.dy-hero--split .dy-hero__actions {
+		align-self: stretch;
+		gap: var(--dy-space-2-5);
+	}
+
+	.dy-hero--split .dy-hero__actions > :global(*) {
+		padding-inline: var(--dy-space-5);
 	}
 
 	.dy-hero__eyebrow {
@@ -102,10 +157,59 @@ const { eyebrow, lead, size = 'home' } = Astro.props;
 			font-size: var(--dy-text-xl);
 		}
 
+		.dy-hero__long {
+			display: inline;
+		}
+
+		.dy-hero__short {
+			display: none;
+		}
+
 		.dy-hero__actions {
 			flex-flow: row wrap;
 			justify-content: center;
 			gap: var(--dy-space-4);
+		}
+
+		.dy-hero--split .dy-hero__inner {
+			flex-flow: row wrap;
+			align-items: center;
+			gap: var(--dy-space-14) var(--dy-space-16);
+			padding: var(--dy-space-22) var(--dy-space-8) var(--dy-space-24);
+			text-align: left;
+		}
+
+		.dy-hero--split .dy-hero__main {
+			flex: 1 1 520px;
+			min-width: 0;
+			display: flex;
+			flex-direction: column;
+			align-items: flex-start;
+			gap: var(--dy-space-7);
+		}
+
+		.dy-hero--split .dy-hero__main + :global(*) {
+			flex: 1 1 440px;
+			min-width: 0;
+		}
+
+		.dy-hero--split .dy-hero__title {
+			font-size: var(--dy-text-display-home);
+		}
+
+		.dy-hero--split .dy-hero__lead {
+			max-width: var(--dy-width-lead);
+			font-size: var(--dy-text-xl);
+		}
+
+		.dy-hero--split .dy-hero__actions {
+			align-self: auto;
+			justify-content: flex-start;
+			gap: var(--dy-space-3);
+		}
+
+		.dy-hero--split .dy-hero__actions > :global(*) {
+			padding-inline: var(--dy-space-7);
 		}
 	}
 </style>

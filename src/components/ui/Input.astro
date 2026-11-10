@@ -6,18 +6,20 @@ type Props = {
 	id: string;
 	hint?: string;
 	error?: string;
+	/** code: a mono field for names and commands, as on Start a project. */
+	variant?: 'default' | 'code';
 	/** Shows a hover or focus state without interaction. For /styleguide only. */
 	state?: 'hover' | 'focus';
 } & Omit<HTMLAttributes<'input'>, 'id'>;
 
-const { label, id, hint, error, state, type = 'text', class: className, ...rest } = Astro.props;
+const { label, id, hint, error, variant = 'default', state, type = 'text', class: className, ...rest } = Astro.props;
 
 const hintId = hint ? `${id}-hint` : undefined;
 const errorId = error ? `${id}-error` : undefined;
 const describedBy = [hintId, errorId].filter(Boolean).join(' ') || undefined;
 ---
 
-<div class:list={['dy-input', { 'dy-input--error': error }, className]}>
+<div class:list={['dy-input', `dy-input--${variant}`, { 'dy-input--error': error }, className]}>
 	<label class="dy-input__label" for={id}>{label}</label>
 	<input
 		class="dy-input__field"
@@ -73,6 +75,18 @@ const describedBy = [hintId, errorId].filter(Boolean).join(' ') || undefined;
 	.dy-input__field:disabled {
 		cursor: not-allowed;
 		opacity: var(--dy-disabled-opacity);
+	}
+
+	.dy-input--code .dy-input__label {
+		font-size: var(--dy-text-base);
+		font-weight: var(--dy-weight-bold);
+	}
+
+	.dy-input--code .dy-input__field {
+		min-height: var(--dy-size-control-lg);
+		border-radius: var(--dy-radius-md);
+		font-family: var(--dy-font-mono);
+		font-size: var(--dy-text-md);
 	}
 
 	.dy-input__hint,

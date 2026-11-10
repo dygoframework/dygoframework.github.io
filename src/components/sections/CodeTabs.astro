@@ -1,22 +1,44 @@
 ---
-// A heading beside a code sample with one tab per file.
-import { Code } from '@astrojs/starlight/components';
+// A heading beside a code sample with one tab per example, as in the Home AI
+// and code sections. `badge` and `items` add a label above the heading and a
+// list under the lead. `tabs`: mono for file names, sans for topics. Below
+// 1024px a tab's `short` name is used, and `hideOnMobile` leaves the section
+// out, as the mobile design does. The `items` list shows from 1024px.
+import Badge from '../ui/Badge.astro';
+import CodeBlock from '../ui/CodeBlock.astro';
 
 interface Props {
+	id?: string;
 	title: string;
 	lead: string;
+	badge?: string;
+	items?: string[];
 	link?: { label: string; href: string };
-	files: { name: string; code: string }[];
+	files: { name: string; short?: string; code: string; lang?: string }[];
+	tabs?: 'mono' | 'sans';
+	label?: string;
+	size?: 'md' | 'lg';
+	hideOnMobile?: boolean;
 }
 
-const { title, lead, link, files } = Astro.props;
+const { id, title, lead, badge, items, link, files, tabs = 'mono', label = 'Code files', size = 'lg', hideOnMobile = false } = Astro.props;
 ---
 
-<section class="dy-codetabs">
+<section class:list={['dy-codetabs', `dy-codetabs--${size}`, hideOnMobile && 'dy-codetabs--desktop']} id={id}>
 	<div class="dy-codetabs__inner">
 		<div class="dy-codetabs__intro">
+			{badge && <Badge variant="accent" size="lg">{badge}</Badge>}
 			<h2 class="dy-codetabs__title">{title}</h2>
 			<p class="dy-codetabs__lead">{lead}</p>
+			{
+				items && (
+					<ul class="dy-codetabs__items">
+						{items.map((item) => (
+							<li>{item}</li>
+						))}
+					</ul>
+				)
+			}
 			{
 				link && (
 					<a class="dy-codetabs__link" href={link.href}>
@@ -26,11 +48,18 @@ const { title, lead, link, files } = Astro.props;
 			}
 		</div>
 		<div class="dy-codetabs__sample" data-code-tabs>
-			<div class="dy-codetabs__tabs" role="group" aria-label="Code files">
+			<div class:list={['dy-codetabs__tabs', `dy-codetabs__tabs--${tabs}`]} role="group" aria-label={label}>
 				{
 					files.map((file, i) => (
 						<button type="button" class="dy-codetabs__tab" aria-pressed={i === 0 ? 'true' : 'false'} data-tab={i}>
-							{file.name}
+							{file.short ? (
+								<>
+									<span class="dy-codetabs__long">{file.name}</span>
+									<span class="dy-codetabs__short">{file.short}</span>
+								</>
+							) : (
+								file.name
+							)}
 						</button>
 					))
 				}
@@ -38,7 +67,7 @@ const { title, lead, link, files } = Astro.props;
 			{
 				files.map((file, i) => (
 					<div class="dy-codetabs__panel" data-panel={i} hidden={i !== 0}>
-						<Code code={file.code.trimEnd()} lang="go" frame="none" />
+						<CodeBlock variant="plain" code={file.code} lang={file.lang ?? 'go'} />
 					</div>
 				))
 			}
@@ -62,6 +91,10 @@ const { title, lead, link, files } = Astro.props;
 		border-block: var(--dy-border-width) solid var(--dy-color-border);
 	}
 
+	.dy-codetabs--desktop {
+		display: none;
+	}
+
 	.dy-codetabs__inner {
 		box-sizing: border-box;
 		max-width: var(--dy-width-content);
@@ -69,38 +102,54 @@ const { title, lead, link, files } = Astro.props;
 		padding: var(--dy-space-14) var(--dy-space-5);
 		display: flex;
 		flex-direction: column;
-		gap: var(--dy-space-5);
+		align-items: flex-start;
+		gap: var(--dy-space-4);
 	}
 
 	.dy-codetabs__intro {
-		display: flex;
-		flex-direction: column;
-		gap: var(--dy-space-5);
+		display: contents;
 	}
 
 	.dy-codetabs__title {
 		margin: 0;
-		font-size: var(--dy-text-heading-mobile);
-		font-weight: var(--dy-weight-bold);
-		line-height: var(--dy-leading-heading);
+		font-size: var(--dy-text-panel-sm-mobile);
+		font-weight: var(--dy-weight-extrabold);
+		line-height: var(--dy-leading-title);
+		letter-spacing: var(--dy-tracking-display);
 	}
 
 	.dy-codetabs__lead {
 		margin: 0;
 		color: var(--dy-color-text-muted);
+		text-wrap: pretty;
+	}
+
+	.dy-codetabs__items {
+		margin: 0;
+		padding: 0;
+		list-style: none;
+		display: none;
+		flex-direction: column;
+		gap: var(--dy-space-2-5);
+		color: var(--dy-color-text-muted);
 	}
 
 	.dy-codetabs__link {
-		align-self: flex-start;
+		order: 1;
 		padding: var(--dy-space-2) 0;
 		color: var(--dy-color-accent);
 		font-weight: var(--dy-weight-semibold);
+		text-decoration: none;
 	}
 
 	.dy-codetabs__sample {
+		box-sizing: border-box;
+		width: 100%;
 		min-width: 0;
+		overflow: hidden;
 		background: var(--dy-color-bg);
 		border: var(--dy-border-width) solid var(--dy-color-border);
+		border-radius: var(--dy-radius-card-mobile);
 	}
 
 	.dy-codetabs__tabs {
@@ -113,37 +162,47 @@ const { title, lead, link, files } = Astro.props;
 		min-height: var(--dy-size-control-lg);
 		padding: 0 var(--dy-space-1);
 		border: 0;
+		border-bottom: var(--dy-focus-width) solid transparent;
 		background: transparent;
 		color: var(--dy-color-text-muted);
-		font-family: var(--dy-font-mono);
-		font-size: var(--dy-text-xs);
+		font: inherit;
+		font-size: var(--dy-text-sm);
+		font-weight: var(--dy-weight-semibold);
 		cursor: pointer;
 	}
 
+	.dy-codetabs__tabs--mono .dy-codetabs__tab {
+		font-family: var(--dy-font-mono);
+		font-weight: var(--dy-weight-regular);
+	}
+
 	.dy-codetabs__tab[aria-pressed='true'] {
-		background: var(--dy-color-accent);
-		color: var(--dy-color-on-accent);
+		border-bottom-color: var(--dy-color-accent);
+		color: var(--dy-color-text);
 	}
 
 	.dy-codetabs__tab:focus-visible {
 		outline-offset: calc(var(--dy-focus-width) * -2);
 	}
 
+	.dy-codetabs__long {
+		display: none;
+	}
+
 	.dy-codetabs__panel[hidden] {
 		display: none;
 	}
 
-	.dy-codetabs__panel :global(.expressive-code) {
-		--ec-brdRad: 0;
-		--ec-brdCol: transparent;
-		--ec-codeBg: var(--dy-color-bg);
-	}
-
 	.dy-codetabs__panel :global(pre) {
-		min-height: 340px;
+		box-sizing: border-box;
+		min-height: 260px;
 	}
 
 	@media (width >= 1024px) {
+		.dy-codetabs--desktop {
+			display: block;
+		}
+
 		.dy-codetabs__inner {
 			flex-flow: row wrap;
 			align-items: flex-start;
@@ -154,15 +213,41 @@ const { title, lead, link, files } = Astro.props;
 		.dy-codetabs__intro {
 			flex: 1 1 340px;
 			min-width: 0;
+			display: flex;
+			flex-direction: column;
+			align-items: flex-start;
+			gap: var(--dy-space-5);
 		}
 
-		.dy-codetabs__sample {
-			flex: 2 1 560px;
+		.dy-codetabs--md .dy-codetabs__intro {
+			flex-basis: 360px;
+		}
+
+		.dy-codetabs__items {
+			display: flex;
 		}
 
 		.dy-codetabs__title {
 			font-size: var(--dy-text-display-md);
-			line-height: var(--dy-leading-title);
+			line-height: var(--dy-leading-section);
+		}
+
+		.dy-codetabs--md .dy-codetabs__lead {
+			font-size: var(--dy-text-lead-mobile);
+		}
+
+		.dy-codetabs__link {
+			padding: var(--dy-space-2-5) 0;
+		}
+
+		.dy-codetabs--md .dy-codetabs__link {
+			padding: var(--dy-space-2) 0;
+		}
+
+		.dy-codetabs__sample {
+			flex: 2 1 560px;
+			width: auto;
+			border-radius: var(--dy-radius-xl);
 		}
 
 		.dy-codetabs__tabs {
@@ -172,7 +257,27 @@ const { title, lead, link, files } = Astro.props;
 		.dy-codetabs__tab {
 			flex: none;
 			padding: 0 var(--dy-space-5);
+			font-size: var(--dy-text-md);
+		}
+
+		.dy-codetabs__tabs--mono .dy-codetabs__tab {
 			font-size: var(--dy-text-sm);
+		}
+
+		.dy-codetabs__long {
+			display: inline;
+		}
+
+		.dy-codetabs__short {
+			display: none;
+		}
+
+		.dy-codetabs__panel :global(pre) {
+			min-height: 420px;
+		}
+
+		.dy-codetabs--md .dy-codetabs__panel :global(pre) {
+			min-height: 300px;
 		}
 	}
 </style>

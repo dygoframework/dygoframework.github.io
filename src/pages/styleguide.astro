@@ -13,6 +13,8 @@ import CodeBlock from '../components/ui/CodeBlock.astro';
 import Hint from '../components/ui/Hint.astro';
 import Icon from '../components/ui/Icon.astro';
 import Logo from '../components/ui/Logo.astro';
+import Pill from '../components/ui/Pill.astro';
+import OptionGroup from '../components/ui/OptionGroup.astro';
 import TopBar from '../components/navigation/TopBar.astro';
 import Sidebar from '../components/navigation/Sidebar.astro';
 import MobileMenu from '../components/navigation/MobileMenu.astro';
@@ -44,6 +46,8 @@ import { colorTokens, typeTokens } from '../data/styleguide';
 				<StyleguideItem label="primary, loading"><Button loading loadingLabel="Sending">Get in touch</Button></StyleguideItem>
 				<StyleguideItem label="primary, link"><Button href="#button">Get started</Button></StyleguideItem>
 				<StyleguideItem label="secondary"><Button variant="secondary">GitHub</Button></StyleguideItem>
+				<StyleguideItem label="primary, soft"><Button shape="soft">Get started</Button></StyleguideItem>
+				<StyleguideItem label="secondary, soft"><Button variant="secondary" shape="soft">Start a project</Button></StyleguideItem>
 				<StyleguideItem label="secondary, hover"><Button variant="secondary" state="hover">GitHub</Button></StyleguideItem>
 				<StyleguideItem label="secondary, focus"><Button variant="secondary" state="focus">GitHub</Button></StyleguideItem>
 				<StyleguideItem label="secondary, disabled"><Button variant="secondary" disabled>GitHub</Button></StyleguideItem>
@@ -72,7 +76,17 @@ import { colorTokens, typeTokens } from '../data/styleguide';
 				<StyleguideItem label="disabled" wide>
 					<Input id="sg-email-disabled" label="Work email" type="email" placeholder="you@company.com" disabled />
 				</StyleguideItem>
+				<StyleguideItem label="code" wide>
+					<Input id="sg-project-name" label="Project name" value="shop" hint="Lowercase letters, numbers and dashes." variant="code" />
+				</StyleguideItem>
 			</StyleguideSection>
+
+			<StyleguideSection title="OptionGroup" id="option-group">
+				<StyleguideItem label="one chosen" wide>
+					<OptionGroup legend="Database" name="styleguide-db" value="postgres" options={[{ value: 'none', label: 'None', hint: 'In memory to start' }, { value: 'postgres', label: 'PostgreSQL', hint: 'With migrations' }, { value: 'mysql', label: 'MySQL', hint: 'With migrations' }]} />
+				</StyleguideItem>
+			</StyleguideSection>
+
 			<StyleguideSection title="Logo and icons" id="logo">
 				<StyleguideItem label="Logo"><Logo /></StyleguideItem>
 				<StyleguideItem label="Logo, small"><Logo size="sm" /></StyleguideItem>
@@ -85,7 +99,14 @@ import { colorTokens, typeTokens } from '../data/styleguide';
 
 			<StyleguideSection title="Badge" id="badge">
 				<StyleguideItem label="soon"><Badge>Soon</Badge></StyleguideItem>
-				<StyleguideItem label="beta"><Badge variant="beta">Beta</Badge></StyleguideItem>
+				<StyleguideItem label="accent, xs (docs menu)"><Badge variant="accent" size="xs">Beta</Badge></StyleguideItem>
+				<StyleguideItem label="accent, sm (feature card)"><Badge variant="accent" size="sm">Beta</Badge></StyleguideItem>
+				<StyleguideItem label="accent, md (pill)"><Badge variant="accent" size="md">New</Badge></StyleguideItem>
+				<StyleguideItem label="accent, lg (section)"><Badge variant="accent" size="lg">Beta</Badge></StyleguideItem>
+			</StyleguideSection>
+
+			<StyleguideSection title="Pill" id="pill">
+				<StyleguideItem label="default"><Pill href="#pill" label="New" text="Example announcement" /></StyleguideItem>
 			</StyleguideSection>
 
 			<StyleguideSection title="Card" id="card">
@@ -96,6 +117,8 @@ import { colorTokens, typeTokens } from '../data/styleguide';
 				<StyleguideItem label="rounded, next" wide><Card variant="rounded" align="end" href="#card" eyebrow="Next" title="Controllers" /></StyleguideItem>
 				<StyleguideItem label="feature" wide><Card variant="feature" title="Typed handlers" description="Example text for the styleguide." /></StyleguideItem>
 				<StyleguideItem label="panel" wide><Card variant="panel" title="Workshops" description="Example text for the styleguide." /></StyleguideItem>
+				<StyleguideItem label="tile" wide><Card variant="tile" title="Typed handlers" description="Example text for the styleguide." /></StyleguideItem>
+				<StyleguideItem label="tile, badge" wide><Card variant="tile" title="AI" description="Example text for the styleguide." badge="Beta" /></StyleguideItem>
 			</StyleguideSection>
 
 			<StyleguideSection title="Hint" id="hint">
@@ -113,6 +136,9 @@ import { colorTokens, typeTokens } from '../data/styleguide';
 				</StyleguideItem>
 				<StyleguideItem label="terminal" wide>
 					<CodeBlock lang="bash" code="go run ." />
+				</StyleguideItem>
+				<StyleguideItem label="plain, inset" wide>
+					<CodeBlock variant="plain" inset lang="go" code={'func main() {\n\tfmt.Println("hello")\n}'} />
 				</StyleguideItem>
 			</StyleguideSection>
 

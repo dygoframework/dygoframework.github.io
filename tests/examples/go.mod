@@ -3,7 +3,8 @@ module github.com/dygoframework/dygoframework.github.io/tests/examples
 go 1.27.0
 
 require (
-	github.com/dygoframework/dygo v1.0.0-beta.1.0.20261103220815-ff3421f94212
+	github.com/dygoframework/dygo v1.0.0-beta.2
+	github.com/dygoframework/dygo/ai v0.1.0-beta.1
 	github.com/dygoframework/dygo/micro/nats v1.0.0-beta.1
 	github.com/nats-io/nats-server/v2 v2.15.2
 )

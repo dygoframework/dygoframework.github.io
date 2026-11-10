@@ -67,6 +67,9 @@ jobs:
           test -z "$(gofmt -l .)"
           go vet ./...
           go test ./...
+      - name: The Home route-comment example matches dygo gen
+        working-directory: tests/examples
+        run: go run github.com/dygoframework/dygo/cmd/dygo gen -check ./home
 
   browser:
     name: Visual and accessibility tests

@@ -1,0 +1,54 @@
+---
+// A rounded announcement link with an accent label, such as the "New: AI
+// module" link above the Home heading.
+import Badge from './Badge.astro';
+import Icon from './Icon.astro';
+
+interface Props {
+	href: string;
+	label: string;
+	text: string;
+}
+
+const { href, label, text } = Astro.props;
+---
+
+<a class="dy-pill" href={href}>
+	<Badge variant="accent" size="md">{label}</Badge>
+	<span>{text}</span>
+	<Icon name="arrow" size="sm" class="dy-pill__arrow" />
+</a>
+
+<style>
+	.dy-pill {
+		display: inline-flex;
+		align-items: center;
+		gap: var(--dy-space-2);
+		padding: 5px var(--dy-space-3) 5px 5px;
+		background: var(--dy-color-surface);
+		border: var(--dy-border-width) solid var(--dy-color-border);
+		border-radius: var(--dy-radius-full);
+		color: var(--dy-color-text);
+		font-size: var(--dy-text-sm);
+		text-decoration: none;
+	}
+
+	.dy-pill:hover {
+		opacity: var(--dy-hover-opacity);
+	}
+
+	.dy-pill :global(.dy-pill__arrow) {
+		display: none;
+	}
+
+	@media (width >= 1024px) {
+		.dy-pill {
+			gap: var(--dy-space-2-5);
+			padding: var(--dy-space-1-5) var(--dy-space-3-5) var(--dy-space-1-5) var(--dy-space-1-5);
+		}
+
+		.dy-pill :global(.dy-pill__arrow) {
+			display: block;
+		}
+	}
+</style>

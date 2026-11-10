@@ -1,7 +1,9 @@
 github.com/antithesishq/antithesis-sdk-go v0.8.0-default-no-op h1:1BOWQJweNyvZMlpAHXGLiZQn9S+QXGcz3xh94lC0w6E=
 github.com/antithesishq/antithesis-sdk-go v0.8.0-default-no-op/go.mod h1:FQyySiasQQM8735Ddel3MRojmy4dA1IqCeyJ5jmPMbI=
-github.com/dygoframework/dygo v1.0.0-beta.1.0.20261103220815-ff3421f94212 h1:NeCXHoxZtiCF/nJrr3kX7A6Ar66mWy3OCnIdPQTb220=
-github.com/dygoframework/dygo v1.0.0-beta.1.0.20261103220815-ff3421f94212/go.mod h1:wUgLVZtZqHCBdcdspDNtNuuQXG1Iolt27d8l5408i/A=
+github.com/dygoframework/dygo v1.0.0-beta.2 h1:PYRwEW3jA0b6eWSQ8EFaoiAvvjvd6ja67NMh6R4VhIg=
+github.com/dygoframework/dygo v1.0.0-beta.2/go.mod h1:wUgLVZtZqHCBdcdspDNtNuuQXG1Iolt27d8l5408i/A=
+github.com/dygoframework/dygo/ai v0.1.0-beta.1 h1:qO1qhFc0wJsovKjRXt3lOsMLFKR5JIbvKPHBZXx7eR0=
+github.com/dygoframework/dygo/ai v0.1.0-beta.1/go.mod h1:XcpQbl2X0hSyRmxPF7/hzahvW7EL0V62aw4jT9SmHN4=
 github.com/dygoframework/dygo/micro/nats v1.0.0-beta.1 h1:EAL4hwLYaLMfGlYDVT/WPbFVTxOj4KtyP0M+tXnrTZU=
 github.com/dygoframework/dygo/micro/nats v1.0.0-beta.1/go.mod h1:1EtA0P4igJGImqbyuL1zifIMN+s8hx8agYLGLa9cQ2c=
 github.com/google/go-tpm v0.9.8 h1:slArAR9Ft+1ybZu0lBwpSmpwhRXaa85hWtMinMyRAWo=

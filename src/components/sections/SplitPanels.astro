@@ -1,10 +1,12 @@
 ---
-// Two side-by-side panels with yellow headings: Security and Performance on
-// Home, and the risk and speed panels on Enterprise. They stack below 1024px.
+// Two side-by-side panels with yellow headings: the risk and speed panels on
+// Enterprise, and Security and Performance on Home (`cards`: rounded cards,
+// with a `short` lead and no link below 1024px). They stack below 1024px.
 interface Panel {
 	id: string;
 	title: string;
 	lead: string;
+	short?: string;
 	items?: string[];
 	link?: { label: string; href: string };
 }
@@ -12,18 +14,28 @@ interface Panel {
 interface Props {
 	label: string;
 	panels: Panel[];
-	size?: 'large' | 'small';
+	size?: 'large' | 'small' | 'cards';
 }
 
 const { label, panels, size = 'large' } = Astro.props;
 ---
 
 <section class:list={['dy-panels', `dy-panels--${size}`]} aria-label={label}>
+	<div class="dy-panels__inner">
 	{
 		panels.map((panel) => (
 			<div class="dy-panels__panel" id={panel.id}>
 				<h2 class="dy-panels__title">{panel.title}</h2>
-				<p class="dy-panels__lead">{panel.lead}</p>
+				<p class="dy-panels__lead">
+					{panel.short ? (
+						<>
+							<span class="dy-panels__long">{panel.lead}</span>
+							<span class="dy-panels__short">{panel.short}</span>
+						</>
+					) : (
+						panel.lead
+					)}
+				</p>
 				{panel.items && (
 					<ul class="dy-panels__list">
 						{panel.items.map((item) => (
@@ -39,12 +51,20 @@ const { label, panels, size = 'large' } = Astro.props;
 			</div>
 		))
 	}
+	</div>
 </section>
 
 <style>
 	.dy-panels {
-		display: grid;
 		border-top: var(--dy-border-width) solid var(--dy-color-border);
+	}
+
+	.dy-panels__inner {
+		display: grid;
+	}
+
+	.dy-panels__long {
+		display: none;
 	}
 
 	.dy-panels__panel {
@@ -102,9 +122,99 @@ const { label, panels, size = 'large' } = Astro.props;
 		text-underline-offset: 4px;
 	}
 
+	.dy-panels--cards {
+		border-top: 0;
+	}
+
+	.dy-panels--cards .dy-panels__inner {
+		box-sizing: border-box;
+		max-width: var(--dy-width-content);
+		margin: 0 auto;
+		padding: 0 var(--dy-space-5) var(--dy-space-14);
+		gap: var(--dy-space-4);
+	}
+
+	.dy-panels--cards .dy-panels__panel,
+	.dy-panels--cards .dy-panels__panel + .dy-panels__panel {
+		gap: var(--dy-space-3-5);
+		padding: var(--dy-space-6) var(--dy-space-5);
+		background: var(--dy-color-surface);
+		border: var(--dy-border-width) solid var(--dy-color-border);
+		border-radius: var(--dy-radius-card-mobile);
+	}
+
+	.dy-panels--cards .dy-panels__title {
+		font-size: var(--dy-text-heading-mobile);
+	}
+
+	.dy-panels--cards .dy-panels__lead {
+		font-size: var(--dy-text-base);
+	}
+
+	.dy-panels--cards .dy-panels__list li {
+		padding: 11px 0;
+		border-top-color: var(--dy-color-border);
+	}
+
+	.dy-panels--cards .dy-panels__list li:last-child {
+		border-bottom: 0;
+	}
+
+	.dy-panels--cards .dy-panels__link {
+		display: none;
+	}
+
 	@media (width >= 1024px) {
-		.dy-panels {
+		.dy-panels__inner {
 			grid-template-columns: 1fr 1fr;
+		}
+
+		.dy-panels__long {
+			display: inline;
+		}
+
+		.dy-panels__short {
+			display: none;
+		}
+
+		.dy-panels--cards {
+			border-top: var(--dy-border-width) solid var(--dy-color-border);
+		}
+
+		.dy-panels--cards .dy-panels__inner {
+			grid-template-columns: repeat(auto-fit, minmax(min(520px, 100%), 1fr));
+			padding: var(--dy-space-26) var(--dy-space-8);
+		}
+
+		.dy-panels--cards .dy-panels__panel,
+		.dy-panels--cards .dy-panels__panel + .dy-panels__panel {
+			gap: var(--dy-space-5);
+			padding: clamp(28px, 4vw, 48px);
+			border-radius: var(--dy-radius-xl);
+		}
+
+		.dy-panels--cards .dy-panels__title {
+			font-size: var(--dy-text-display-card);
+			line-height: var(--dy-leading-section);
+		}
+
+		.dy-panels--cards .dy-panels__lead {
+			font-size: var(--dy-text-lead-mobile);
+		}
+
+		.dy-panels--cards .dy-panels__list li {
+			padding: 13px 0;
+		}
+
+		.dy-panels--cards .dy-panels__list li:last-child {
+			border-bottom: var(--dy-border-width) solid var(--dy-color-border);
+		}
+
+		.dy-panels--cards .dy-panels__link {
+			display: block;
+			padding: var(--dy-space-1-5) 0;
+			color: var(--dy-color-accent);
+			text-decoration: none;
 		}
 
 		.dy-panels__panel {

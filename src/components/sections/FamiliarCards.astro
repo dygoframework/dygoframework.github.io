@@ -1,0 +1,164 @@
+---
+// "Familiar by design" on Home: a heading, a lead and cards that each show a
+// short code sample. Below 1024px only the cards marked `mobileCode` show code.
+import CodeBlock from '../ui/CodeBlock.astro';
+
+interface Item {
+	title: string;
+	description: string;
+	code: string;
+	lang?: string;
+	mobileCode?: boolean;
+}
+
+interface Props {
+	id?: string;
+	title: string;
+	lead: string;
+	items: Item[];
+}
+
+const { id, title, lead, items } = Astro.props;
+---
+
+<section class="dy-familiar" id={id}>
+	<div class="dy-familiar__inner">
+		<div class="dy-familiar__intro">
+			<h2 class="dy-familiar__title">{title}</h2>
+			<p class="dy-familiar__lead">{lead}</p>
+		</div>
+		<div class="dy-familiar__grid">
+			{
+				items.map((item) => (
+					<article class="dy-familiar__card">
+						<h3 class="dy-familiar__name">{item.title}</h3>
+						<p class="dy-familiar__text">
+							<Fragment set:html={item.description} />
+						</p>
+						<div class:list={['dy-familiar__code', item.mobileCode && 'dy-familiar__code--mobile']}>
+							<CodeBlock variant="plain" inset code={item.code} lang={item.lang ?? 'go'} label={`${item.title} example`} />
+						</div>
+					</article>
+				))
+			}
+		</div>
+	</div>
+</section>
+
+<style>
+	.dy-familiar__inner {
+		box-sizing: border-box;
+		max-width: var(--dy-width-content);
+		margin: 0 auto;
+		padding: var(--dy-space-14) var(--dy-space-5);
+		display: flex;
+		flex-direction: column;
+		gap: var(--dy-space-4);
+	}
+
+	.dy-familiar__intro {
+		max-width: var(--dy-width-heading);
+		display: flex;
+		flex-direction: column;
+		gap: var(--dy-space-4);
+		margin-bottom: var(--dy-space-2);
+	}
+
+	.dy-familiar__title {
+		margin: 0;
+		font-size: var(--dy-text-panel-sm-mobile);
+		font-weight: var(--dy-weight-extrabold);
+		line-height: var(--dy-leading-title);
+		letter-spacing: var(--dy-tracking-display);
+	}
+
+	.dy-familiar__lead {
+		margin: 0;
+		color: var(--dy-color-text-muted);
+		text-wrap: pretty;
+	}
+
+	.dy-familiar__grid {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(min(520px, 100%), 1fr));
+		gap: var(--dy-space-4);
+	}
+
+	.dy-familiar__card {
+		min-width: 0;
+		display: flex;
+		flex-direction: column;
+		gap: var(--dy-space-2);
+		padding: var(--dy-space-5);
+		background: var(--dy-color-surface);
+		border: var(--dy-border-width) solid var(--dy-color-border);
+		border-radius: var(--dy-radius-card-mobile);
+	}
+
+	.dy-familiar__card:has(.dy-familiar__code--mobile) {
+		gap: var(--dy-space-2-5);
+	}
+
+	.dy-familiar__name {
+		margin: 0;
+		font-size: var(--dy-text-lg);
+		font-weight: var(--dy-weight-bold);
+	}
+
+	.dy-familiar__text {
+		margin: 0;
+		color: var(--dy-color-text-muted);
+	}
+
+	.dy-familiar__text :global(code) {
+		font-family: var(--dy-font-mono);
+	}
+
+	.dy-familiar__code {
+		display: none;
+		min-width: 0;
+	}
+
+	.dy-familiar__code--mobile {
+		display: block;
+	}
+
+	@media (width >= 1024px) {
+		.dy-familiar__inner {
+			padding: var(--dy-space-26) var(--dy-space-8);
+			gap: var(--dy-space-12);
+		}
+
+		.dy-familiar__intro {
+			margin-bottom: 0;
+		}
+
+		.dy-familiar__title {
+			font-size: var(--dy-text-display-md);
+			line-height: var(--dy-leading-section);
+		}
+
+		.dy-familiar__lead {
+			font-size: var(--dy-text-xl);
+		}
+
+		.dy-familiar__card,
+		.dy-familiar__card:has(.dy-familiar__code--mobile) {
+			gap: var(--dy-space-3-5);
+			padding: var(--dy-space-7);
+			border-radius: var(--dy-radius-xl);
+		}
+
+		.dy-familiar__name {
+			font-size: var(--dy-text-2xl);
+		}
+
+		.dy-familiar__text :global(code) {
+			font-size: var(--dy-text-md);
+		}
+
+		.dy-familiar__code {
+			display: block;
+		}
+	}
+</style>

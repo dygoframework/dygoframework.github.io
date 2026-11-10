@@ -35,7 +35,7 @@ Read this before changing anything under `src/`. It keeps the website consistent
 
 ### Yellow
 
-Use `--dy-accent` only for the logo, the second hero line, primary buttons, the Security and Performance headings, the active menu item, Hint labels and borders, and small code details.
+Use `--dy-accent` only for the logo, the second hero line, primary buttons, the Security and Performance headings, the active menu item, Hint labels and borders, small code details such as terminal prompts, accent badges and the Home pill, the active code tab line, the chosen option on Start a project, and text links inside Home sections (approved 2026-11-10).
 
 Never use it as a section background.
 
@@ -64,11 +64,13 @@ Use these before you build anything new. Keep this table up to date.
 
 | Component | Use it for |
 |---|---|
-| Button | Page actions, with primary and secondary variants, a small tool variant such as Copy markdown, and a rounded shape for forms |
-| Input | Labeled form fields |
-| Badge | Short status labels, such as "Soon" |
-| Card | Grouped content on a raised surface: outline, rounded, feature and panel variants |
-| CodeBlock | Code with a file name and copy button |
+| Button | Page actions, with primary and secondary variants, a small tool variant such as Copy markdown, a rounded shape for forms and a soft shape for Home |
+| Input | Labeled form fields, with a code variant for names such as the project name |
+| OptionGroup | A choice of one option, shown as cards, as on Start a project |
+| Badge | Short status labels: "Soon", and accent labels such as "Beta" and "New" in four sizes |
+| Pill | A rounded announcement link with an accent label, such as "New: AI module" |
+| Card | Grouped content on a raised surface: outline, rounded, feature, panel and tile variants |
+| CodeBlock | Code with a file name and copy button, or plain code inside a card or tab |
 | Hint | Notes and warnings in docs |
 | TopBar | The floating bar on every page |
 | Sidebar | Docs navigation on desktop |

@@ -1,15 +1,18 @@
 ---
-// A short status label: "Soon" for menu items without a page, "Beta" for a
-// module that isn't stable yet.
+// A short status label. soon: a menu item without a page. accent: a yellow
+// pill, such as "Beta" or "New", in four sizes:
+// xs on a docs menu group, sm on a feature card, md in the Home pill and lg
+// above a section heading.
 interface Props {
-	variant?: 'soon' | 'beta';
+	variant?: 'soon' | 'accent';
+	size?: 'xs' | 'sm' | 'md' | 'lg';
 	class?: string;
 }
 
-const { variant = 'soon', class: className } = Astro.props;
+const { variant = 'soon', size = 'xs', class: className } = Astro.props;
 ---
 
-<span class:list={['dy-badge', `dy-badge--${variant}`, className]}><slot /></span>
+<span class:list={['dy-badge', `dy-badge--${variant}`, variant === 'accent' && `dy-badge--${size}`, className]}><slot /></span>
 
 <style>
 	.dy-badge {
@@ -23,14 +26,46 @@ const { variant = 'soon', class: className } = Astro.props;
 		line-height: var(--dy-leading-body);
 	}
 
-	.dy-badge--beta {
-		padding: 0 var(--dy-space-badge);
+	.dy-badge--accent {
+		flex: none;
 		border-color: var(--dy-color-accent-border);
 		border-radius: var(--dy-radius-full);
 		background: var(--dy-color-accent-tint);
 		color: var(--dy-color-accent);
+		font-weight: var(--dy-weight-bold);
+		letter-spacing: normal;
+		text-transform: none;
+	}
+
+	.dy-badge--xs {
+		padding: 0 var(--dy-space-badge);
 		font-weight: var(--dy-weight-semibold);
 		letter-spacing: var(--dy-tracking-hint);
-		text-transform: none;
+	}
+
+	.dy-badge--sm {
+		padding: 0 var(--dy-space-2);
+		font-size: var(--dy-text-kbd);
+	}
+
+	.dy-badge--md {
+		padding: 1px calc(var(--dy-space-2-5) - 1px);
+		font-size: var(--dy-text-kbd);
+	}
+
+	.dy-badge--lg {
+		padding: 1px var(--dy-space-2-5);
+		font-size: var(--dy-text-xs);
+	}
+
+	@media (width >= 1024px) {
+		.dy-badge--sm {
+			padding: 1px var(--dy-space-2);
+		}
+
+		.dy-badge--md,
+		.dy-badge--lg {
+			padding: 2px var(--dy-space-2-5);
+		}
 	}
 </style>

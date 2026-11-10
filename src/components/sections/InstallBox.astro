@@ -1,21 +1,32 @@
 ---
-// The install commands under the Home hero, with a copy button.
+// A terminal with commands and a copy button: the install commands in the
+// Home hero, and the commands Start a project builds. `note` shows under the
+// commands from 1024px; the default slot shows under them at every width.
+// Lines that start with # are comments, shown without a prompt.
 interface Props {
 	commands: string[];
 	note?: string;
+	title?: string;
+	label?: string;
+	copyLabel?: string;
+	copy?: 'muted' | 'accent';
+	live?: boolean;
+	id?: string;
 }
 
-const { commands, note } = Astro.props;
+const { commands, note, title = 'Terminal', label = 'Install commands', copyLabel = 'Copy', copy = 'muted', live = false, id } = Astro.props;
 ---
 
-<div class="dy-install">
-	<div class="dy-install__box">
-		<pre class="dy-install__code" tabindex="0" aria-label="Install commands"><code>{commands.join('\n')}</code></pre>
-		<button type="button" class="dy-install__copy" data-copy-install={commands.join('\n')}>
-			<span data-copy-text>Copy</span>
+<div class="dy-install" id={id}>
+	<div class="dy-install__bar">
+		<span class="dy-install__label">{title}</span>
+		<button type="button" class:list={['dy-install__copy', `dy-install__copy--${copy}`]} data-copy-install={commands.join('\n')} data-copy-label={copyLabel}>
+			<span data-copy-text>{copyLabel}</span>
 		</button>
 	</div>
+	<pre class="dy-install__code" tabindex="0" aria-label={label} aria-live={live ? 'polite' : undefined}><code data-commands>{commands.map((command) => command.startsWith('#') ? <span class="dy-install__line dy-install__comment">{command}</span> : <span class="dy-install__line"><span class="dy-install__prompt" aria-hidden="true">$ </span>{command}</span>)}</code></pre>
 	{note && <p class="dy-install__note">{note}</p>}
+	{Astro.slots.has('default') && <div class="dy-install__footer"><slot /></div>}
 </div>
 
 <script>
@@ -29,50 +40,42 @@ const { commands, note } = Astro.props;
 		} catch {
 			text.textContent = 'Copy failed';
 		}
-		setTimeout(() => (text.textContent = 'Copy'), 2000);
+		setTimeout(() => (text.textContent = button.dataset.copyLabel ?? 'Copy'), 2000);
 	});
 </script>
 
 <style>
 	.dy-install {
-		display: flex;
-		flex-direction: column;
-		gap: var(--dy-space-3);
-		max-width: 100%;
-	}
-
-	.dy-install__box {
 		box-sizing: border-box;
+		width: 100%;
 		max-width: 100%;
-		display: flex;
-		align-items: center;
-		gap: var(--dy-space-3);
-		padding: var(--dy-space-1) var(--dy-space-1) var(--dy-space-1) var(--dy-space-4);
-		background: var(--dy-color-surface-code);
+		overflow: hidden;
+		background: var(--dy-color-surface);
 		border: var(--dy-border-width) solid var(--dy-color-border);
+		border-radius: var(--dy-radius-card-mobile);
 		text-align: left;
 	}
 
-	.dy-install__code {
-		flex: 1 1 0;
-		min-width: 0;
-		margin: 0;
-		padding: var(--dy-space-2) 0;
-		overflow-x: auto;
+	.dy-install__bar {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: var(--dy-space-3);
+		padding: var(--dy-space-1) var(--dy-space-1) var(--dy-space-1) var(--dy-space-4);
+		background: var(--dy-color-surface-code);
+		border-bottom: var(--dy-border-width) solid var(--dy-color-border);
+	}
+
+	.dy-install__label {
+		color: var(--dy-color-text-muted);
 		font-size: var(--dy-text-sm);
-		line-height: var(--dy-leading-docs);
 	}
 
 	.dy-install__copy {
-		flex: none;
-		min-width: var(--dy-size-control);
 		min-height: var(--dy-size-control);
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		gap: var(--dy-space-2);
-		padding: 0 var(--dy-space-3);
+		padding: 0 var(--dy-space-3-5);
 		border: 0;
+		border-radius: var(--dy-radius-sm);
 		background: var(--dy-color-border);
 		color: var(--dy-color-text);
 		font: inherit;
@@ -80,28 +83,85 @@ const { commands, note } = Astro.props;
 		cursor: pointer;
 	}
 
+	.dy-install__copy--accent {
+		background: var(--dy-color-accent);
+		color: var(--dy-color-on-accent);
+		font-weight: var(--dy-weight-bold);
+	}
+
 	.dy-install__copy:hover {
 		opacity: var(--dy-hover-opacity);
 	}
 
-	.dy-install__note {
+	.dy-install__code {
 		margin: 0;
+		padding: var(--dy-space-4);
+		overflow-x: auto;
+		background: transparent;
+		color: var(--dy-color-text);
+		font-family: var(--dy-font-mono);
+		font-size: var(--dy-text-xs);
+		line-height: 2;
+	}
+
+	/* Global, because Start a project redraws the lines in the browser. */
+	.dy-install__code :global(.dy-install__line) {
+		display: block;
+		white-space: pre;
+	}
+
+	.dy-install__code :global(.dy-install__prompt) {
+		color: var(--dy-color-accent);
+		user-select: none;
+	}
+
+	.dy-install__code :global(.dy-install__comment) {
+		color: var(--dy-color-code-comment);
+	}
+
+	.dy-install__footer {
+		display: flex;
+		flex-direction: column;
+		gap: var(--dy-space-2-5);
+		padding: var(--dy-space-4) var(--dy-space-5) var(--dy-space-5);
+		border-top: var(--dy-border-width) solid var(--dy-color-border);
+		color: var(--dy-color-text-muted);
+		font-size: var(--dy-text-md);
+	}
+
+	.dy-install__note {
+		display: none;
+		margin: 0;
+		padding: var(--dy-space-4) var(--dy-space-6) var(--dy-space-5);
+		border-top: var(--dy-border-width) solid var(--dy-color-border);
 		color: var(--dy-color-text-muted);
 		font-size: var(--dy-text-md);
 	}
 
 	@media (width >= 1024px) {
-		.dy-install__box {
-			gap: var(--dy-space-6);
-			padding: var(--dy-space-2) var(--dy-space-2) var(--dy-space-2) var(--dy-space-5);
+		.dy-install {
+			border-radius: var(--dy-radius-xl);
 		}
 
-		.dy-install__code {
-			font-size: var(--dy-text-md);
+		.dy-install__bar {
+			padding: var(--dy-space-1-5) var(--dy-space-1-5) var(--dy-space-1-5) var(--dy-space-5);
 		}
 
 		.dy-install__copy {
-			min-width: var(--dy-space-20);
+			padding: 0 var(--dy-space-4);
+		}
+
+		.dy-install__code {
+			padding: var(--dy-space-6);
+			font-size: var(--dy-text-md);
+		}
+
+		.dy-install__note {
+			display: block;
+		}
+
+		.dy-install__footer {
+			padding: var(--dy-space-4-5) var(--dy-space-6) var(--dy-space-5-5);
 		}
 	}
 </style>
