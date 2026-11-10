@@ -1,13 +1,20 @@
 ---
-// Benchmark numbers under the panels on Home.
+// The benchmark strip under the Home hero. Below 1024px it shows two columns,
+// the stats marked `desktopOnly` are left out and `short` labels are used.
+interface Stat {
+	value: string;
+	label: string;
+	short?: string;
+	desktopOnly?: boolean;
+}
+
 interface Props {
 	label: string;
-	stats: { value: string; label: string }[];
-	note?: string;
+	stats: Stat[];
 	link?: { label: string; href: string };
 }
 
-const { label, stats, note, link } = Astro.props;
+const { label, stats, link } = Astro.props;
 ---
 
 <section class="dy-stats" aria-label={label}>
@@ -15,18 +22,27 @@ const { label, stats, note, link } = Astro.props;
 		<dl class="dy-stats__list">
 			{
 				stats.map((stat) => (
-					<div class="dy-stats__item">
-						<dt class="dy-stats__label">{stat.label}</dt>
+					<div class:list={['dy-stats__item', stat.desktopOnly && 'dy-stats__item--desktop']}>
+						<dt class="dy-stats__label">
+							{stat.short ? (
+								<>
+									<span class="dy-stats__long">{stat.label}</span>
+									<span class="dy-stats__short">{stat.short}</span>
+								</>
+							) : (
+								stat.label
+							)}
+						</dt>
 						<dd class="dy-stats__value">{stat.value}</dd>
 					</div>
 				))
 			}
 		</dl>
 		{
-			(note || link) && (
-				<p class="dy-stats__note">
-					{note} {link && <a href={link.href}>{link.label}</a>}
-				</p>
+			link && (
+				<a class="dy-stats__link" href={link.href}>
+					{link.label}
+				</a>
 			)
 		}
 	</div>
@@ -34,62 +50,83 @@ const { label, stats, note, link } = Astro.props;
 
 <style>
 	.dy-stats {
-		border-bottom: var(--dy-border-width) solid var(--dy-color-border);
+		border-block: var(--dy-border-width) solid var(--dy-color-border);
 	}
 
 	.dy-stats__inner {
 		box-sizing: border-box;
 		max-width: var(--dy-width-content);
 		margin: 0 auto;
-		padding: var(--dy-space-10) var(--dy-space-5);
-		display: flex;
-		flex-direction: column;
-		gap: var(--dy-space-6);
+		padding: var(--dy-space-8) var(--dy-space-5);
+		display: grid;
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		gap: var(--dy-space-5) var(--dy-space-4);
+		align-items: end;
 	}
 
 	.dy-stats__list {
-		margin: 0;
-		display: grid;
-		grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr));
-		gap: var(--dy-space-6) var(--dy-space-8);
+		display: contents;
 	}
 
 	.dy-stats__item {
 		display: flex;
 		flex-direction: column-reverse;
-		gap: var(--dy-space-1);
+	}
+
+	.dy-stats__item--desktop,
+	.dy-stats__long {
+		display: none;
 	}
 
 	.dy-stats__value {
 		margin: 0;
 		font-family: var(--dy-font-mono);
-		font-size: var(--dy-text-3xl);
+		font-size: var(--dy-text-stat-mobile);
 		font-weight: var(--dy-weight-medium);
 	}
 
 	.dy-stats__label {
 		color: var(--dy-color-text-muted);
+		font-size: var(--dy-text-sm);
 	}
 
-	.dy-stats__note {
-		margin: 0;
-		color: var(--dy-color-text-muted);
-		font-size: var(--dy-text-md);
-	}
-
-	.dy-stats__note a {
-		color: var(--dy-color-text);
-		text-decoration: underline;
-		text-underline-offset: 3px;
+	.dy-stats__link {
+		justify-self: start;
+		padding: var(--dy-space-2) 0;
+		color: var(--dy-color-accent);
+		font-weight: var(--dy-weight-semibold);
+		text-decoration: none;
 	}
 
 	@media (width >= 1024px) {
 		.dy-stats__inner {
-			padding: var(--dy-space-12) var(--dy-space-8);
+			padding: var(--dy-space-10) var(--dy-space-8);
+			grid-template-columns: repeat(auto-fit, minmax(min(240px, 100%), 1fr));
+			gap: var(--dy-space-6) var(--dy-space-8);
+		}
+
+		.dy-stats__item--desktop {
+			display: flex;
+		}
+
+		.dy-stats__long {
+			display: inline;
+		}
+
+		.dy-stats__short {
+			display: none;
 		}
 
 		.dy-stats__value {
-			font-size: var(--dy-text-4xl);
+			font-size: var(--dy-text-stat);
+		}
+
+		.dy-stats__label {
+			font-size: var(--dy-text-base);
+		}
+
+		.dy-stats__link {
+			padding: var(--dy-space-2-5) 0;
 		}
 	}
 </style>

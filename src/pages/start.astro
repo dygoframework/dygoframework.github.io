@@ -1,0 +1,18 @@
+---
+import MarketingLayout from '../layouts/MarketingLayout.astro';
+import ProjectBuilder from '../components/sections/ProjectBuilder.astro';
+---
+
+<MarketingLayout
+	title="Start a Dygo project"
+	description="Choose security, a database and an AI provider, then copy the commands to create your Dygo project."
+	current="start"
+	footer="simple"
+	footerLicense
+>
+	<ProjectBuilder
+		title="Start a project."
+		lead="Choose what your app needs, then copy the commands. Everything runs on your computer, and nothing is sent anywhere."
+		link={{ label: 'Read the quick start', href: '/docs/first-steps/' }}
+	/>
+</MarketingLayout>

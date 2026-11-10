@@ -76,11 +76,19 @@ test.describe('Home', () => {
 	test('code tabs switch files', async ({ page }) => {
 		await page.goto('/');
 		const tabs = page.getByRole('group', { name: 'Code files' });
-		await expect(tabs.getByRole('button', { name: 'main.go' })).toHaveAttribute('aria-pressed', 'true');
-		await tabs.getByRole('button', { name: 'products_test.go' }).click();
-		await expect(tabs.getByRole('button', { name: 'products_test.go' })).toHaveAttribute('aria-pressed', 'true');
-		await expect(page.getByText('func TestProducts')).toBeVisible();
-		await expect(page.getByText('func main()')).toBeHidden();
+		await expect(tabs.getByRole('button', { name: 'products.go' })).toHaveAttribute('aria-pressed', 'true');
+		await tabs.getByRole('button', { name: 'Without codegen' }).click();
+		await expect(tabs.getByRole('button', { name: 'Without codegen' })).toHaveAttribute('aria-pressed', 'true');
+		await expect(page.getByText('func (c *Controller) Routes(r dygo.Router) {')).toBeVisible();
+		await expect(page.getByText('//go:generate dygo gen')).toBeHidden();
+	});
+
+	test('AI tabs switch examples', async ({ page }) => {
+		await page.goto('/');
+		const tabs = page.getByRole('group', { name: 'AI examples' });
+		await tabs.getByRole('button', { name: 'Typed output' }).click();
+		await expect(tabs.getByRole('button', { name: 'Typed output' })).toHaveAttribute('aria-pressed', 'true');
+		await expect(page.locator('#ai').getByText('ai.Generate[Ticket]')).toBeVisible();
 	});
 
 	test('the install box copies the commands', async ({ page, context }) => {
@@ -99,5 +107,34 @@ test.describe('Home', () => {
 		for (const banned of ['dygo.New()', 'app.GET', 'app.Use', 'dygo.RateLimit(100)', 'c.JSON', 'dygo.Map', '[YOUR-ORG]', 'Built-in profiling', 'Graceful handling under load']) {
 			expect(html, banned).not.toContain(banned);
 		}
+	});
+});
+
+test.describe('Start a project', () => {
+	test('builds the commands from the options, in the browser', async ({ page }) => {
+		const requests: string[] = [];
+		await page.goto('/start/');
+		page.on('request', (r) => requests.push(r.url()));
+		const output = page.getByLabel('Generated commands');
+		await expect(output).toContainText('dygo new shop -security -db postgres');
+		await page.getByLabel('Project name').fill('9 My Api');
+		await page.getByText('Identity provider').click();
+		await page.getByText('MySQL').click();
+		await page.getByText('Anthropic').click();
+		await expect(page.getByLabel('Project name')).toHaveValue('myapi');
+		await expect(output).toContainText('dygo new myapi -security -oidc -db mysql');
+		await expect(output).toContainText('dygo ai init -provider anthropic');
+		await expect(output).toContainText('docker compose up -d');
+		await expect(output).toContainText('# put your key in AI_API_KEY in .env');
+		expect(requests).toEqual([]);
+	});
+
+	test('the options are radio buttons', async ({ page }) => {
+		await page.goto('/start/');
+		const security = page.getByRole('group', { name: 'Security' });
+		await expect(security.getByRole('radio', { name: /Built-in login/ })).toBeChecked();
+		await security.getByRole('radio', { name: /Built-in login/ }).focus();
+		await page.keyboard.press('ArrowRight');
+		await expect(security.getByRole('radio', { name: /Identity provider/ })).toBeChecked();
 	});
 });

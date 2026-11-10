@@ -1,0 +1,126 @@
+---
+// A rounded call to action near the end of Home: a heading, a lead and
+// actions. Actions marked `desktopOnly` are left out below 1024px.
+import Button from '../ui/Button.astro';
+
+interface Props {
+	title: string;
+	lead: string;
+	actions: readonly { label: string; href: string; variant: 'primary' | 'secondary'; desktopOnly?: boolean }[];
+}
+
+const { title, lead, actions } = Astro.props;
+---
+
+<section class="dy-cta">
+	<div class="dy-cta__inner">
+		<div class="dy-cta__card">
+			<div class="dy-cta__text">
+				<h2 class="dy-cta__title">{title}</h2>
+				<p class="dy-cta__lead">{lead}</p>
+			</div>
+			<div class="dy-cta__actions">
+				{
+					actions.map((action) => (
+						<Button href={action.href} variant={action.variant} shape="soft" class={action.desktopOnly ? 'dy-cta__desktop' : undefined}>
+							{action.label}
+						</Button>
+					))
+				}
+			</div>
+		</div>
+	</div>
+</section>
+
+<style>
+	.dy-cta__inner {
+		box-sizing: border-box;
+		max-width: var(--dy-width-content);
+		margin: 0 auto;
+		padding: 0 var(--dy-space-5) var(--dy-space-14);
+	}
+
+	.dy-cta__card {
+		display: flex;
+		flex-direction: column;
+		gap: var(--dy-space-3-5);
+		padding: var(--dy-space-7) var(--dy-space-5);
+		background: var(--dy-color-surface);
+		border: var(--dy-border-width) solid var(--dy-color-border);
+		border-radius: var(--dy-radius-xl);
+	}
+
+	.dy-cta__text {
+		display: flex;
+		flex-direction: column;
+		gap: var(--dy-space-3-5);
+	}
+
+	.dy-cta__title {
+		margin: 0;
+		font-size: var(--dy-text-4xl);
+		font-weight: var(--dy-weight-extrabold);
+		line-height: var(--dy-leading-title);
+		letter-spacing: var(--dy-tracking-display);
+	}
+
+	.dy-cta__lead {
+		margin: 0;
+		color: var(--dy-color-text-muted);
+	}
+
+	.dy-cta__actions {
+		display: flex;
+		flex-direction: column;
+		gap: var(--dy-space-3);
+	}
+
+	.dy-cta__actions > :global(*) {
+		padding-inline: var(--dy-space-5);
+	}
+
+	.dy-cta__actions > :global(.dy-cta__desktop) {
+		display: none;
+	}
+
+	@media (width >= 1024px) {
+		.dy-cta__inner {
+			padding: var(--dy-space-24) var(--dy-space-8);
+		}
+
+		.dy-cta__card {
+			flex-flow: row wrap;
+			align-items: center;
+			justify-content: space-between;
+			gap: var(--dy-space-6) var(--dy-space-12);
+			padding: clamp(32px, 5vw, 64px);
+			border-radius: var(--dy-radius-2xl);
+		}
+
+		.dy-cta__text {
+			flex: 1 1 420px;
+			gap: var(--dy-space-3);
+		}
+
+		.dy-cta__title {
+			font-size: var(--dy-text-display-cta-card);
+			line-height: var(--dy-leading-section);
+		}
+
+		.dy-cta__lead {
+			font-size: var(--dy-text-lead-mobile);
+		}
+
+		.dy-cta__actions {
+			flex-flow: row wrap;
+		}
+
+		.dy-cta__actions > :global(*) {
+			padding-inline: var(--dy-space-7);
+		}
+
+		.dy-cta__actions > :global(.dy-cta__desktop) {
+			display: inline-flex;
+		}
+	}
+</style>

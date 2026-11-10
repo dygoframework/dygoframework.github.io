@@ -1,15 +1,75 @@
 ---
 // Code with a file name and a copy button. It uses Expressive Code, the same
 // renderer as docs code blocks, so both look the same.
+// plain: no header and no copy button, on the page background, for code
+// inside a card or a tab panel. `inset` adds a rounded border, as in the
+// Home "Familiar by design" cards.
 import { Code } from '@astrojs/starlight/components';
 
 interface Props {
 	code: string;
 	lang: string;
 	title?: string;
+	variant?: 'framed' | 'plain';
+	inset?: boolean;
+	label?: string;
 }
 
-const { code, lang, title } = Astro.props;
+const { code, lang, title, variant = 'framed', inset = false, label } = Astro.props;
 ---
 
-<Code code={code} lang={lang} title={title} />
+{
+	variant === 'framed' ? (
+		<Code code={code} lang={lang} title={title} />
+	) : (
+		<div class:list={['dy-codeblock', inset && 'dy-codeblock--inset']} aria-label={label} role={label ? 'group' : undefined}>
+			<Code code={code.trimEnd()} lang={lang} frame="none" />
+		</div>
+	)
+}
+
+<style>
+	.dy-codeblock {
+		min-width: 0;
+	}
+
+	.dy-codeblock :global(.expressive-code) {
+		--ec-brdRad: 0;
+		--ec-brdCol: transparent;
+		--ec-codeBg: var(--dy-color-bg);
+		--ec-frm-edBg: var(--dy-color-bg);
+		--ec-codeFontSize: var(--dy-text-xs);
+		--ec-codeLineHt: 1.7;
+		--ec-codePadBlk: var(--dy-space-4);
+		--ec-codePadInl: var(--dy-space-4);
+	}
+
+	.dy-codeblock :global(.copy) {
+		display: none;
+	}
+
+	.dy-codeblock--inset {
+		overflow: hidden;
+		border: var(--dy-border-width) solid var(--dy-color-border);
+		border-radius: var(--dy-radius-md);
+	}
+
+	.dy-codeblock--inset :global(.expressive-code) {
+		--ec-codePadBlk: var(--dy-space-3-5);
+		--ec-codePadInl: var(--dy-space-3-5);
+	}
+
+	@media (width >= 1024px) {
+		.dy-codeblock :global(.expressive-code) {
+			--ec-codeFontSize: var(--dy-text-md);
+			--ec-codePadBlk: var(--dy-space-6);
+			--ec-codePadInl: var(--dy-space-6);
+		}
+
+		.dy-codeblock--inset :global(.expressive-code) {
+			--ec-codeFontSize: var(--dy-text-sm);
+			--ec-codePadBlk: var(--dy-space-4-5);
+			--ec-codePadInl: var(--dy-space-4-5);
+		}
+	}
+</style>

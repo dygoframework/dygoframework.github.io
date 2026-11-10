@@ -1,6 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { buildPage, fixPaths, render, rewriteLinks } from './sync.mjs';
+import { buildPage, fixPaths, moduleNote, render, rewriteLinks } from './sync.mjs';
 
 const files = {
 	'docs/guide.md': '# Guide\n\nIntro.\n\n## Alpha\n\nSee [beta](#beta) and [other](other.md#gamma).\n\n### Alpha detail\n\nText.\n\n## Beta\n\nB. [Code](../app.go), [examples](../examples/), [plan](phase-1.md).\n',
@@ -77,4 +77,32 @@ test('renders frontmatter with neighbors and a description', () => {
 	const out = render(page, { prev: { href: '/docs/p/', title: 'P' } });
 	assert.equal(out, '---\ntitle: "A \\"q\\""\ndescription: "Hello there."\neditUrl: "https://e"\nprev:\n  link: "/docs/p/"\n  label: "P"\nnext: false\n---\n\nHello there.\n');
 	assert.match(render({ title: 'T', editUrl: '', lines: ['```', 'x', '```'] }, {}), /description: "T in Dygo, the secure-by-default web framework for Go."/);
+});
+
+test('intro adds the text before the first heading and keeps the section heading', () => {
+	const page = buildPage({ href: '/docs/x/', title: 'Overview' }, [{ file: 'docs/guide.md', sections: ['Alpha'], intro: true }], read, readLocal, 'main');
+	assert.equal(page.lines[0], 'Intro.');
+	assert.ok(page.lines.includes('## Alpha'));
+	assert.equal(page.anchors.get('docs/guide.md'), '');
+});
+
+test('a module note shows the beta release, or says it is unreleased', () => {
+	assert.deepEqual(moduleNote({ label: 'AI' }, 'ai/v0.1.0-beta.1'), [':::note[Beta]', 'The AI module is in beta. Its latest release is `ai/v0.1.0-beta.1`.', ':::']);
+	assert.equal(moduleNote({ label: 'AI' }, undefined)?.[0], ':::note[Unreleased]');
+	assert.equal(moduleNote({ label: 'AI' }, 'ai/v1.0.0'), undefined);
+});
+
+test('the note goes on top, but the description comes from the page text', () => {
+	const out = render({ href: '/docs/x/', title: 'X', lines: ['Real text.'], editUrl: '', anchors: new Map(), files: [], note: [':::note[Beta]', 'Note.', ':::'] }, {});
+	assert.match(out, /description: "Real text\."/);
+	assert.match(out, /---\n\n:::note\[Beta\]\nNote\.\n:::\n\nReal text\./);
+});
+
+test("What's new takes Unreleased, marked, and the latest release only", () => {
+	const changelog = '# Changelog\n\nIntro.\n\n## Unreleased\n\n### Added\n\n- New thing.\n\n## v1.1.0 (2026-11-01)\n\n- Fix.\n\n## v1.0.0 (2026-10-01)\n\n- Old.\n';
+	const page = buildPage({ href: '/docs/project/whats-new/', title: "What's new" }, [{ file: 'CHANGELOG.md', releases: true }], () => changelog, readLocal, 'main');
+	const text = page.lines.join('\n');
+	assert.match(text, /## Unreleased\n\n:::caution\[Not released yet\]/);
+	assert.match(text, /## Latest release: v1\.1\.0 \(2026-11-01\)\n\n- Fix\./);
+	assert.doesNotMatch(text, /Old\./);
 });

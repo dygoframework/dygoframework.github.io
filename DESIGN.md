@@ -35,7 +35,7 @@ Read this before changing anything under `src/`. It keeps the website consistent
 
 ### Yellow
 
-Use `--dy-accent` only for the logo, the second hero line, primary buttons, the Security and Performance headings, the active menu item, Hint labels and borders, and small code details.
+Use `--dy-accent` only for the logo, the second hero line, primary buttons, the Security and Performance headings, the active menu item, Hint labels and borders, small code details such as terminal prompts, accent badges and the Home pill, the active code tab line, the chosen option on Start a project, and text links inside Home sections (approved 2026-11-10).
 
 Never use it as a section background.
 
@@ -64,11 +64,13 @@ Use these before you build anything new. Keep this table up to date.
 
 | Component | Use it for |
 |---|---|
-| Button | Page actions, with primary and secondary variants, a small tool variant such as Copy markdown, and a rounded shape for forms |
-| Input | Labeled form fields |
-| Badge | Short status labels, such as "Soon" |
-| Card | Grouped content on a raised surface: outline, rounded, feature and panel variants |
-| CodeBlock | Code with a file name and copy button |
+| Button | Page actions, with primary and secondary variants, a small tool variant such as Copy markdown, a rounded shape for forms and a soft shape for Home |
+| Input | Labeled form fields, with a code variant for names such as the project name |
+| OptionGroup | A choice of one option, shown as cards, as on Start a project |
+| Badge | Short status labels: "Soon", and accent labels such as "Beta" and "New" in four sizes |
+| Pill | A rounded announcement link with an accent label, such as "New: AI module" |
+| Card | Grouped content on a raised surface: outline, rounded, feature, panel and tile variants |
+| CodeBlock | Code with a file name and copy button, or plain code inside a card or tab |
 | Hint | Notes and warnings in docs |
 | TopBar | The floating bar on every page |
 | Sidebar | Docs navigation on desktop |
@@ -91,6 +93,16 @@ New patterns start on the design canvas. Don't add one to the code until Dylan a
 6. Update the screenshot baselines only for intended changes.
 
 Don't change a baseline just to make a check pass.
+
+## Adding a new Dygo module
+
+When Dygo adds a module, such as `ai`:
+
+1. Add the docs: pages in `src/data/navigation.ts` and their sources in `scripts/lib/docs-manifest.mjs`. `npm run check:menu` fails until every guide and section is covered.
+2. Update the menu map in `design/docs-menu-map.md`. The same check fails until it matches the menu.
+3. Add a Home card in `src/data/home.ts` if the module is a main feature.
+4. Add version labels: give the menu group a `module`, and list it in `modules` in `scripts/lib/docs-manifest.mjs`. Beta and Unreleased labels then come from the module's Git tags, not from hand-written text.
+5. Get design approval on the canvas for any new section.
 
 ## Before you open a pull request
 

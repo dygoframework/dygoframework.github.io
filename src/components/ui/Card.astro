@@ -4,12 +4,18 @@
 // rounded: a rounded link card (docs Previous and Next)
 // feature: a filled panel for a feature grid
 // panel: a large rounded panel (Enterprise "Team support")
+// tile: a filled rounded card with an optional badge (Home features). Below
+// 1024px it shows the `short` description when there is one.
+import Badge from './Badge.astro';
+
 interface Props {
 	title: string;
 	description?: string;
+	short?: string;
+	badge?: string;
 	eyebrow?: string;
 	href?: string;
-	variant?: 'outline' | 'rounded' | 'feature' | 'panel';
+	variant?: 'outline' | 'rounded' | 'feature' | 'panel' | 'tile';
 	align?: 'start' | 'end';
 	headingLevel?: 2 | 3 | 4;
 	state?: 'hover' | 'focus';
@@ -18,6 +24,8 @@ interface Props {
 const {
 	title,
 	description,
+	short,
+	badge,
 	eyebrow,
 	href,
 	variant = 'outline',
@@ -32,8 +40,30 @@ const Heading = href ? 'strong' : (`h${headingLevel}` as const);
 
 <Tag href={href} class:list={['dy-card', `dy-card--${variant}`, `dy-card--${align}`]} data-state={state}>
 	{eyebrow && <span class="dy-card__eyebrow">{eyebrow}</span>}
-	<Heading class="dy-card__title">{title}</Heading>
-	{description && <span class="dy-card__description">{description}</span>}
+	{
+		badge ? (
+			<div class="dy-card__head">
+				<Heading class="dy-card__title">{title}</Heading>
+				<Badge variant="accent" size="sm">{badge}</Badge>
+			</div>
+		) : (
+			<Heading class="dy-card__title">{title}</Heading>
+		)
+	}
+	{
+		description && (
+			<span class="dy-card__description">
+				{short ? (
+					<>
+						<span class="dy-card__long">{description}</span>
+						<span class="dy-card__short">{short}</span>
+					</>
+				) : (
+					description
+				)}
+			</span>
+		)
+	}
 </Tag>
 
 <style>
@@ -119,7 +149,48 @@ const Heading = href ? 'strong' : (`h${headingLevel}` as const);
 		font-size: var(--dy-text-lg);
 	}
 
+	.dy-card__head {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: var(--dy-space-3);
+	}
+
+	.dy-card__long {
+		display: none;
+	}
+
+	.dy-card--tile {
+		gap: var(--dy-space-1);
+		padding: var(--dy-space-4-5) var(--dy-space-5);
+		background: var(--dy-color-surface);
+		border: var(--dy-border-width) solid var(--dy-color-border);
+		border-radius: var(--dy-radius-card-mobile);
+	}
+
+	.dy-card--tile .dy-card__title {
+		font-size: var(--dy-text-lead-mobile);
+	}
+
 	@media (width >= 1024px) {
+		.dy-card__long {
+			display: inline;
+		}
+
+		.dy-card__short {
+			display: none;
+		}
+
+		.dy-card--tile {
+			gap: var(--dy-space-2-5);
+			padding: var(--dy-space-7);
+			border-radius: var(--dy-radius-xl);
+		}
+
+		.dy-card--tile .dy-card__title {
+			font-size: var(--dy-text-xl);
+		}
+
 		.dy-card--outline {
 			gap: var(--dy-space-2);
 			padding: var(--dy-space-6);

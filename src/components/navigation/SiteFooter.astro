@@ -1,43 +1,50 @@
 ---
 // The footer of Home (full) and Enterprise (simple).
-import { footerNav, mainNav } from '../../data/navigation';
+import { footerNav, license, mainNav } from '../../data/navigation';
 
 interface Props {
 	variant?: 'full' | 'simple';
+	/** simple only: adds the license and a top border, as on Start a project. */
+	license?: boolean;
 }
 
-const { variant = 'full' } = Astro.props;
+const { variant = 'full', license: showLicense = false } = Astro.props;
 const year = 2026;
 ---
 
-<footer class:list={['dy-footer', `dy-footer--${variant}`]}>
+<footer class:list={['dy-footer', `dy-footer--${variant}`, showLicense && 'dy-footer--license']}>
 	<div class="dy-footer__inner">
 		{
 			variant === 'full' ? (
 				<>
 					<div class="dy-footer__grid">
 						<div class="dy-footer__brand">
-							<span class="dy-footer__name">Dygo</span>
-							<span class="dy-footer__muted">dygoframework.com</span>
+							<span class="dy-footer__name">
+								<svg class="dy-footer__mark" viewBox="0 0 64 64" aria-hidden="true">
+									<path d="M32 3L57 11V31C57 45 47 55 32 61C17 55 7 45 7 31V11ZM23 17L36 32L23 47H34L47 32L34 17Z" fill="currentColor" fill-rule="evenodd" />
+								</svg>
+								Dygo
+							</span>
+							<span class="dy-footer__muted dy-footer__site">www.dygoframework.com</span>
 						</div>
 						{footerNav.map((group) => (
-							<nav class="dy-footer__group" aria-label={group.title}>
+							<nav class:list={['dy-footer__group', group.desktopOnly && 'dy-footer__desktop']} aria-label={group.title}>
 								<strong>{group.title}</strong>
 								{group.links.map((link) => (
-									<a class="dy-footer__muted" href={link.href}>
+									<a class:list={['dy-footer__muted', link.mobileOnly && 'dy-footer__mobile']} href={link.href}>
 										{link.label}
 									</a>
 								))}
 							</nav>
 						))}
 					</div>
-					<p class="dy-footer__copy">© {year} Dygo Framework</p>
+					<p class="dy-footer__copy">© {year} Dygo Framework · {license} license</p>
 				</>
 			) : (
 				<>
-					<span>© {year} Dygo Framework</span>
+					<span>© {year} Dygo Framework{showLicense && ` · ${license} license`}</span>
 					<nav class="dy-footer__row" aria-label="Footer">
-						{mainNav.map((link) => (
+						{mainNav.filter((link) => link.key !== 'start').map((link) => (
 							<a href={link.href}>{link.label === 'Docs' ? 'Documentation' : link.label}</a>
 						))}
 					</nav>
@@ -58,6 +65,15 @@ const year = 2026;
 		gap: var(--dy-space-8);
 	}
 
+	.dy-footer--full {
+		border-top: var(--dy-border-width) solid var(--dy-color-border);
+	}
+
+	.dy-footer--full .dy-footer__inner {
+		padding: var(--dy-space-10) var(--dy-space-5) var(--dy-space-8);
+		gap: var(--dy-space-7);
+	}
+
 	.dy-footer__grid {
 		display: grid;
 		grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -72,14 +88,33 @@ const year = 2026;
 	}
 
 	.dy-footer__name {
-		font-size: var(--dy-text-3xl);
+		display: flex;
+		align-items: center;
+		gap: var(--dy-space-2-5);
+		font-size: var(--dy-text-2xl);
 		font-weight: var(--dy-weight-extrabold);
 	}
 
-	.dy-footer__group {
+	.dy-footer__mark {
+		width: var(--dy-size-icon-lg);
+		height: var(--dy-size-icon-lg);
+		color: var(--dy-color-accent);
+	}
+
+	.dy-footer__site,
+	.dy-footer__desktop {
+		display: none;
+	}
+
+	.dy-footer__group,
+	.dy-footer__group.dy-footer__desktop {
 		display: flex;
 		flex-direction: column;
 		gap: var(--dy-space-2);
+	}
+
+	.dy-footer__group.dy-footer__desktop {
+		display: none;
 	}
 
 	.dy-footer__muted {
@@ -102,6 +137,10 @@ const year = 2026;
 		font-size: var(--dy-text-md);
 	}
 
+	.dy-footer--license {
+		border-top: var(--dy-border-width) solid var(--dy-color-border);
+	}
+
 	.dy-footer__row {
 		display: flex;
 		flex-wrap: wrap;
@@ -118,6 +157,19 @@ const year = 2026;
 			padding: var(--dy-space-14) var(--dy-space-8) var(--dy-space-10);
 		}
 
+		.dy-footer--license .dy-footer__inner {
+			padding: var(--dy-space-10) var(--dy-space-8);
+		}
+
+		.dy-footer--full .dy-footer__inner {
+			padding: var(--dy-space-16) var(--dy-space-8) var(--dy-space-10);
+			gap: var(--dy-space-12);
+		}
+
+		.dy-footer--full .dy-footer__copy {
+			padding-top: var(--dy-space-6);
+		}
+
 		.dy-footer__grid {
 			grid-template-columns: repeat(auto-fit, minmax(min(180px, 100%), 1fr));
 			gap: var(--dy-space-8);
@@ -129,7 +181,26 @@ const year = 2026;
 		}
 
 		.dy-footer__name {
-			font-size: var(--dy-text-display-docs);
+			font-size: var(--dy-text-stat-mobile);
+		}
+
+		.dy-footer__mark {
+			width: var(--dy-space-7);
+			height: var(--dy-space-7);
+		}
+
+		.dy-footer__site {
+			display: inline;
+		}
+
+		.dy-footer__group,
+		.dy-footer__group.dy-footer__desktop {
+			display: flex;
+			gap: var(--dy-space-2-5);
+		}
+
+		.dy-footer__mobile {
+			display: none;
 		}
 	}
 </style>

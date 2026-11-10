@@ -6,7 +6,11 @@
 //   that heading, because the page title says the same thing.
 // - local: a "New" page kept in this repo under src/content/docs-pages/.
 
-/** @typedef {{ file: string, sections?: string[], heading?: boolean } | { local: string }} Source */
+// - intro: also take the text before the first heading.
+// - releases: from a changelog, the Unreleased section (marked as such) and
+//   the latest release.
+
+/** @typedef {{ file: string, sections?: string[], heading?: boolean, intro?: boolean, releases?: boolean } | { local: string }} Source */
 
 const guide = (file, ...sections) => ({ file: `docs/${file}`, sections });
 
@@ -52,6 +56,15 @@ export const manifest = {
 	'/docs/application/queues/': [guide('guide-transports.md', 'Queue')],
 	'/docs/application/cqrs/': [guide('guide-transports.md', 'CQRS')],
 	'/docs/application/console-commands/': [guide('guide-cli.md', 'Console commands')],
+
+	// AI (beta, its own module: see `modules` below)
+	'/docs/ai/overview-and-setup/': [{ ...guide('guide-ai.md', 'Set up'), intro: true }],
+	'/docs/ai/ask-and-wait/': [guide('guide-ai.md', 'Ask and wait')],
+	'/docs/ai/stream-to-the-browser/': [guide('guide-ai.md', 'Stream to the browser')],
+	'/docs/ai/typed-output/': [guide('guide-ai.md', 'Typed output')],
+	'/docs/ai/errors/': [guide('guide-ai.md', 'Errors')],
+	'/docs/ai/retries-timeouts-and-logs/': [guide('guide-ai.md', 'Retries, timeouts and logs')],
+	'/docs/ai/testing/': [guide('guide-ai.md', 'Testing')],
 
 	// Data
 	'/docs/data/sql-databases/': [guide('recipes/sql.md', 'The connection module', 'From memory to a database')],
@@ -100,7 +113,7 @@ export const manifest = {
 	'/docs/production/docker/': [guide('guide-production.md', 'Docker')],
 
 	// CLI
-	'/docs/cli/overview/': [guide('guide-cli.md', 'New project')],
+	'/docs/cli/overview/': [guide('guide-cli.md', 'New project', 'AI models')],
 	'/docs/cli/generators/': [
 		guide('guide-cli.md', 'Generate code', 'Entities and fields', 'CRUD for an entity', 'Console commands', 'Route tests'),
 	],
@@ -110,6 +123,7 @@ export const manifest = {
 
 	// Project
 	'/docs/project/benchmarks/': [{ file: 'benchmarks/README.md' }],
+	'/docs/project/whats-new/': [{ file: 'CHANGELOG.md', releases: true }],
 	'/docs/project/changelog/': [{ file: 'CHANGELOG.md' }],
 	'/docs/project/security-policy/': [{ file: 'SECURITY.md' }],
 };
@@ -129,6 +143,7 @@ export const fileHomes = {
 	'docs/guide-cli.md': '/docs/cli/overview/',
 	'docs/guide-transports.md': '/docs/microservices/overview/',
 	'docs/guide-testing.md': '/docs/fundamentals/testing/',
+	'docs/guide-ai.md': '/docs/ai/overview-and-setup/',
 	'docs/recipes/auth.md': '/docs/security/authentication/',
 	'docs/recipes/security.md': '/docs/security/authentication/',
 	'docs/recipes/sql.md': '/docs/data/sql-databases/',
@@ -141,4 +156,27 @@ export const fileHomes = {
 	'benchmarks/README.md': '/docs/project/benchmarks/',
 	'CHANGELOG.md': '/docs/project/changelog/',
 	'SECURITY.md': '/docs/project/security-policy/',
+};
+
+/**
+ * Docs pages that describe a separately versioned Dygo module. The sync reads
+ * the module's newest tag, such as `ai/v0.1.0-beta.1`, and puts a note at the
+ * top of each page under `prefix`.
+ */
+export const modules = [{ name: 'ai', label: 'AI', prefix: '/docs/ai/' }];
+
+/**
+ * Dygo docs that are on purpose not in the menu: a whole file (true) or some
+ * of its top-level headings. Known on 2026-11-10; review them with Dylan
+ * before moving any into the menu.
+ * @type {Record<string, string[] | true>}
+ */
+export const notInMenu = {
+	// The MkDocs index of the docs folder; /docs/ uses docs/index.md.
+	'docs/README.md': true,
+	'docs/guide-cli.md': ['Authentication', 'Security', 'Background work and transports'],
+	'docs/guide-http.md': ['App options', 'Testing'],
+	'docs/guide-pipeline.md': ['Where enhancers bind'],
+	'docs/recipes/security.md': ['Store users in a database', 'Generators in a security project', 'Test protected routes'],
+	'docs/recipes/sql.md': ['Testing'],
 };

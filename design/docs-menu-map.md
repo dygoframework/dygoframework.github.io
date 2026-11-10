@@ -50,6 +50,20 @@ Design note: expand only the group that holds the current page. The menu has too
 | CQRS | CQRS recipe | `guide-transports.md`: CQRS | Split |
 | Console commands | Standalone or CLI recipes | `guide-cli.md`: Console commands | Split |
 
+## AI
+
+Beta. The group title shows a Beta badge, and every page starts with a note that names the latest `ai/v*` tag.
+
+| Menu item | NestJS item | Dygo source | Status |
+|---|---|---|---|
+| Overview and setup | None | `guide-ai.md`: intro, Set up | Split |
+| Ask and wait | None | `guide-ai.md`: Ask and wait | Split |
+| Stream to the browser | None | `guide-ai.md`: Stream to the browser | Split |
+| Typed output | None | `guide-ai.md`: Typed output | Split |
+| Errors | None | `guide-ai.md`: Errors | Split |
+| Retries, timeouts and logs | None | `guide-ai.md`: Retries, timeouts and logs | Split |
+| Testing | None | `guide-ai.md`: Testing | Split |
+
 ## Data
 
 | Menu item | NestJS item | Dygo source | Status |
@@ -115,8 +129,8 @@ Design note: expand only the group that holds the current page. The menu has too
 
 | Menu item | NestJS item | Dygo source | Status |
 |---|---|---|---|
-| Overview | CLI overview | `guide-cli.md`: New project | Split |
-| Generators | Usages | `guide-cli.md`: Generate code through Route tests | Split |
+| Overview | CLI overview | `guide-cli.md`: New project, AI models | Split |
+| Generators | Usages | `guide-cli.md`: Generate code through Route tests, including `dygo run` | Split |
 | Database commands | None | `guide-cli.md`: Database | Split |
 | Inspect your app | None | `guide-cli.md`: Look at a running app's shape | Split |
 | Development server | None | `guide-cli.md`: Development server, Route directives | Split |
@@ -126,6 +140,7 @@ Design note: expand only the group that holds the current page. The menu has too
 | Menu item | NestJS item | Dygo source | Status |
 |---|---|---|---|
 | Benchmarks | None | `benchmarks/README.md` | Ready |
+| What's new | None | `CHANGELOG.md`: Unreleased, marked as not released, and the latest release | Split |
 | Changelog | None | `CHANGELOG.md` | Ready |
 | Security policy | None | `SECURITY.md` | Ready |
 

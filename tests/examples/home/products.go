@@ -12,19 +12,20 @@ type Product struct {
 	Name string `json:"name"`
 }
 
+//go:generate dygo gen
+
+//dygo:controller /products
 type Controller struct{ svc *Service }
 
-func NewController(svc *Service) *Controller { return &Controller{svc: svc} }
+func NewController(svc *Service) *Controller {
+	return &Controller{svc: svc}
+}
 
 type GetIn struct {
 	ID int `path:"id"` // "abc" is a 400 before your code runs
 }
 
-func (c *Controller) Routes(r dygo.Router) {
-	r = r.Prefix("/products")
-	r.Get("/{id}", dygo.Handle(c.Get))
-}
-
+//dygo:get /{id}
 func (c *Controller) Get(ctx context.Context, in GetIn) (Product, error) {
 	p, ok := c.svc.Find(in.ID)
 	if !ok {

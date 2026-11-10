@@ -8,8 +8,8 @@ export const siteRepoUrl = 'https://github.com/dygoframework/dygoframework.githu
 
 /**
  * @typedef {{ href: string, title: string }} NavPage
- * @typedef {{ file?: string, local?: string, sections?: string[], heading?: boolean }} Source
- * @typedef {{ href: string, title: string, lines: string[], editUrl: string, anchors: Map<string, string>, files: string[] }} Page
+ * @typedef {{ file?: string, local?: string, sections?: string[], heading?: boolean, intro?: boolean, releases?: boolean }} Source
+ * @typedef {{ href: string, title: string, lines: string[], editUrl: string, anchors: Map<string, string>, files: string[], note?: string[] }} Page
  */
 
 const trim = (lines) => {
@@ -35,7 +35,7 @@ export function buildPage(nav, sources, read, readLocal, ref) {
 	const anchors = new Map();
 	const slug = slugger();
 	const files = [];
-	const totalSections = sources.reduce((n, s) => n + (s.sections?.length ?? (s.file ? 2 : 0)), 0);
+	const totalSections = sources.reduce((n, s) => n + (s.sections?.length ?? (s.file ? 2 : 0)) + (s.intro ? 1 : 0), 0);
 	let editUrl = '';
 
 	for (const source of sources) {
@@ -51,7 +51,29 @@ export function buildPage(nav, sources, read, readLocal, ref) {
 		const doc = parse(read(file));
 		const fileSlug = (/** @type {string} */ text) => slugger()(text);
 
+		if (source.releases) {
+			// What's new: the unreleased changes, clearly marked, then the latest release.
+			const level2 = doc.sections.filter((x) => x.level === 2);
+			const unreleased = level2.find((x) => /^unreleased\b/i.test(headingText(x.text)));
+			const latest = level2.find((x) => /^v\d/.test(headingText(x.text)));
+			lines.push(`What changed in Dygo lately: the changes on the main branch that aren't released yet, then the latest release. The [changelog](${file}) has every release.`, '');
+			if (unreleased) {
+				lines.push('## Unreleased', '', ':::caution[Not released yet]', 'These changes are on the main branch of Dygo and are not in a release yet.', ':::', '');
+				lines.push(...trim(unreleased.lines.slice(1)), '');
+				anchors.set(`${file}#${fileSlug(unreleased.text)}`, 'Unreleased');
+			}
+			if (latest) {
+				const title = `Latest release: ${latest.text}`;
+				lines.push(`## ${title}`, '', ...trim(latest.lines.slice(1)), '');
+				anchors.set(`${file}#${fileSlug(latest.text)}`, title);
+			}
+			continue;
+		}
 		if (source.sections) {
+			if (source.intro) {
+				lines.push(...trim(doc.intro), '');
+				anchors.set(file, '');
+			}
 			for (const name of source.sections) {
 				const s = section(doc, name, file);
 				// A heading that only repeats the page title is dropped.
@@ -159,11 +181,14 @@ export function fixPaths(/** @type {string} */ text) {
  */
 export function render(page, { prev, next }) {
 	const body = fixPaths(page.lines.join('\n')).split('\n');
+	// The description comes from the page's own text, not from the note.
+	const summary = description(body);
+	if (page.note) body.unshift(...page.note, '');
 	const yaml = (/** @type {string} */ s) => JSON.stringify(s);
 	const front = [
 		'---',
 		`title: ${yaml(page.title)}`,
-		`description: ${yaml(description(body) || `${page.title} in Dygo, the secure-by-default web framework for Go.`)}`,
+		`description: ${yaml(summary || `${page.title} in Dygo, the secure-by-default web framework for Go.`)}`,
 		`editUrl: ${yaml(page.editUrl)}`,
 		prev ? `prev:\n  link: ${yaml(prev.href)}\n  label: ${yaml(prev.title)}` : 'prev: false',
 		next ? `next:\n  link: ${yaml(next.href)}\n  label: ${yaml(next.title)}` : 'next: false',
@@ -171,4 +196,20 @@ export function render(page, { prev, next }) {
 		'',
 	];
 	return `${[...front, ...body].join('\n').trimEnd()}\n`;
+}
+
+/**
+ * The note at the top of each page of a separately versioned module, such as
+ * the AI module while it is in beta.
+ * @param {{ label: string }} module
+ * @param {string | undefined} tag The module's newest tag, like ai/v0.1.0-beta.1.
+ */
+export function moduleNote(module, tag) {
+	const version = tag?.slice(tag.lastIndexOf('/') + 1);
+	const stage = !version ? 'Unreleased' : /-(alpha|beta|rc)/.test(version) ? 'Beta' : undefined;
+	if (!stage) return undefined;
+	const text = version
+		? `The ${module.label} module is in beta. Its latest release is \`${tag}\`.`
+		: `The ${module.label} module isn't released yet. These pages follow the main branch.`;
+	return [`:::note[${stage}]`, text, ':::'];
 }

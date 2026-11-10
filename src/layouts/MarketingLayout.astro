@@ -11,9 +11,10 @@ interface Props {
 	noindex?: boolean;
 	current?: NavLink['key'];
 	footer?: 'full' | 'simple';
+	footerLicense?: boolean;
 }
 
-const { current, footer = 'full', ...props } = Astro.props;
+const { current, footer = 'full', footerLicense = false, ...props } = Astro.props;
 ---
 
 <BaseLayout {...props}>
@@ -22,5 +23,5 @@ const { current, footer = 'full', ...props } = Astro.props;
 	<main id="main">
 		<slot />
 	</main>
-	<SiteFooter variant={footer} />
+	<SiteFooter variant={footer} license={footerLicense} />
 </BaseLayout>

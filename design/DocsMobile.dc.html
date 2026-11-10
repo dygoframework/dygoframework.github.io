@@ -28,9 +28,7 @@ a{color:inherit;text-decoration:none}a:hover{color:inherit;opacity:.8}
 <svg width="32" height="32" viewBox="0 0 64 64" aria-hidden="true" style="flex: none"><path d="M32 3L57 11V31C57 45 47 55 32 61C17 55 7 45 7 31V11ZM23 17L36 32L23 47H34L47 32L34 17Z" fill="{{accent}}" fill-rule="evenodd"></path></svg>
 <span style="font-weight: 800; font-size: 18px">Dygo</span>
 </a>
-<button type="button" aria-label="Switch theme" style="flex: 0 0 68px; display: flex; align-items: center; justify-content: center; border: 0; background: transparent; color: #F4F4EF; cursor: pointer">
-<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"></path></svg>
-</button>
+<span aria-hidden="true" style="flex: 0 0 68px"></span>
 </header>
 
 <main style="padding: 28px 8px 40px; display: flex; flex-direction: column; gap: 20px">
@@ -45,21 +43,21 @@ a{color:inherit;text-decoration:none}a:hover{color:inherit;opacity:.8}
 <sc-if value="{{tocOpen}}" hint-placeholder-val="{{ false }}">
 <nav aria-label="On this page" style="padding: 0 16px 12px; display: flex; flex-direction: column; font-size: 15px">
 <a href="#install" style="padding: 8px 0">Install</a>
-<a href="#first-app" style="padding: 8px 0">Create your first app</a>
+<a href="#first-app" style="padding: 8px 0">Add a feature</a>
 <a href="#run" style="padding: 8px 0">Run the server</a>
 </nav>
 </sc-if>
 </div>
 
-<p style="margin: 0">In this chapter, you'll create a Go project, add Dygo and run your first endpoint. You only need <strong style="color: #F4F4EF; font-weight: 700">one file</strong> to get a server running.</p>
+<p style="margin: 0">In this chapter, you'll create a Dygo project, add a feature and run it with live reload.</p>
 
 <div style="padding: 20px; background: #151513; border: 1px solid #2A2A28; border-left: 4px solid {{accent}}; border-radius: 12px">
 <strong style="display: block; color: {{accent}}; font-size: 15px; letter-spacing: 0.04em; text-transform: uppercase">Hint</strong>
-Dygo needs Go [MINIMUM VERSION] or later. Run <code style="padding: 3px 7px; background: #1E1E1C; border-radius: 6px; font-family: 'Fira Mono', monospace; font-size: 14px; color: #E9E6D6">go version</code> to check yours.
+Dygo needs Go 1.27 or later. Run <code style="padding: 3px 7px; background: #1E1E1C; border-radius: 6px; font-family: 'Fira Mono', monospace; font-size: 14px; color: #E9E6D6">go version</code> to check yours.
 </div>
 
 <h2 id="install" style="margin: 16px 0 0; font-size: 24px; font-weight: 500; line-height: 1.3; color: #F4F4EF">Install</h2>
-<p style="margin: 0">Create a new module with <code style="padding: 3px 7px; background: #1E1E1C; border-radius: 6px; font-family: 'Fira Mono', monospace; font-size: 14px; color: #E9E6D6">go mod init</code>, then add Dygo with <code style="padding: 3px 7px; background: #1E1E1C; border-radius: 6px; font-family: 'Fira Mono', monospace; font-size: 14px; color: #E9E6D6">go get</code>.</p>
+<p style="margin: 0">Install the <code style="padding: 3px 7px; background: #1E1E1C; border-radius: 6px; font-family: 'Fira Mono', monospace; font-size: 14px; color: #E9E6D6">dygo</code> command, then create a project.</p>
 
 <div style="background: #161615; border: 1px solid #2A2A28; border-radius: 12px; overflow: hidden">
 <div style="display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 4px 4px 4px 16px; background: #1B1B19; border-bottom: 1px solid #2A2A28; color: #F4F4EF; font-size: 14px">
@@ -71,21 +69,21 @@ Dygo needs Go [MINIMUM VERSION] or later. Run <code style="padding: 3px 7px; bac
 </div>
 </div>
 
-<h2 id="first-app" style="margin: 16px 0 0; font-size: 24px; font-weight: 500; line-height: 1.3; color: #F4F4EF">Create your first app</h2>
-<p style="margin: 0">The following example uses <code style="padding: 3px 7px; background: #1E1E1C; border-radius: 6px; font-family: 'Fira Mono', monospace; font-size: 14px; color: #E9E6D6">dygo.New()</code> to create an app. The <code style="padding: 3px 7px; background: #1E1E1C; border-radius: 6px; font-family: 'Fira Mono', monospace; font-size: 14px; color: #E9E6D6">app.GET()</code> method registers a handler for the <code style="padding: 3px 7px; background: #1E1E1C; border-radius: 6px; font-family: 'Fira Mono', monospace; font-size: 14px; color: #E9E6D6">/hello</code> path, and <code style="padding: 3px 7px; background: #1E1E1C; border-radius: 6px; font-family: 'Fira Mono', monospace; font-size: 14px; color: #E9E6D6">c.JSON()</code> writes the response.</p>
+<h2 id="first-app" style="margin: 16px 0 0; font-size: 24px; font-weight: 500; line-height: 1.3; color: #F4F4EF">Add a feature</h2>
+<p style="margin: 0"><code style="padding: 3px 7px; background: #1E1E1C; border-radius: 6px; font-family: 'Fira Mono', monospace; font-size: 14px; color: #E9E6D6">dygo g resource products</code> writes a service, a controller and a module. The controller binds typed input and returns JSON:</p>
 
 <div style="background: #161615; border: 1px solid #2A2A28; border-radius: 12px; overflow: hidden">
 <div style="display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 4px 4px 4px 16px; background: #1B1B19; border-bottom: 1px solid #2A2A28; color: #F4F4EF; font-size: 14px">
-<span>main.go</span>
+<span>products.go</span>
 <button type="button" onClick="{{blocks.app.copy}}" aria-label="{{blocks.app.label}}" style="width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; border: 0; background: transparent; color: #B9B9B1; cursor: pointer"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="9" y="8" width="11" height="13" rx="1.5"></rect><path d="M5 16V4.5A1.5 1.5 0 0 1 6.5 3H16"></path></svg></button>
 </div>
-<div tabindex="0" aria-label="main.go code" style="padding: 16px; overflow-x: auto; font-family: 'Fira Mono', monospace; font-size: 14px; line-height: 1.8">
+<div tabindex="0" aria-label="products.go code" style="padding: 16px; overflow-x: auto; font-family: 'Fira Mono', monospace; font-size: 14px; line-height: 1.8">
 <sc-for list="{{blocks.app.lines}}" as="line" hint-placeholder-count="13"><div style="white-space: pre"><sc-for list="{{line.tokens}}" as="tok" hint-placeholder-count="3"><span style="color: {{tok.color}}">{{tok.text}}</span></sc-for></div></sc-for>
 </div>
 </div>
 
 <h2 id="run" style="margin: 16px 0 0; font-size: 24px; font-weight: 500; line-height: 1.3; color: #F4F4EF">Run the server</h2>
-<p style="margin: 0">Start the app, then open <code style="padding: 3px 7px; background: #1E1E1C; border-radius: 6px; font-family: 'Fira Mono', monospace; font-size: 14px; color: #E9E6D6">localhost:8080/hello</code> in your browser.</p>
+<p style="margin: 0">Start the app with live reload, then open <code style="padding: 3px 7px; background: #1E1E1C; border-radius: 6px; font-family: 'Fira Mono', monospace; font-size: 14px; color: #E9E6D6">localhost:9900/docs</code> for the OpenAPI UI.</p>
 
 <div style="background: #161615; border: 1px solid #2A2A28; border-radius: 12px; overflow: hidden">
 <div style="display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 4px 4px 4px 16px; background: #1B1B19; border-bottom: 1px solid #2A2A28; color: #F4F4EF; font-size: 14px">
@@ -112,8 +110,8 @@ class Component extends DCLogic {
   renderVals() {
     const accent = this.props.accent ?? '#FFD400';
     const palette = { plain: '#ECECE6', keyword: '#9CC4DC', string: '#F0D58C', func: '#F7E7B0' };
-    const keywords = ['package', 'import', 'func', 'return'];
-    const pattern = /("[^"]*"|\b(?:package|import|func|return)\b|\b\w+(?=\())/;
+    const keywords = ['package', 'import', 'func', 'return', 'type', 'struct', 'if'];
+    const pattern = /("[^"]*"|\b(?:package|import|func|return|type|struct|if)\b|\b\w+(?=\())/;
     const colorOf = (text) => {
       if (text.startsWith('"')) return palette.string;
       if (keywords.includes(text)) return palette.keyword;
@@ -124,9 +122,9 @@ class Component extends DCLogic {
       tokens: (line || ' ').split(pattern).filter(Boolean).map((text) => ({ text, color: colorOf(text) }))
     }));
     const sources = {
-      install: 'go mod init example.com/hello\ngo get github.com/[YOUR-ORG]/dygo',
-      app: 'package main\n\nimport "github.com/[YOUR-ORG]/dygo"\n\nfunc main() {\n  app := dygo.New()\n\n  app.GET("/hello", func(c *dygo.Context) error {\n    return c.JSON(200, dygo.Map{"message": "Hello, Dygo"})\n  })\n\n  app.Listen(":8080")\n}',
-      run: 'go run .'
+      install: 'go install github.com/dygoframework/dygo/cmd/dygo@latest\ndygo new shop\ncd shop',
+      app: 'type GetIn struct {\n  ID int `path:"id"` // "abc" is a 400 before your code runs\n}\n\nfunc (c *Controller) Routes(r dygo.Router) {\n  r = r.Prefix("/products")\n  r.Get("/{id}", dygo.Handle(c.Get))\n}\n\nfunc (c *Controller) Get(ctx context.Context, in GetIn) (Product, error) {\n  p, ok := c.svc.Find(in.ID)\n  if !ok {\n    return Product{}, errs.NotFound("product not found")\n  }\n  return p, nil // written as JSON\n}',
+      run: 'dygo start -watch'
     };
     const makeBlock = (key) => ({
       lines: key === 'app'

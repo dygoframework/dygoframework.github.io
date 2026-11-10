@@ -4,8 +4,8 @@ import type { HTMLAttributes } from 'astro/types';
 type Props = {
 	/** tool: the small rounded button beside a docs title, such as Copy markdown. */
 	variant?: 'primary' | 'secondary' | 'tool';
-	/** rounded: 8px corners, as on the Enterprise form. */
-	shape?: 'square' | 'rounded';
+	/** rounded: 8px corners, as on the Enterprise form. soft: 10px corners, as on Home. */
+	shape?: 'square' | 'rounded' | 'soft';
 	href?: string;
 	type?: 'button' | 'submit' | 'reset';
 	disabled?: boolean;
@@ -92,6 +92,19 @@ const classes = ['dy-button', `dy-button--${variant}`, `dy-button--${shape}`, cl
 
 	.dy-button--rounded {
 		border-radius: var(--dy-radius-sm);
+	}
+
+	.dy-button--soft {
+		padding: 0 var(--dy-space-7);
+		border-radius: var(--dy-radius-md);
+	}
+
+	.dy-button--primary.dy-button--soft {
+		font-weight: var(--dy-weight-bold);
+	}
+
+	.dy-button--secondary.dy-button--soft {
+		border-color: var(--dy-color-border-strong);
 	}
 
 	.dy-button--tool {

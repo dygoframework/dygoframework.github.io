@@ -1,24 +1,28 @@
 ---
-// A heading and a grid of feature cards divided by hairlines.
+// A heading and a grid of feature cards divided by hairlines. tiles: rounded
+// cards with gaps, as on Home.
 import Card from '../ui/Card.astro';
 
 interface Props {
 	title: string;
 	lead?: string;
-	items: { title: string; description: string }[];
+	items: { title: string; description: string; short?: string; badge?: string }[];
+	variant?: 'lines' | 'tiles';
 }
 
-const { title, lead, items } = Astro.props;
+const { title, lead, items, variant = 'lines' } = Astro.props;
 ---
 
-<section class="dy-features">
+<section class:list={['dy-features', `dy-features--${variant}`]}>
 	<div class="dy-features__inner">
 		<div class="dy-features__intro">
 			<h2 class="dy-features__title">{title}</h2>
 			{lead && <p class="dy-features__lead">{lead}</p>}
 		</div>
 		<div class="dy-features__grid">
-			{items.map((item) => <Card variant="feature" title={item.title} description={item.description} />)}
+			{items.map((item) => (
+				<Card variant={variant === 'tiles' ? 'tile' : 'feature'} title={item.title} description={item.description} short={item.short} badge={item.badge} />
+			))}
 		</div>
 	</div>
 </section>
@@ -62,7 +66,37 @@ const { title, lead, items } = Astro.props;
 		border: var(--dy-border-width) solid var(--dy-color-border);
 	}
 
+	.dy-features--tiles .dy-features__inner {
+		gap: var(--dy-space-5);
+	}
+
+	.dy-features--tiles .dy-features__title {
+		font-weight: var(--dy-weight-extrabold);
+		line-height: var(--dy-leading-title);
+		letter-spacing: var(--dy-tracking-display);
+	}
+
+	.dy-features--tiles .dy-features__grid {
+		gap: var(--dy-space-3);
+		background: none;
+		border: 0;
+	}
+
 	@media (width >= 1024px) {
+		.dy-features--tiles .dy-features__inner {
+			gap: var(--dy-space-12);
+		}
+
+		.dy-features--tiles .dy-features__title {
+			max-width: 780px;
+			line-height: var(--dy-leading-section);
+		}
+
+		.dy-features--tiles .dy-features__grid {
+			grid-template-columns: repeat(auto-fit, minmax(min(270px, 100%), 1fr));
+			gap: var(--dy-space-4);
+		}
+
 		.dy-features__inner {
 			padding: var(--dy-space-26) var(--dy-space-8);
 			gap: var(--dy-space-14);

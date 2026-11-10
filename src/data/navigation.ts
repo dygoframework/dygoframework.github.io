@@ -6,11 +6,14 @@ export const githubUrl = 'https://github.com/dygoframework/dygo';
 export interface NavLink {
 	label: string;
 	href: string;
-	key?: 'docs' | 'enterprise';
+	key?: 'docs' | 'start' | 'enterprise';
 }
+
+export const startUrl = '/start/';
 
 export const mainNav: NavLink[] = [
 	{ label: 'Docs', href: '/docs/', key: 'docs' },
+	{ label: 'Start a project', href: startUrl, key: 'start' },
 	{ label: 'Enterprise', href: '/enterprise/', key: 'enterprise' },
 	{ label: 'GitHub', href: githubUrl },
 ];
@@ -24,11 +27,14 @@ export interface DocsItem {
 export interface DocsGroup {
 	title: string;
 	items: DocsItem[];
+	/** A separately versioned Dygo module. Its label, such as Beta, comes from its tags. */
+	module?: string;
 }
 
 const slug = (text: string) =>
 	text
 		.toLowerCase()
+		.replace(/'/g, '')
 		.replace(/[^a-z0-9]+/g, '-')
 		.replace(/^-|-$/g, '');
 
@@ -56,6 +62,7 @@ export const docsNav: DocsGroup[] = [
 		['Configuration', 'Validation', 'Logging', 'Events', 'Task scheduling', 'Queues', 'CQRS', 'Console commands'],
 		['Serialization', 'HTTP client', 'Internationalization', 'Mail', 'File storage'],
 	),
+	{ ...group('AI', ['Overview and setup', 'Ask and wait', 'Stream to the browser', 'Typed output', 'Errors', 'Retries, timeouts and logs', 'Testing']), module: 'ai' },
 	group('Data', ['SQL databases', 'Repositories', 'Transactions', 'Migrations', 'Multiple databases', 'Caching'], ['MongoDB']),
 	group(
 		'Security',
@@ -71,7 +78,7 @@ export const docsNav: DocsGroup[] = [
 	group('Microservices', ['Overview', 'Redis', 'NATS', 'Kafka', 'gRPC']),
 	group('Production', ['Tracing and metrics', 'Docker']),
 	group('CLI', ['Overview', 'Generators', 'Database commands', 'Inspect your app', 'Development server']),
-	group('Project', ['Benchmarks', 'Changelog', 'Security policy']),
+	group('Project', ['Benchmarks', "What's new", 'Changelog', 'Security policy']),
 ];
 
 /** The group that holds `path`, so only that group starts open. */
@@ -80,7 +87,17 @@ export function currentGroup(path: string): string | undefined {
 	return docsNav.find((g) => g.items.some((i) => i.href === normal))?.title;
 }
 
-export const footerNav = [
+/** The license of the Dygo repo (LICENSE). */
+export const license = 'MIT';
+
+export interface FooterGroup {
+	title: string;
+	/** Left out below 1024px, as in the mobile design. */
+	desktopOnly?: boolean;
+	links: { label: string; href: string; mobileOnly?: boolean }[];
+}
+
+export const footerNav: FooterGroup[] = [
 	{
 		title: 'Documentation',
 		links: [
@@ -90,7 +107,16 @@ export const footerNav = [
 		],
 	},
 	{
+		title: 'Product',
+		links: [
+			{ label: 'Start a project', href: startUrl },
+			{ label: 'Enterprise', href: '/enterprise/' },
+			{ label: 'GitHub', href: githubUrl, mobileOnly: true },
+		],
+	},
+	{
 		title: 'Project',
+		desktopOnly: true,
 		links: [
 			{ label: 'GitHub', href: githubUrl },
 			{ label: 'Changelog', href: '/docs/project/changelog/' },

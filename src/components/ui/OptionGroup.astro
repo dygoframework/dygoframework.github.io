@@ -1,0 +1,96 @@
+---
+// A group of options shown as cards, one of which is chosen, as on Start a
+// project. They are radio buttons, so arrow keys move between them.
+interface Props {
+	legend: string;
+	name: string;
+	options: readonly { value: string; label: string; hint?: string }[];
+	value: string;
+}
+
+const { legend, name, options, value } = Astro.props;
+---
+
+<fieldset class="dy-options">
+	<legend class="dy-options__legend">{legend}</legend>
+	<div class="dy-options__grid">
+		{
+			options.map((option) => (
+				<label class="dy-options__option">
+					<input class="dy-options__input" type="radio" name={name} value={option.value} checked={option.value === value} />
+					<span class="dy-options__label">{option.label}</span>
+					{option.hint && <span class="dy-options__hint">{option.hint}</span>}
+				</label>
+			))
+		}
+	</div>
+</fieldset>
+
+<style>
+	.dy-options {
+		min-width: 0;
+		margin: 0;
+		padding: 0;
+		border: 0;
+		display: flex;
+		flex-direction: column;
+		gap: var(--dy-space-2-5);
+	}
+
+	.dy-options__legend {
+		padding: 0 0 var(--dy-space-2-5);
+		font-weight: var(--dy-weight-bold);
+	}
+
+	.dy-options__grid {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(min(150px, 100%), 1fr));
+		gap: var(--dy-space-2);
+	}
+
+	.dy-options__option {
+		position: relative;
+		box-sizing: border-box;
+		min-height: 64px;
+		padding: var(--dy-space-2-5) var(--dy-space-3-5);
+		display: flex;
+		flex-direction: column;
+		align-items: flex-start;
+		justify-content: center;
+		gap: 2px;
+		background: var(--dy-color-bg);
+		border: var(--dy-border-width) solid var(--dy-color-border);
+		border-radius: var(--dy-radius-md);
+		cursor: pointer;
+	}
+
+	.dy-options__option:hover {
+		border-color: var(--dy-color-border-strong);
+	}
+
+	.dy-options__option:has(:checked) {
+		background: var(--dy-color-accent-tint-soft);
+		border-color: var(--dy-color-accent);
+	}
+
+	.dy-options__option:has(:focus-visible) {
+		outline: var(--dy-focus-width) solid var(--dy-color-text);
+		outline-offset: var(--dy-focus-width);
+	}
+
+	.dy-options__input {
+		position: absolute;
+		opacity: 0;
+		pointer-events: none;
+	}
+
+	.dy-options__label {
+		font-size: var(--dy-text-md);
+		font-weight: var(--dy-weight-bold);
+	}
+
+	.dy-options__hint {
+		color: var(--dy-color-text-muted);
+		font-size: var(--dy-text-xs);
+	}
+</style>
