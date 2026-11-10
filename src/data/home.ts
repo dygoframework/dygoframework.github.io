@@ -124,9 +124,9 @@ export const panels = [
 		short: 'Typed JSON handlers cost the same as hand-written net/http.',
 		items: [
 			'Typed JSON handlers within 1% of net/http',
-			'About 2x faster than Gin and Huma on JSON',
+			'Up to 2x faster than other Go frameworks on JSON',
 			'The fewest allocations on JSON requests',
-			'Slower than net/http and Gin on static routes',
+			'Slower than the fastest routers on static routes',
 		],
 		link: { label: 'See every scenario', href: '/docs/project/benchmarks/' },
 	},
