@@ -1,0 +1,181 @@
+---
+// Start a project: a form of options beside the commands they build. The
+// commands are built in the browser from src/data/start.ts, so nothing is
+// sent anywhere. Without JavaScript the default commands still show.
+import Input from '../ui/Input.astro';
+import OptionGroup from '../ui/OptionGroup.astro';
+import InstallBox from './InstallBox.astro';
+import { commands, defaults, groups, nameHint, notes } from '../../data/start';
+
+interface Props {
+	title: string;
+	lead: string;
+	link: { label: string; href: string };
+}
+
+const { title, lead, link } = Astro.props;
+---
+
+<div class="dy-builder">
+	<div class="dy-builder__intro">
+		<h1 class="dy-builder__title">{title}</h1>
+		<p class="dy-builder__lead">{lead}</p>
+	</div>
+	<div class="dy-builder__body">
+		<form class="dy-builder__form" data-builder>
+			<Input id="project-name" name="name" label="Project name" hint={nameHint} value={defaults.name} variant="code" spellcheck="false" autocomplete="off" autocapitalize="off" maxlength="40" />
+			{groups.map((group) => <OptionGroup legend={group.title} name={group.key} options={group.options} value={defaults[group.key]} />)}
+		</form>
+		<InstallBox id="dy-builder-output" title="Your commands" label="Generated commands" copyLabel="Copy all" copy="accent" live commands={commands(defaults)}>
+			<div class="dy-builder__notes" data-notes>
+				{notes(defaults).map((note) => <p>{note}</p>)}
+			</div>
+			<a class="dy-builder__link" href={link.href}>{link.label}</a>
+		</InstallBox>
+	</div>
+</div>
+
+<script>
+	import { cleanName, commands, isComment, notes, type Choices } from '../../data/start';
+
+	const form = document.querySelector<HTMLFormElement>('[data-builder]');
+	const output = document.getElementById('dy-builder-output');
+	const code = output?.querySelector('[data-commands]');
+	const copy = output?.querySelector<HTMLButtonElement>('[data-copy-install]');
+	const notesBox = output?.querySelector('[data-notes]');
+
+	function line(text: string) {
+		const span = document.createElement('span');
+		span.className = 'dy-install__line';
+		if (isComment(text)) {
+			span.classList.add('dy-install__comment');
+			span.textContent = text;
+			return span;
+		}
+		const prompt = document.createElement('span');
+		prompt.className = 'dy-install__prompt';
+		prompt.setAttribute('aria-hidden', 'true');
+		prompt.textContent = '$ ';
+		span.append(prompt, text);
+		return span;
+	}
+
+	function render() {
+		if (!form || !code || !copy || !notesBox) return;
+		const data = new FormData(form);
+		const nameInput = form.elements.namedItem('name') as HTMLInputElement;
+		const clean = cleanName(nameInput.value);
+		if (clean !== nameInput.value) nameInput.value = clean;
+		const choices = {
+			name: clean,
+			security: data.get('security'),
+			db: data.get('db'),
+			ai: data.get('ai'),
+		} as Choices;
+		const lines = commands(choices);
+		code.replaceChildren(...lines.map(line));
+		copy.dataset.copyInstall = lines.join('\n');
+		notesBox.replaceChildren(
+			...notes(choices).map((text) => {
+				const p = document.createElement('p');
+				p.textContent = text;
+				return p;
+			}),
+		);
+	}
+
+	form?.addEventListener('input', render);
+	form?.addEventListener('submit', (event) => event.preventDefault());
+	render();
+</script>
+
+<style>
+	.dy-builder {
+		box-sizing: border-box;
+		max-width: var(--dy-width-content);
+		margin: 0 auto;
+		padding: var(--dy-space-10) var(--dy-space-5) var(--dy-space-14);
+		display: flex;
+		flex-direction: column;
+		gap: var(--dy-space-8);
+	}
+
+	.dy-builder__intro {
+		max-width: var(--dy-width-heading);
+		display: flex;
+		flex-direction: column;
+		gap: var(--dy-space-3-5);
+	}
+
+	.dy-builder__title {
+		margin: 0;
+		font-size: var(--dy-text-display-start);
+		font-weight: var(--dy-weight-extrabold);
+		line-height: var(--dy-leading-start);
+		letter-spacing: var(--dy-tracking-hero);
+	}
+
+	.dy-builder__lead {
+		margin: 0;
+		color: var(--dy-color-text-muted);
+		font-size: var(--dy-text-lead-mobile);
+		text-wrap: pretty;
+	}
+
+	.dy-builder__body {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: flex-start;
+		gap: var(--dy-space-6);
+	}
+
+	.dy-builder__form {
+		box-sizing: border-box;
+		flex: 1 1 460px;
+		min-width: 0;
+		padding: var(--dy-space-5);
+		display: flex;
+		flex-direction: column;
+		gap: var(--dy-space-7);
+		background: var(--dy-color-surface);
+		border: var(--dy-border-width) solid var(--dy-color-border);
+		border-radius: var(--dy-radius-xl);
+	}
+
+	.dy-builder__body > :global(.dy-install) {
+		flex: 1 1 460px;
+		min-width: 0;
+		border-radius: var(--dy-radius-xl);
+	}
+
+	.dy-builder__notes {
+		display: contents;
+	}
+
+	.dy-builder__notes :global(p) {
+		margin: 0;
+	}
+
+	.dy-builder__link {
+		align-self: flex-start;
+		padding: var(--dy-space-1-5) 0;
+		color: var(--dy-color-accent);
+		font-weight: var(--dy-weight-semibold);
+		text-decoration: none;
+	}
+
+	@media (width >= 1024px) {
+		.dy-builder {
+			padding: var(--dy-space-18) var(--dy-space-8) var(--dy-space-26);
+			gap: var(--dy-space-10);
+		}
+
+		.dy-builder__lead {
+			font-size: var(--dy-text-xl);
+		}
+
+		.dy-builder__form {
+			padding: var(--dy-space-7);
+		}
+	}
+</style>
