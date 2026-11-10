@@ -2,7 +2,7 @@
 
 **Goal:** keep www.dygoframework.com current with Dygo, starting with the new AI module, and make new modules easy to add later.
 
-**Status:** plan for Dylan's review. The site launched from `PLAN.md` Phases 1–6. This plan adds to it. `DESIGN.md`, `CLAUDE.md` and the guardrails still apply.
+**Status:** U1, U2 and U4 are done and live since 2026-11-10 (PR #10). From U3, the route-comment code tabs, Familiar by design and Start a project are live; the rest of U3 waits for its framework releases. The site launched from `PLAN.md` Phases 1–6. This plan adds to it. `DESIGN.md`, `CLAUDE.md` and the guardrails still apply.
 
 ## 1. What changed in Dygo
 
@@ -116,10 +116,10 @@ This approval covers the Beta badge, the announcement pill, the AI section and t
 ## 4. Order of work
 
 1. Done: designs approved, see Section 3a.
-2. U1 AI docs.
-3. U2 AI on the Home page.
-4. U4 automation.
-5. U3, one item at a time, after each framework release.
+2. Done: U1 AI docs.
+3. Done: U2 AI on the Home page. The optional announcement bar was not built; the approved hero pill is used instead.
+4. Done: U4 automation.
+5. U3, one item at a time, after each framework release. Done: route-comment code tabs, Familiar by design, Start a project. Open: short directives (A2), and Profiles, Problem details and Operations endpoints (A4, A6, A7).
 
 ## 5. Questions for Dylan
 
