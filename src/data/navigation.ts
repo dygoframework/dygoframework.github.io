@@ -74,7 +74,7 @@ export const docsNav: DocsGroup[] = [
 		['Versioning', 'Cookies', 'File upload and streaming', 'Compression', 'Server-Sent Events', 'Health checks'],
 		['Session', 'Model-View-Controller', 'Webhooks'],
 	),
-	group('APIs', ['OpenAPI', 'GraphQL', 'WebSockets']),
+	group('APIs', ['OpenAPI', 'JSON Schema', 'GraphQL', 'WebSockets']),
 	group('Microservices', ['Overview', 'Redis', 'NATS', 'Kafka', 'gRPC']),
 	group('Production', ['Tracing and metrics', 'Docker']),
 	group('CLI', ['Overview', 'Generators', 'Database commands', 'Inspect your app', 'Development server']),
