@@ -114,7 +114,7 @@ test.describe('docs pages', () => {
 		const links = await sidebar.locator('a.dy-sidebar__link').evaluateAll((as) =>
 			as.map((a) => ({ href: a.getAttribute('href') ?? '', label: a.textContent?.trim() ?? '' })),
 		);
-		expect(links.length).toBe(76);
+		expect(links.length).toBe(77);
 		for (const { href, label } of links) {
 			const res = await request.get(href);
 			expect(res.status(), href).toBe(200);
