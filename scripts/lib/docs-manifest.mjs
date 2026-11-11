@@ -98,6 +98,7 @@ export const manifest = {
 
 	// APIs
 	'/docs/apis/openapi/': [guide('guide-production.md', 'OpenAPI')],
+	'/docs/apis/json-schema/': [{ local: 'apis/json-schema.md' }],
 	'/docs/apis/graphql/': [guide('guide-transports.md', 'GraphQL')],
 	'/docs/apis/websockets/': [guide('guide-transports.md', 'WebSocket gateways')],
 

@@ -105,6 +105,7 @@ Beta. The group title shows a Beta badge, and every page starts with a note that
 | Menu item | NestJS item | Dygo source | Status |
 |---|---|---|---|
 | OpenAPI | OpenAPI | `guide-production.md`: OpenAPI | Split |
+| JSON Schema | None | Code: `openapi.JSONSchema` in `openapi/schema.go` | New |
 | GraphQL | GraphQL | `guide-transports.md`: GraphQL | Split |
 | WebSockets | WebSockets | `guide-transports.md`: WebSocket gateways | Split |
 
