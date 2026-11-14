@@ -114,14 +114,14 @@ test.describe('docs pages', () => {
 		const links = await sidebar.locator('a.dy-sidebar__link').evaluateAll((as) =>
 			as.map((a) => ({ href: a.getAttribute('href') ?? '', label: a.textContent?.trim() ?? '' })),
 		);
-		expect(links.length).toBe(77);
+		expect(links.length).toBe(78);
 		for (const { href, label } of links) {
 			const res = await request.get(href);
 			expect(res.status(), href).toBe(200);
 			const title = label.replace(/[.*+?^${}()|[\]\\]/g, '\\$&').replace(/'/g, "(?:'|&#39;)");
 			expect(await res.text(), href).toMatch(new RegExp(`<h1 class="dy-title__heading[^"]*" id="_top">${title}</h1>`));
 		}
-		await expect(sidebar.locator('.dy-sidebar__soon')).toHaveCount(10);
+		await expect(sidebar.locator('.dy-sidebar__soon')).toHaveCount(9);
 	});
 
 	test('the AI group has a Beta badge, and its pages name the module release', async ({ page }) => {
