@@ -22,7 +22,7 @@ Use this order when sources disagree:
 | Logo and icons | `design/brand/` |
 | Docs menu | `design/docs-menu-map.md` |
 | Rules for contributors | `DESIGN.md` and `CLAUDE.md` |
-| Product facts and docs | `https://github.com/dygoframework/dygo`. A local checkout is at `../dygo-framework`. |
+| Product facts and docs | `https://github.com/dygoframework/dygo`. A local checkout is at `../com.dygoframework`. |
 
 **Rules**
 
