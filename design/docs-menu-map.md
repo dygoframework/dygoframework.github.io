@@ -49,6 +49,7 @@ Design note: expand only the group that holds the current page. The menu has too
 | Queues | Queues | `guide-transports.md`: Queue | Split |
 | CQRS | CQRS recipe | `guide-transports.md`: CQRS | Split |
 | Console commands | Standalone or CLI recipes | `guide-cli.md`: Console commands | Split |
+| File storage | File upload (storage part) | `guide-storage.md` | Ready |
 
 ## AI
 
@@ -155,7 +156,6 @@ No matching Dygo feature was found, so these stay out of the menu until one exis
 | HTTP client | No dedicated feature |
 | Internationalization | No feature found |
 | Mail | No feature found |
-| File storage | No feature found |
 | Session | Dygo auth uses tokens. No HTTP session feature found. |
 | Model-View-Controller | No HTML view feature found |
 | HTTP adapters | Dygo runs on `net/http` |

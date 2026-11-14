@@ -56,6 +56,8 @@ export const manifest = {
 	'/docs/application/queues/': [guide('guide-transports.md', 'Queue')],
 	'/docs/application/cqrs/': [guide('guide-transports.md', 'CQRS')],
 	'/docs/application/console-commands/': [guide('guide-cli.md', 'Console commands')],
+	// File storage (its own module: see `modules` below)
+	'/docs/application/file-storage/': [{ file: 'docs/guide-storage.md' }],
 
 	// AI (beta, its own module: see `modules` below)
 	'/docs/ai/overview-and-setup/': [{ ...guide('guide-ai.md', 'Set up'), intro: true }],
@@ -145,6 +147,7 @@ export const fileHomes = {
 	'docs/guide-transports.md': '/docs/microservices/overview/',
 	'docs/guide-testing.md': '/docs/fundamentals/testing/',
 	'docs/guide-ai.md': '/docs/ai/overview-and-setup/',
+	'docs/guide-storage.md': '/docs/application/file-storage/',
 	'docs/recipes/auth.md': '/docs/security/authentication/',
 	'docs/recipes/security.md': '/docs/security/authentication/',
 	'docs/recipes/sql.md': '/docs/data/sql-databases/',
@@ -164,7 +167,10 @@ export const fileHomes = {
  * the module's newest tag, such as `ai/v0.1.0-beta.1`, and puts a note at the
  * top of each page under `prefix`.
  */
-export const modules = [{ name: 'ai', label: 'AI', prefix: '/docs/ai/' }];
+export const modules = [
+	{ name: 'ai', label: 'AI', prefix: '/docs/ai/' },
+	{ name: 'storage', label: 'Storage', prefix: '/docs/application/file-storage/' },
+];
 
 /**
  * Dygo docs that are on purpose not in the menu: a whole file (true) or some

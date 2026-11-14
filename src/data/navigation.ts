@@ -59,8 +59,8 @@ export const docsNav: DocsGroup[] = [
 	group('Fundamentals', ['Custom providers', 'Dynamic modules', 'Injection scopes', 'Circular dependency', 'Module reference', 'Execution context', 'Lifecycle events', 'Discovery', 'Standalone apps', 'Testing']),
 	group(
 		'Application',
-		['Configuration', 'Validation', 'Logging', 'Events', 'Task scheduling', 'Queues', 'CQRS', 'Console commands'],
-		['Serialization', 'HTTP client', 'Internationalization', 'Mail', 'File storage'],
+		['Configuration', 'Validation', 'Logging', 'Events', 'Task scheduling', 'Queues', 'CQRS', 'Console commands', 'File storage'],
+		['Serialization', 'HTTP client', 'Internationalization', 'Mail'],
 	),
 	{ ...group('AI', ['Overview and setup', 'Ask and wait', 'Stream to the browser', 'Typed output', 'Errors', 'Retries, timeouts and logs', 'Testing']), module: 'ai' },
 	group('Data', ['SQL databases', 'Repositories', 'Transactions', 'Migrations', 'Multiple databases', 'Caching'], ['MongoDB']),
